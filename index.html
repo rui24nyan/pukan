@@ -3282,7 +3282,12 @@
           <span style="color: #CCC;">&gt;</span>
         </div>
 
-        <div class="setting-item-btn" style="color: #E25C5C; margin-top: 24px;" onclick="confirmAccountDeletion()">
+        <div class="setting-item-btn" id="logout-setting-row" style="margin-top: 24px; display: none;" onclick="confirmLogout()">
+          <span data-i18n="settings_logout">ログアウト</span>
+          <span style="color: #CCC;">&gt;</span>
+        </div>
+
+        <div class="setting-item-btn" style="color: #E25C5C;" onclick="confirmAccountDeletion()">
           <span data-i18n="settings_delete_account">退会・アカウント削除</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
@@ -4035,6 +4040,18 @@
     </div>
   </div>
 
+  <!-- ログアウト確認モーダル -->
+  <div class="modal-overlay confirm-type" id="logout-confirm-modal">
+    <div class="modal-content" style="text-align: center;">
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;" data-i18n="logout_confirm_title">ログアウト</h3>
+      <p style="font-size: 13px; color: var(--text-sub); line-height: 1.7;" data-i18n="logout_confirm_desc">ログアウトしても、ともだちや予定のデータは消えないよ。またいつでも同じアカウントでログインし直せば続きから使えるよ。</p>
+      <div class="modal-btn-group">
+        <button class="btn-modal-cancel" onclick="closeModal('logout-confirm-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action" onclick="executeLogout()" data-i18n="logout_confirm_btn">ログアウトする</button>
+      </div>
+    </div>
+  </div>
+
   <!-- メンバー外し確認モーダル -->
   <div class="modal-overlay confirm-type" id="remove-member-confirm-modal">
     <div class="modal-content" style="text-align: center;">
@@ -4411,6 +4428,10 @@
           <span data-i18n="display_birthday">カレンダーに誕生日を表示</span>
           <label class="switch"><input type="checkbox" id="birthday-toggle" onchange="toggleBirthdayDisplay(this)"><span class="slider"></span></label>
         </div>
+        <div class="setting-row">
+          <span data-i18n="display_confetti">予定確定時に紙吹雪を表示</span>
+          <label class="switch"><input type="checkbox" id="confetti-toggle" onchange="toggleConfettiDisplay(this)"><span class="slider"></span></label>
+        </div>
         <div class="setting-row" id="chat-grace-row" style="cursor: pointer;" onclick="handleChatGraceRowClick()">
           <span data-i18n="display_chat_grace">チャットの保存期間を延長（2日→7日）</span>
           <span id="chat-grace-badge"></span>
@@ -4432,7 +4453,7 @@
         <p>本アプリのログインは、①ともだちとの「ひま」情報・予定・メッセージなどのデータを同期するため、②機種変更やアプリの再インストール時にデータを引き継ぐため、の2つの目的のみに使用します。それ以外の目的で個人情報を利用・収集することはありません。</p>
 
         <p style="margin-top:12px; font-weight:700;">2. 取得する情報</p>
-        <p>Googleログインを通じて、表示名・プロフィール画像・メールアドレス（アカウント識別用）を取得します。これらは、ともだちに自分だと分かるように表示する目的のためにのみ使用され、第三者に販売・提供されることはありません。</p>
+        <p>Google・Apple・メールアドレスのいずれかでのログインを通じて、表示名・プロフィール画像（提供された場合）・メールアドレス（アカウント識別用）を取得します。これらは、ともだちに自分だと分かるように表示する目的のためにのみ使用され、第三者に販売・提供されることはありません。</p>
 
         <p style="margin-top:12px; font-weight:700;">3. ともだちとの共有範囲</p>
         <p>「ひま」の投稿・予定・メッセージなどは、自分が追加した「ともだち」にのみ共有されます。公開範囲の設定は、ひまの投稿ごとに自分で選ぶことができます。</p>
@@ -4441,10 +4462,7 @@
         <p>お誘いやメッセージを届けるために、プッシュ通知の送信用トークンを保存することがあります。通知は本アプリの機能のためだけに使い、広告目的の通知送信は行いません。</p>
 
         <p style="margin-top:12px; font-weight:700;">5. データの削除</p>
-        <p>アカウントやデータの削除を希望する場合は、開発者まで連絡してください。確認のうえ、対応します。</p>
-
-        <p style="margin-top:12px; font-weight:700;">6. お問い合わせ</p>
-        <p>本ポリシーに関するご質問は、アプリ内のフィードバックや開発者までご連絡ください。</p>
+        <p>アプリ内の「設定」→「退会・アカウント削除」から、いつでもご自身でアカウントとすべてのデータを削除できます。</p>
 
         <p style="margin-top:16px; color:var(--text-sub); font-size:11px;">制定日：2026年10月4日</p>
       </div>
@@ -4746,6 +4764,7 @@
       filter: { groups: [], friends: [] },
       showHolidays: false,
       showBirthdays: true,
+      showConfetti: true, // 予定確定時の紙吹雪演出を表示するか（表示設定でオフにできる。プレミアムでないと元々出ない）
       showRead: true,
       blockedFriendIds: []
     };
@@ -4804,8 +4823,13 @@
       const loginGateEl = document.getElementById('login-gate');
       if (loginGateEl) loginGateEl.style.display = 'none';
 
+      // 「ログアウト」はゲストプレビュー中（そもそもログインしてない）は意味が無いので、
+      // 本物のログイン時だけ設定画面に出す
+      const logoutRowEl = document.getElementById('logout-setting-row');
+      if (logoutRowEl) logoutRowEl.style.display = firebaseUser ? 'flex' : 'none';
+
       try {
-        loadData(!!firebaseUser);
+        loadData(firebaseUser);
         // ログインしてきたGoogleアカウントの情報を、自分のプロフィールに軽く反映しておく
         // （本格的なFirestore連携は次のステップで行う。ここではまずログイン状態の確認だけ）
         if (firebaseUser) {
@@ -4958,6 +4982,10 @@
         settings_language: '言語',
         settings_howto: '使い方を見る',
         settings_privacy: 'プライバシーポリシー',
+        settings_logout: 'ログアウト',
+        logout_confirm_title: 'ログアウト',
+        logout_confirm_desc: 'ログアウトしても、ともだちや予定のデータは消えないよ。またいつでも同じアカウントでログインし直せば続きから使えるよ。',
+        logout_confirm_btn: 'ログアウトする',
         settings_delete_account: '退会・アカウント削除',
         theme_modal_title: 'テーマ',
         theme_tab_color: 'テーマカラー',
@@ -4988,6 +5016,7 @@
         display_holiday: 'カレンダーの祝日名を表示',
         display_read: 'メッセージ既読通知を表示',
         display_birthday: 'カレンダーに誕生日を表示',
+        display_confetti: '予定確定時に紙吹雪を表示',
         display_chat_grace: 'チャットの保存期間を延長（2日→7日）',
         privacy_modal_title: 'プライバシーポリシー',
         language_modal_title: '言語',
@@ -5168,6 +5197,10 @@
         settings_language: 'Language',
         settings_howto: 'How to Use',
         settings_privacy: 'Privacy Policy',
+        settings_logout: 'Log Out',
+        logout_confirm_title: 'Log Out',
+        logout_confirm_desc: 'Your friends and plans will stay saved. You can log back in with the same account anytime to pick up where you left off.',
+        logout_confirm_btn: 'Log Out',
         settings_delete_account: 'Delete Account',
         theme_modal_title: 'Theme',
         theme_tab_color: 'Theme Color',
@@ -5198,6 +5231,7 @@
         display_holiday: 'Show holiday names in calendar',
         display_read: 'Show read receipts',
         display_birthday: 'Show birthdays in calendar',
+        display_confetti: 'Show confetti when a plan is confirmed',
         display_chat_grace: 'Extend chat storage (2 days → 7 days)',
         privacy_modal_title: 'Privacy Policy',
         language_modal_title: 'Language',
@@ -5378,6 +5412,10 @@
         settings_language: '언어',
         settings_howto: '사용법 보기',
         settings_privacy: '개인정보 처리방침',
+        settings_logout: '로그아웃',
+        logout_confirm_title: '로그아웃',
+        logout_confirm_desc: '로그아웃해도 친구나 약속 데이터는 사라지지 않아요. 같은 계정으로 언제든 다시 로그인하면 이어서 쓸 수 있어요.',
+        logout_confirm_btn: '로그아웃하기',
         settings_delete_account: '탈퇴·계정 삭제',
         theme_modal_title: '테마',
         theme_tab_color: '테마 색상',
@@ -5408,6 +5446,7 @@
         display_holiday: '달력에 공휴일 이름 표시',
         display_read: '읽음 표시 보기',
         display_birthday: '달력에 생일 표시',
+        display_confetti: '약속 확정 시 색종이 효과 표시',
         display_chat_grace: '채팅 보관 기간 연장 (2일→7일)',
         privacy_modal_title: '개인정보 처리방침',
         language_modal_title: '언어',
@@ -5634,51 +5673,75 @@
       }
     }
 
-    // isRealLogin: 本物のログイン（Google/メールなど）で開かれたかどうか。
-    // 保存データがまだ無い「まっさらな初回起動」のときだけ意味を持つ：
-    //   ・スキップ（ゲストプレビュー）→ 今まで通りデモの友だち・予定で賑やかな状態のまま
-    //   ・本物のログイン → 架空の友だち・予定を全部消して、まっさらな状態からスタートさせる
-    function loadData(isRealLogin) {
+    // firebaseUser: 本物のログイン（Google/メールなど）が確認できたときはそのユーザー情報、
+    // ゲスト/デモ利用（スキップログイン）のときは null/undefined。
+    //   ・スキップ（ゲストプレビュー）かつ保存データも無い → 今まで通りデモの友だち・予定で賑やかな状態のまま
+    //   ・本物のログインで、保存データが無い／別アカウントのもの／デモのものだった
+    //     → 架空の友だち・予定を全部消して、まっさらな状態からスタートさせる
+    //   ・本物のログインで、保存データが同じアカウントのものだった → そのまま続きから
+    function loadData(firebaseUser) {
+      const isRealLogin = !!firebaseUser;
       const data = localStorage.getItem(STORAGE_KEY);
+      // 保存データが「本物のログインなのに自分のアカウントのものではない」場合
+      // （別アカウントのデータ、または firebaseUid の無いゲストプレビュー＝デモデータ）は、
+      // 他人・デモのデータを見せてしまわないよう、まっさらな状態から始める。
+      // （例：まずゲストで試してから後からGoogleログインした、など）
+      let needsFreshStart = isRealLogin;
       if (data) {
         try {
           const parsed = JSON.parse(data);
-          appData = { ...appData, ...parsed };
-          // 既存データにscopeプロパティがない場合の補正
-          if (appData.myHima) {
-            appData.myHima.forEach(h => { if (!h.scope) h.scope = { friends: [], groups: [] }; });
+
+          // デモの友だちID（'f1','f2'...）は必ずこの形式で、本物のともだち（招待コード連携）は
+          // 必ず 'f_'+uid の形式になる。もし本物ログインなのにデモID形式の友だちが残っていたら、
+          // （過去バージョンの不具合で、デモデータにうっかり本物のfirebaseUidが付いてしまったケース）
+          // 同じアカウント判定でもデモ汚染とみなして、まっさらな状態からやり直す。
+          const looksContaminatedWithDemoData = Array.isArray(parsed.friends) && parsed.friends.some(f => f && typeof f.id === 'string' && /^f\d+$/.test(f.id));
+
+          if (isRealLogin && (parsed.firebaseUid !== firebaseUser.uid || looksContaminatedWithDemoData)) {
+            needsFreshStart = true;
+          } else {
+            needsFreshStart = false;
+            appData = { ...appData, ...parsed };
+            // 既存データにscopeプロパティがない場合の補正
+            if (appData.myHima) {
+              appData.myHima.forEach(h => { if (!h.scope) h.scope = { friends: [], groups: [] }; });
+            }
+            if (appData.friendHima) {
+              appData.friendHima.forEach(h => { if (!h.scope) h.scope = { friends: [], groups: [] }; });
+            }
+            if (!appData.strangers) appData.strangers = [];
+            if (!appData.blockedFriendIds) appData.blockedFriendIds = [];
+            // 文字色が薄すぎて読めなくなる値で保存されていた場合は見やすい色に補正
+            if (!appData.textColor || !textColors.includes(appData.textColor)) {
+              appData.textColor = '#333333';
+            }
+            if (appData.themeMode !== 'flat' && appData.themeMode !== 'sky') {
+              appData.themeMode = 'sky';
+            }
+            if (!appData.skyHeaderId) appData.skyHeaderId = 1;
+            if (typeof appData.isPremium !== 'boolean') appData.isPremium = false;
+            if (!appData.personalStamps) appData.personalStamps = [];
+            if (!appData.favoritePlaces) appData.favoritePlaces = [];
+            if (typeof appData.showBirthdays !== 'boolean') appData.showBirthdays = true;
+          if (typeof appData.showConfetti !== 'boolean') appData.showConfetti = true;
+            if (!appData.fontId) appData.fontId = 'standard';
+            if (!appData.datePolls) appData.datePolls = [];
+            if (!appData.bgPatternId) appData.bgPatternId = 'none';
+            if (appData.groups) {
+              appData.groups.forEach(g => { if (typeof g.pinned !== 'boolean') g.pinned = false; });
+            }
           }
-          if (appData.friendHima) {
-            appData.friendHima.forEach(h => { if (!h.scope) h.scope = { friends: [], groups: [] }; });
-          }
-          if (!appData.strangers) appData.strangers = [];
-          if (!appData.blockedFriendIds) appData.blockedFriendIds = [];
-          // 文字色が薄すぎて読めなくなる値で保存されていた場合は見やすい色に補正
-          if (!appData.textColor || !textColors.includes(appData.textColor)) {
-            appData.textColor = '#333333';
-          }
-          if (appData.themeMode !== 'flat' && appData.themeMode !== 'sky') {
-            appData.themeMode = 'sky';
-          }
-          if (!appData.skyHeaderId) appData.skyHeaderId = 1;
-          if (typeof appData.isPremium !== 'boolean') appData.isPremium = false;
-          if (!appData.personalStamps) appData.personalStamps = [];
-          if (!appData.favoritePlaces) appData.favoritePlaces = [];
-          if (typeof appData.showBirthdays !== 'boolean') appData.showBirthdays = true;
-          if (!appData.fontId) appData.fontId = 'standard';
-          if (!appData.datePolls) appData.datePolls = [];
-          if (!appData.bgPatternId) appData.bgPatternId = 'none';
-          if (appData.groups) {
-            appData.groups.forEach(g => { if (typeof g.pinned !== 'boolean') g.pinned = false; });
-          }
-          migrateConfirmedSchedules();
         } catch (e) {
           console.error("Data parse error", e);
+          needsFreshStart = isRealLogin;
         }
-      } else {
-        // 保存データがまだ無い＝このブラウザ／端末での初回起動。
-        // 本物のログインなら、コード埋め込みのデモデータ（架空の友だち・予定）を全部消してまっさらにする。
-        // （ゲストプレビュー＝スキップログインのときは、このif自体に入らないのでデモデータのまま）
+      }
+
+      if (needsFreshStart) {
+        // 保存データがまだ無い（このブラウザ／端末での初回起動）、または本物のログインで
+        // 別アカウント／デモデータだった場合：コード埋め込みのデモデータ（架空の友だち・予定）を
+        // 全部消してまっさらにする。
+        // （ゲストプレビュー＝スキップログインで、かつ保存データも無い時は、このifに入らずデモデータのまま）
         if (isRealLogin) {
           appData.friends = [];
           appData.groups = [];
@@ -5689,8 +5752,8 @@
           appData.chats = {};
           appData.notices = [];
         }
-        migrateConfirmedSchedules();
       }
+      migrateConfirmedSchedules();
       cleanupOverlappingConfirmedSchedules();
       cleanupMyHimaOverlappingConfirmed();
       cleanupAcceptedFriendHima();
@@ -6231,6 +6294,7 @@
     const PREMIUM_BENEFITS = [
       { icon: '🎨', label: '全50色のテーマカラー', desc: '無料の20色に加えて、パステル系など残り30色も使えるようになるよ' },
       { icon: '🌅', label: '空の背景デザイン', desc: '無料のスカイブルーに加えて、サンセットやムーンナイトなど残り5種類のヘッダーが選べるようになるよ' },
+      { icon: '📱', label: 'アプリアイコンデザイン', desc: 'ホーム画面のアプリアイコンを、ヘッダーとおそろいのデザインなど好きなものに変えられるようになるよ' },
       { icon: '🧵', label: '背景の柄', desc: 'ギンガム・ドット・ストライプなど、無地以外の背景デザインが選べるようになるよ' },
       { icon: '🔤', label: 'フォント変更', desc: '標準フォント以外のフォントに変えられるようになるよ' },
       { icon: '🍻', label: 'カレンダーの個人用スタンプ', desc: '飲み会・デートなど、自分だけに見える予定メモをカレンダーに残せるようになるよ' },
@@ -6940,6 +7004,7 @@
     const CONFETTI_COLORS = ['#FF5E97', '#FFB800', '#00B26A', '#00A3FF', '#7B61FF', '#E056FD'];
     function celebrateConfirmation() {
       if (!appData.isPremium) return;
+      if (!appData.showConfetti) return;
       const layer = document.getElementById('confetti-layer');
       if (!layer) return;
       const count = 36;
@@ -12254,6 +12319,25 @@
       renderGroups();
     }
 
+    // ログアウト（データは何も消さず、ログイン状態だけ解除する）
+    function confirmLogout() {
+      if (!appData.firebaseUid) {
+        // ゲストプレビュー中（ログインしてない）はそもそもログアウトする状態じゃない
+        return;
+      }
+      openSubModal('logout-confirm-modal');
+    }
+
+    function executeLogout() {
+      closeModal('logout-confirm-modal');
+      if (typeof window.pukanSignOut === 'function') {
+        window.pukanSignOut();
+      }
+      // ここではlocalStorageのデータには一切触らない。
+      // Firebaseのログイン状態が外れると、下部<script type="module">のonAuthStateChangedが
+      // 検知してログイン画面に戻してくれる。
+    }
+
     // 退会・アカウント削除
     function confirmAccountDeletion() {
       openSubModal('account-delete-confirm-modal');
@@ -12722,9 +12806,11 @@
       const holidayToggle = document.getElementById('holiday-toggle');
       const readToggle = document.getElementById('read-toggle');
       const birthdayToggle = document.getElementById('birthday-toggle');
+      const confettiToggle = document.getElementById('confetti-toggle');
       if (holidayToggle) holidayToggle.checked = appData.showHolidays;
       if (readToggle) readToggle.checked = appData.showRead;
       if (birthdayToggle) birthdayToggle.checked = appData.showBirthdays;
+      if (confettiToggle) confettiToggle.checked = appData.showConfetti;
       renderChatGraceRow();
     }
 
@@ -12732,6 +12818,11 @@
       appData.showBirthdays = checkbox.checked;
       saveData();
       renderCalendar();
+    }
+
+    function toggleConfettiDisplay(checkbox) {
+      appData.showConfetti = checkbox.checked;
+      saveData();
     }
 
     // チャット保存期間延長（課金機能）：トグルではなく、課金済みなら自動的に7日になる仕組みなので、行は状態表示＋課金導線のみ
@@ -12794,7 +12885,7 @@
     import { initializeApp } from "https://cdn.jsdelivr.net/npm/firebase@11/app/+esm";
     import {
       getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, onAuthStateChanged,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, deleteUser
+      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, deleteUser, signOut
     } from "https://cdn.jsdelivr.net/npm/firebase@11/auth/+esm";
     import {
       getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp,
@@ -13001,6 +13092,13 @@
           errorEl.textContent = emailAuthErrorMessage(err);
           errorEl.style.display = 'block';
         }
+      });
+    };
+
+    // ログアウト（データは消さず、ログイン状態だけ解除）
+    window.pukanSignOut = function() {
+      signOut(auth).catch((err) => {
+        console.error('ログアウトに失敗:', err);
       });
     };
 
