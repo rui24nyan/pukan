@@ -3239,7 +3239,7 @@
           <div id="calendar-inline-preview-stamps"></div>
           <div id="calendar-inline-preview-people"></div>
           <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-add-btn">＋ <span data-i18n="cal_add_hima_day">この日のひまを追加</span></button>
-          <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-stamp-btn" style="margin-top: 6px;">🦷 <span data-i18n="cal_add_stamp">個人の予定（スタンプ）を追加</span><span class="premium-lock-badge" id="stamp-btn-lock-badge">🔒 <span data-i18n="common_premium">プレミアム</span></span></button>
+          <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-stamp-btn" style="margin-top: 6px;"><span data-i18n="cal_add_stamp">個人の予定（スタンプ）を追加</span><span class="premium-lock-badge" id="stamp-btn-lock-badge">🔒 <span data-i18n="common_premium">プレミアム</span></span></button>
         </div>
       </div>
 
@@ -5127,6 +5127,7 @@
         notice_invite_accepted: '{name}が誘いにのったよ！予定が確定したよ',
         notice_invite_declined: '{name}が誘いを見送りました',
         notice_friend_free: '{name}が{date}ひまだよ！{place}',
+        notice_friend_account_deleted: '{name}が退会しました。ともだちリストなどから自動的に削除されました。',
         notice_plan_confirmed: '{name}との予定が確定しました！',
         notice_group_invite_accepted: '{name}がグループの誘いにのったよ！',
         cal_day_info_title: '{m}月{d}日のひま情報',
@@ -5336,6 +5337,7 @@
         notice_invite_accepted: '{name} accepted the invite! The plan is confirmed',
         notice_invite_declined: '{name} declined the invite',
         notice_friend_free: '{name} is free {date}!{place}',
+        notice_friend_account_deleted: '{name} has deleted their account and was automatically removed from your friends list.',
         notice_plan_confirmed: 'Your plan with {name} is confirmed!',
         notice_group_invite_accepted: '{name} accepted the group invite!',
         cal_day_info_title: 'Free time on {m}/{d}',
@@ -5545,6 +5547,7 @@
         notice_invite_accepted: '{name}님이 초대를 수락했어요! 약속이 확정됐어요',
         notice_invite_declined: '{name}님이 초대를 거절했어요',
         notice_friend_free: '{name}님이 {date} 히마예요!{place}',
+        notice_friend_account_deleted: '{name}님이 탈퇴해서 친구 목록 등에서 자동으로 삭제됐어요.',
         notice_plan_confirmed: '{name}님과의 약속이 확정됐어요!',
         notice_group_invite_accepted: '{name}님이 그룹 초대를 수락했어요!',
         cal_day_info_title: '{m}월 {d}일의 히마 정보',
@@ -10650,6 +10653,34 @@
       const fromUid = data.fromUid;
       const localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
 
+      if (data.type === 'account_deleted') {
+        // 相手が退会した。ともだち・グループ所属・ひま投稿・確定予定・チャット履歴など
+        // 関連データをまとめて片付けてから、ともだち一覧からも削除する。
+        if (!localFriend) return;
+        const who = formatNameWithHonorific(localFriend);
+        cleanupFriendReferences(localFriend.id);
+        appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
+
+        if (!appData.notices) appData.notices = [];
+        appData.notices.unshift({
+          id: 'n_' + Date.now(),
+          textKey: 'notice_friend_account_deleted',
+          params: { name: who },
+          dateKey: 'date_today',
+          read: false
+        });
+        renderNoticeBadge();
+
+        saveData();
+        renderFriends();
+        renderFriendSettings();
+        renderHome();
+        renderGroups();
+        renderCalendar();
+        renderChatUnreadBadges();
+        return;
+      }
+
       if (data.type === 'invite') {
         if (!localFriend) { console.warn('知らない相手から誘いが届いた(まだともだち追加されていない?):', fromUid); return; }
         const p = data.payload || {};
@@ -12228,8 +12259,34 @@
       openSubModal('account-delete-confirm-modal');
     }
 
-    function executeAccountDeletion() {
+    async function executeAccountDeletion() {
       closeModal('account-delete-confirm-modal');
+
+      // 本物のともだちには「退会したよ」を知らせておく。
+      // 相手側のアプリを開いたタイミングで、ともだち・グループ・予定・チャットなど
+      // 関連データがまとめて自動的に片付く（pukanHandleInboxItem の 'account_deleted' ハンドラ参照）。
+      try {
+        if (typeof window.pukanSendInboxNotification === 'function') {
+          (appData.friends || []).forEach(f => {
+            if (f.id && f.id.startsWith('f_')) {
+              window.pukanSendInboxNotification(f.id.slice(2), 'account_deleted', {});
+            }
+          });
+        }
+      } catch (e) {
+        console.error('退会通知の送信に失敗:', e);
+      }
+
+      // Firestore上の自分のデータ＋ログインアカウント自体を削除
+      try {
+        if (typeof window.pukanDeleteAccountData === 'function') {
+          await window.pukanDeleteAccountData();
+        }
+      } catch (e) {
+        console.error('アカウントデータの削除に失敗:', e);
+      }
+
+      // 端末内のデータ（デモ利用分も含む）を削除
       try {
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(ONBOARDING_KEY);
@@ -12737,7 +12794,7 @@
     import { initializeApp } from "https://cdn.jsdelivr.net/npm/firebase@11/app/+esm";
     import {
       getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, onAuthStateChanged,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile
+      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, deleteUser
     } from "https://cdn.jsdelivr.net/npm/firebase@11/auth/+esm";
     import {
       getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp,
@@ -12992,6 +13049,46 @@
         console.error('通知の送信に失敗:', e);
         return { ok: false, reason: 'error', message: e && e.message };
       }
+    };
+
+    // 退会処理：Firestore上の自分のデータ（ユーザードキュメント・friendsサブコレクション・inboxサブコレクション）を
+    // すべて削除し、最後にFirebase Authのアカウント自体も削除する。
+    // ログインしていない（ゲスト/デモ状態）場合は何もしない。
+    window.pukanDeleteAccountData = async function() {
+      const user = auth.currentUser;
+      if (!user) return { ok: true, skipped: true };
+      const uid = user.uid;
+
+      try {
+        const friendsSnap = await getDocs(collection(db, 'users', uid, 'friends'));
+        await Promise.all(friendsSnap.docs.map(d => deleteDoc(d.ref)));
+      } catch (e) {
+        console.warn('friendsサブコレクションの削除に失敗:', e);
+      }
+
+      try {
+        const inboxSnap = await getDocs(collection(db, 'users', uid, 'inbox'));
+        await Promise.all(inboxSnap.docs.map(d => deleteDoc(d.ref)));
+      } catch (e) {
+        console.warn('inboxサブコレクションの削除に失敗:', e);
+      }
+
+      try {
+        await deleteDoc(doc(db, 'users', uid));
+      } catch (e) {
+        console.warn('ユーザードキュメントの削除に失敗:', e);
+      }
+
+      try {
+        await deleteUser(user);
+      } catch (e) {
+        // ログインから時間が経っていると auth/requires-recent-login で失敗することがある。
+        // その場合アプリ内データはすべて消えるが、認証アカウントだけ残ってしまう（致命的ではない）。
+        console.warn('認証アカウントの削除に失敗（再ログインが必要な場合があります）:', e);
+        return { ok: false, reason: (e && e.code) || 'error' };
+      }
+
+      return { ok: true };
     };
 
     // 自分のinboxをリアルタイムで監視し、新しい通知が来たらアプリ本体（hima.html側）のハンドラーに渡す。
