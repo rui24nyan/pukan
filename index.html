@@ -2407,6 +2407,8 @@
       border: 1px solid var(--border-color);
       cursor: pointer;
       font-weight: 600;
+      font-size: 14px;
+      font-family: inherit;
       color: var(--text-main);
     }
 
@@ -2477,7 +2479,9 @@
 
     .nav-btn .nav-icon {
       font-size: 18px;
-      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .nav-btn.active {
@@ -3113,24 +3117,24 @@
         <div id="home-top-columns" style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;">
           <!-- 確定済みの予定エリア -->
           <div id="confirmed-schedules-container" style="display: none; flex: 1; min-width: 0;">
-            <h2 class="section-title" style="margin-top: 0; position: relative; display: inline-block; padding-right: 12px;">🔒 確定済みの予定<span id="confirmed-join-request-dot" class="chat-unread-dot" style="display:none; top: 0; right: 0;"></span></h2>
+            <h2 class="section-title" style="margin-top: 0; position: relative; display: inline-block; padding-right: 12px;">🔒 <span data-i18n="home_confirmed">確定済みの予定</span><span id="confirmed-join-request-dot" class="chat-unread-dot" style="display:none; top: 0; right: 0;"></span></h2>
             <div id="confirmed-schedules-list"></div>
             <div id="confirmed-history-link" style="display:none; font-size:12px; color:var(--text-sub); margin-top:8px; text-decoration:underline; cursor:pointer;" onclick="openConfirmedHistoryModal()"></div>
           </div>
 
           <!-- 追加募集中のお誘いエリア（自分がまだ参加していない、ともだちの募集） -->
           <div id="recruit-plans-container" style="display: none; flex: 1; min-width: 0;">
-            <h2 class="section-title" style="margin-top: 0;">⭐️ 参加募集中</h2>
+            <h2 class="section-title" style="margin-top: 0;">⭐️ <span data-i18n="home_recruiting">参加募集中</span></h2>
             <div id="recruit-plans-list"></div>
           </div>
         </div>
 
-        <button class="btn-secondary-sm" style="width: 100%; margin-top: 14px;" onclick="openHostEventModal()">イベントを開催する<span class="premium-lock-badge" id="host-event-lock-badge">🔒 プレミアム</span></button>
+        <button class="btn-secondary-sm" style="width: 100%; margin-top: 14px;" onclick="openHostEventModal()"><span data-i18n="home_host_event">イベントを開催する</span><span class="premium-lock-badge" id="host-event-lock-badge">🔒 <span data-i18n="common_premium">プレミアム</span></span></button>
 
-        <h2 class="section-title" style="margin-top: 16px;">あなたのひま</h2>
+        <h2 class="section-title" style="margin-top: 16px;" data-i18n="home_my_hima">あなたのひま</h2>
         <div id="my-hima-list"></div>
 
-        <h2 class="section-title">ひまあり！</h2>
+        <h2 class="section-title" data-i18n="home_friends_hima">ひまあり！</h2>
         <div id="friends-hima-list"></div>
       </div>
 
@@ -3139,49 +3143,49 @@
       <div id="page-friendsgroups" class="page" style="padding-bottom: 56px;">
         <div id="friendsgroups-subview-friends">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h2 class="section-title" style="margin: 0;">ともだち</h2>
-            <button class="btn-add-friend-lg" onclick="openAddFriendModal()">➕ ともだち追加</button>
+            <h2 class="section-title" style="margin: 0;" data-i18n="fg_friends">ともだち</h2>
+            <button class="btn-add-friend-lg" onclick="openAddFriendModal()">➕ <span data-i18n="fg_add_friend">ともだち追加</span></button>
           </div>
 
           <!-- ともだちコントロール（並び替え・検索） -->
           <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-            <input type="text" id="friend-search-input" class="input-field" placeholder="名前で検索..." oninput="renderFriends()" style="flex: 1;">
+            <input type="text" id="friend-search-input" class="input-field" placeholder="名前で検索..." data-i18n-ph="fg_search_name_ph" oninput="renderFriends()" style="flex: 1;">
             <select id="friend-sort-select-main" class="select-filter-lg" onchange="renderFriends()">
-              <option value="pinned">お気に入り順</option>
-              <option value="name">名前順</option>
-              <option value="newest">登録が新しい順</option>
-              <option value="oldest">登録が古い順</option>
+              <option value="pinned" data-i18n="friend_sort_pinned">お気に入り順</option>
+              <option value="name" data-i18n="friend_sort_name">名前順</option>
+              <option value="newest" data-i18n="friend_sort_newest">登録が新しい順</option>
+              <option value="oldest" data-i18n="friend_sort_oldest">登録が古い順</option>
             </select>
           </div>
 
           <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-            <button class="btn-secondary-sm" id="friends-batch-select-toggle-btn" onclick="toggleFriendsBatchSelectMode()">☑️ まとめて誘う</button>
+            <button class="btn-secondary-sm" id="friends-batch-select-toggle-btn" onclick="toggleFriendsBatchSelectMode()">☑️ <span data-i18n="fg_batch_invite">まとめて誘う</span></button>
           </div>
 
           <div id="friends-list-container"></div>
 
           <div id="friends-batch-invite-bar" style="display:none; margin-top: 10px;">
-            <button class="btn-primary" style="width:100%;" onclick="executeFriendsBatchInvite()">選択した人を誘ってメッセージを開始</button>
+            <button class="btn-primary" style="width:100%;" onclick="executeFriendsBatchInvite()" data-i18n="fg_batch_invite_send">選択した人を誘ってメッセージを開始</button>
           </div>
         </div>
 
         <div id="friendsgroups-subview-groups" style="display: none;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h2 class="section-title" style="margin: 0;">グループ</h2>
-            <button class="btn-add-friend-lg" onclick="openCreateGroupModal()">➕ グループを追加</button>
+            <h2 class="section-title" style="margin: 0;" data-i18n="fg_groups">グループ</h2>
+            <button class="btn-add-friend-lg" onclick="openCreateGroupModal()">➕ <span data-i18n="fg_add_group">グループを追加</span></button>
           </div>
 
           <!-- グループコントロール（並び替え・検索・ソート） -->
           <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-            <input type="text" id="group-search-input" class="input-field" placeholder="名前で検索..." oninput="renderGroups()" style="flex: 1;">
+            <input type="text" id="group-search-input" class="input-field" placeholder="名前で検索..." data-i18n-ph="fg_search_name_ph" oninput="renderGroups()" style="flex: 1;">
             <select id="group-sort-select" class="select-filter-lg" onchange="renderGroups()">
-              <option value="custom">並び順（自分で設定）</option>
-              <option value="pinned">お気に入り順</option>
-              <option value="name">名前順</option>
+              <option value="custom" data-i18n="fg_sort_custom">並び順（自分で設定）</option>
+              <option value="pinned" data-i18n="friend_sort_pinned">お気に入り順</option>
+              <option value="name" data-i18n="friend_sort_name">名前順</option>
             </select>
           </div>
           <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-            <button class="btn-secondary-sm" id="group-reorder-toggle-btn" onclick="toggleGroupReorderMode()">⇅ 並び替え</button>
+            <button class="btn-secondary-sm" id="group-reorder-toggle-btn" onclick="toggleGroupReorderMode()">⇅ <span data-i18n="fg_reorder">並び替え</span></button>
           </div>
 
           <div id="group-list-container"></div>
@@ -3190,8 +3194,8 @@
 
       <!-- ともだち／グループ切り替えボタン：親指が届く画面下部に固定表示（ともだち・グループページの時のみ表示） -->
       <div id="friendsgroups-switcher" class="segment-switcher-fixed">
-        <button class="segment-btn active" id="fg-switch-friends-btn" onclick="switchFriendsGroupsSubview('friends')">ともだち</button>
-        <button class="segment-btn" id="fg-switch-groups-btn" onclick="switchFriendsGroupsSubview('groups')">グループ</button>
+        <button class="segment-btn active" id="fg-switch-friends-btn" onclick="switchFriendsGroupsSubview('friends')" data-i18n="fg_friends">ともだち</button>
+        <button class="segment-btn" id="fg-switch-groups-btn" onclick="switchFriendsGroupsSubview('groups')" data-i18n="fg_groups">グループ</button>
       </div>
 
       <!-- 3. カレンダー画面 -->
@@ -3200,10 +3204,10 @@
         <div id="plan-reminder-banner" class="plan-reminder-banner" style="display: none;" onclick="openConfirmedDetailModalFromReminderBanner()"></div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h2 class="section-title" style="margin:0;">ひまカレンダー</h2>
+          <h2 class="section-title" style="margin:0;" data-i18n="cal_title">ひまカレンダー</h2>
           <div style="display:flex; gap:6px;">
-            <button class="btn-filter-lg" onclick="openBulkExportConfirm()">一括反映<span class="premium-lock-badge" id="bulk-export-lock-badge">🔒</span></button>
-            <button class="btn-filter-lg" onclick="openCalendarFilterModal()">フィルター</button>
+            <button class="btn-filter-lg" onclick="openBulkExportConfirm()"><span data-i18n="cal_bulk_export">一括反映</span><span class="premium-lock-badge" id="bulk-export-lock-badge">🔒</span></button>
+            <button class="btn-filter-lg" onclick="openCalendarFilterModal()" data-i18n="cal_filter">フィルター</button>
           </div>
         </div>
 
@@ -3214,13 +3218,13 @@
             <button class="btn-secondary-sm" onclick="changeMonth(1)">&gt;</button>
           </div>
           <div class="calendar-grid">
-            <div class="calendar-dow sun">日</div>
-            <div class="calendar-dow normal">月</div>
-            <div class="calendar-dow normal">火</div>
-            <div class="calendar-dow normal">水</div>
-            <div class="calendar-dow normal">木</div>
-            <div class="calendar-dow normal">金</div>
-            <div class="calendar-dow sat">土</div>
+            <div class="calendar-dow sun" data-i18n="dow_sun">日</div>
+            <div class="calendar-dow normal" data-i18n="dow_mon">月</div>
+            <div class="calendar-dow normal" data-i18n="dow_tue">火</div>
+            <div class="calendar-dow normal" data-i18n="dow_wed">水</div>
+            <div class="calendar-dow normal" data-i18n="dow_thu">木</div>
+            <div class="calendar-dow normal" data-i18n="dow_fri">金</div>
+            <div class="calendar-dow sat" data-i18n="dow_sat">土</div>
           </div>
           <div class="calendar-grid" id="calendar-days" style="margin-top: 6px;"></div>
         </div>
@@ -3234,47 +3238,52 @@
           <div id="calendar-inline-preview-confirmed"></div>
           <div id="calendar-inline-preview-stamps"></div>
           <div id="calendar-inline-preview-people"></div>
-          <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-add-btn">＋ この日のひまを追加</button>
-          <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-stamp-btn" style="margin-top: 6px;">🦷 個人の予定（スタンプ）を追加<span class="premium-lock-badge" id="stamp-btn-lock-badge">🔒 プレミアム</span></button>
+          <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-add-btn">＋ <span data-i18n="cal_add_hima_day">この日のひまを追加</span></button>
+          <button class="btn-secondary-sm calendar-inline-preview-add-btn" id="calendar-inline-preview-stamp-btn" style="margin-top: 6px;">🦷 <span data-i18n="cal_add_stamp">個人の予定（スタンプ）を追加</span><span class="premium-lock-badge" id="stamp-btn-lock-badge">🔒 <span data-i18n="common_premium">プレミアム</span></span></button>
         </div>
       </div>
 
       <!-- 4. 設定画面 -->
       <div id="page-mypage" class="page">
-        <h2 class="section-title" style="margin-bottom: 12px;">設定</h2>
-        
+        <h2 class="section-title" style="margin-bottom: 12px;" data-i18n="settings_title">設定</h2>
+
         <div class="setting-item-btn" onclick="openThemeModal()">
-          <span>テーマ</span>
+          <span data-i18n="settings_theme">テーマ</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
 
         <div class="setting-item-btn" onclick="openSubModal('friend-setting-modal')">
-          <span>ともだち設定</span>
+          <span data-i18n="settings_friend">ともだち設定</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
 
         <div class="setting-item-btn" onclick="openSubModal('notification-modal')">
-          <span>通知設定</span>
+          <span data-i18n="settings_notification">通知設定</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
 
         <div class="setting-item-btn" onclick="openSubModal('display-modal')">
-          <span>表示設定</span>
+          <span data-i18n="settings_display">表示設定</span>
+          <span style="color: #CCC;">&gt;</span>
+        </div>
+
+        <div class="setting-item-btn" onclick="document.getElementById('language-modal').classList.add('active')">
+          <span data-i18n="settings_language">言語</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
 
         <div class="setting-item-btn" onclick="startOnboarding()">
-          <span>使い方を見る</span>
+          <span data-i18n="settings_howto">使い方を見る</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
 
         <div class="setting-item-btn" onclick="document.getElementById('privacy-policy-modal').classList.add('active')">
-          <span>プライバシーポリシー</span>
+          <span data-i18n="settings_privacy">プライバシーポリシー</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
 
         <div class="setting-item-btn" style="color: #E25C5C; margin-top: 24px;" onclick="confirmAccountDeletion()">
-          <span>退会・アカウント削除</span>
+          <span data-i18n="settings_delete_account">退会・アカウント削除</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
       </div>
@@ -3283,26 +3292,22 @@
 
     <!-- ボトムナビゲーション -->
     <nav>
-      <button class="nav-btn active" id="nav-home-btn" onclick="switchTab('home')">
-        <span class="nav-icon"><svg class="icon-svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.8c0-.5.2-.9.6-1.2L11.3 5c.4-.3 1-.3 1.4 0l6.7 5.6c.4.3.6.7.6 1.2"></path><path d="M6.3 10.6V18a1.6 1.6 0 0 0 1.6 1.6h8.2a1.6 1.6 0 0 0 1.6-1.6v-7.4"></path><path d="M9.8 19.4v-3.1a2.2 2.2 0 0 1 4.4 0v3.1"></path></svg></span>
-        ホーム
+      <button class="nav-btn active" id="nav-home-btn" onclick="switchTab('home')" aria-label="ホーム">
+        <span class="nav-icon"><svg class="icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.8c0-.5.2-.9.6-1.2L11.3 5c.4-.3 1-.3 1.4 0l6.7 5.6c.4.3.6.7.6 1.2"></path><path d="M6.3 10.6V18a1.6 1.6 0 0 0 1.6 1.6h8.2a1.6 1.6 0 0 0 1.6-1.6v-7.4"></path><path d="M9.8 19.4v-3.1a2.2 2.2 0 0 1 4.4 0v3.1"></path></svg></span>
         <span class="tab-notice-badge" id="home-tab-badge" style="display: none;"></span>
       </button>
-      <button class="nav-btn" id="nav-friends-btn" onclick="switchTab('friendsgroups')">
-        <span class="nav-icon"><svg class="icon-svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.8" r="4"></circle><path d="M4.5 20c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7"></path></svg></span>
-        <span style="line-height: 1.2;">ともだち<br>グループ</span>
+      <button class="nav-btn" id="nav-friends-btn" onclick="switchTab('friendsgroups')" aria-label="ともだち・グループ">
+        <span class="nav-icon"><svg class="icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.8" r="4"></circle><path d="M4.5 20c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7"></path></svg></span>
         <span class="tab-notice-badge" id="friends-tab-badge" style="display: none;"></span>
       </button>
       <button class="nav-btn nav-btn-fab" onclick="openHimaModal()" aria-label="ひまを登録する">
         <span class="nav-fab-icon"><svg class="icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
       </button>
-      <button class="nav-btn" onclick="switchTab('calendar')">
-        <span class="nav-icon"><svg class="icon-svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"></rect><path d="M8 3.5v4M16 3.5v4M4 10h16"></path></svg></span>
-        カレンダー
+      <button class="nav-btn" onclick="switchTab('calendar')" aria-label="カレンダー">
+        <span class="nav-icon"><svg class="icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"></rect><path d="M8 3.5v4M16 3.5v4M4 10h16"></path></svg></span>
       </button>
-      <button class="nav-btn" onclick="switchTab('mypage')">
-        <span class="nav-icon" id="nav-user-icon"><svg class="icon-svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8 6.2 6.2"></path></svg></span>
-        設定
+      <button class="nav-btn" onclick="switchTab('mypage')" aria-label="設定">
+        <span class="nav-icon" id="nav-user-icon"><svg class="icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8 6.2 6.2"></path></svg></span>
       </button>
     </nav>
   </div>
@@ -3324,8 +3329,8 @@
       </button>
 
       <div class="modal-btn-group" style="margin-top: 10px;">
-        <button class="btn-modal-cancel" onclick="closeModal('friend-profile-mini-modal')">閉じる</button>
-        <button class="btn-modal-action" onclick="saveFriendProfileFromMiniModal()">保存</button>
+        <button class="btn-modal-cancel" onclick="closeModal('friend-profile-mini-modal')" data-i18n="common_close">閉じる</button>
+        <button class="btn-modal-action" onclick="saveFriendProfileFromMiniModal()" data-i18n="common_save">保存</button>
       </div>
     </div>
   </div>
@@ -3423,14 +3428,14 @@
   <div class="modal-overlay" id="hima-modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('hima-modal')">×</button>
-      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">ひま！</h3>
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;" data-i18n="hima_modal_title">ひま！</h3>
 
       <div class="hima-date-layout">
         <div class="hima-date-top-row">
-          <button class="hima-date-btn half active" id="btn-date-today" onclick="selectHimaDateType('today')">きょう</button>
-          <button class="hima-date-btn half" id="btn-date-tomorrow" onclick="selectHimaDateType('tomorrow')">あした</button>
+          <button class="hima-date-btn half active" id="btn-date-today" onclick="selectHimaDateType('today')" data-i18n="hima_today">きょう</button>
+          <button class="hima-date-btn half" id="btn-date-tomorrow" onclick="selectHimaDateType('tomorrow')" data-i18n="hima_tomorrow">あした</button>
         </div>
-        <button class="hima-date-btn full" id="btn-date-custom" onclick="selectHimaDateType('custom')">日付を選ぶ</button>
+        <button class="hima-date-btn full" id="btn-date-custom" onclick="selectHimaDateType('custom')" data-i18n="hima_pick_date">日付を選ぶ</button>
       </div>
 
       <div id="hima-picker-calendar-area" style="display: none;">
@@ -3441,20 +3446,20 @@
             <button class="btn-secondary-sm" onclick="changePickerMonth(1)">&gt;</button>
           </div>
           <div class="picker-calendar-grid">
-            <div class="picker-dow" style="color:var(--sun-color);">日</div>
-            <div class="picker-dow">月</div>
-            <div class="picker-dow">火</div>
-            <div class="picker-dow">水</div>
-            <div class="picker-dow">木</div>
-            <div class="picker-dow">金</div>
-            <div class="picker-dow" style="color:var(--sat-color);">土</div>
+            <div class="picker-dow" style="color:var(--sun-color);" data-i18n="dow_sun">日</div>
+            <div class="picker-dow" data-i18n="dow_mon">月</div>
+            <div class="picker-dow" data-i18n="dow_tue">火</div>
+            <div class="picker-dow" data-i18n="dow_wed">水</div>
+            <div class="picker-dow" data-i18n="dow_thu">木</div>
+            <div class="picker-dow" data-i18n="dow_fri">金</div>
+            <div class="picker-dow" style="color:var(--sat-color);" data-i18n="dow_sat">土</div>
           </div>
           <div class="picker-calendar-grid" id="picker-days" style="margin-top: 4px;"></div>
         </div>
       </div>
 
       <div class="input-group">
-        <label class="input-label">時間 <span>書かなくてもOK！</span></label>
+        <label class="input-label"><span data-i18n="hima_time_label">時間</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
         <div class="time-range-row">
           <select class="input-field time-range-input" id="input-time-start" style="display:none;"></select>
           <select class="input-field time-range-input" id="input-time-end" style="display:none;"></select>
@@ -3471,36 +3476,36 @@
           </div>
           <label class="all-day-checkbox-wrapper">
             <input type="checkbox" id="input-all-day" onchange="toggleAllDayInput(this)">
-            終日
+            <span data-i18n="hima_all_day">終日</span>
           </label>
         </div>
-        <input type="text" class="input-field time-freeform-input" id="input-time" placeholder="例：仕事終わったあと〜 / お昼くらいから夕方まで など">
+        <input type="text" class="input-field time-freeform-input" id="input-time" placeholder="例：仕事終わったあと〜 / お昼くらいから夕方まで など" data-i18n-ph="hima_time_freeform_ph">
       </div>
 
       <div class="input-group">
-        <label class="input-label">どこ？ <span>書かなくてもOK！</span></label>
+        <label class="input-label"><span data-i18n="hima_place_label">どこ？</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
         <div style="display: flex; gap: 8px; align-items: center;">
-          <input type="text" class="input-field" id="input-place" placeholder="新宿 / 渋谷 / 都内など" oninput="updateFavoritePlaceStarState()" style="flex: 1;">
+          <input type="text" class="input-field" id="input-place" placeholder="新宿 / 渋谷 / 都内など" data-i18n-ph="hima_place_ph" oninput="updateFavoritePlaceStarState()" style="flex: 1;">
           <button type="button" id="favorite-place-star-btn" class="favorite-place-star-btn" onclick="toggleCurrentPlaceFavorite()">☆</button>
         </div>
         <div class="favorite-place-chips" id="favorite-place-chips"></div>
       </div>
 
       <div class="input-group">
-        <label class="input-label">なにしたい？ <span>書かなくてもOK！</span></label>
-        <input type="text" class="input-field" id="input-memo" placeholder="ごはん / 服みたい！ / 映画いきたいなど">
+        <label class="input-label"><span data-i18n="hima_memo_label">なにしたい？</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
+        <input type="text" class="input-field" id="input-memo" placeholder="ごはん / 服みたい！ / 映画いきたいなど" data-i18n-ph="hima_memo_ph">
       </div>
 
       <!-- 追加機能：ひま情報を見せるともだち（公開範囲設定） -->
       <div class="input-group">
-        <label class="input-label">ひま情報を見せるともだち <span>未選択の場合はともだち全員に公開</span></label>
+        <label class="input-label"><span data-i18n="hima_scope_label">ひま情報を見せるともだち</span> <span data-i18n="hima_scope_hint">未選択の場合はともだち全員に公開</span></label>
         <div id="hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openHimaScopeSelectorModal()">
-          <span id="hima-scope-summary-text" style="color: var(--text-sub);">全員に公開</span>
+          <span id="hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
           <span style="color: var(--text-sub);">▼</span>
         </div>
       </div>
 
-      <button class="btn-primary" style="margin-top: 10px;" onclick="submitHima(event)">ひまを追加</button>
+      <button class="btn-primary" style="margin-top: 10px;" onclick="submitHima(event)" data-i18n="hima_submit">ひまを追加</button>
     </div>
   </div>
 
@@ -3508,15 +3513,15 @@
   <div class="modal-overlay" id="edit-hima-modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('edit-hima-modal')">×</button>
-      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">ひま情報を編集</h3>
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;" data-i18n="hima_edit_title">ひま情報を編集</h3>
 
       <div class="input-group">
-        <label class="input-label">日付</label>
+        <label class="input-label" data-i18n="hima_date_label">日付</label>
         <input type="text" class="input-field" id="edit-input-date" readonly style="background-color: #EEE;">
       </div>
 
       <div class="input-group">
-        <label class="input-label">時間 <span>書かなくてもOK！</span></label>
+        <label class="input-label"><span data-i18n="hima_time_label">時間</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
         <div class="time-range-row">
           <select class="input-field time-range-input" id="edit-input-time-start" style="display:none;"></select>
           <select class="input-field time-range-input" id="edit-input-time-end" style="display:none;"></select>
@@ -3533,33 +3538,33 @@
           </div>
           <label class="all-day-checkbox-wrapper">
             <input type="checkbox" id="edit-input-all-day" onchange="toggleEditAllDayInput(this)">
-            終日
+            <span data-i18n="hima_all_day">終日</span>
           </label>
         </div>
-        <input type="text" class="input-field time-freeform-input" id="edit-input-time" placeholder="例：仕事終わったあと〜 / お昼くらいから夕方まで など">
+        <input type="text" class="input-field time-freeform-input" id="edit-input-time" placeholder="例：仕事終わったあと〜 / お昼くらいから夕方まで など" data-i18n-ph="hima_time_freeform_ph">
       </div>
 
       <div class="input-group">
-        <label class="input-label">どこ？</label>
-        <input type="text" class="input-field" id="edit-input-place" placeholder="新宿 / 渋谷 / 都内など">
+        <label class="input-label" data-i18n="hima_place_label">どこ？</label>
+        <input type="text" class="input-field" id="edit-input-place" placeholder="新宿 / 渋谷 / 都内など" data-i18n-ph="hima_place_ph">
       </div>
 
       <div class="input-group">
-        <label class="input-label">なにしたい？</label>
-        <input type="text" class="input-field" id="edit-input-memo" placeholder="ごはん / 服みたい！ / 映画いきたいなど">
+        <label class="input-label" data-i18n="hima_memo_label">なにしたい？</label>
+        <input type="text" class="input-field" id="edit-input-memo" placeholder="ごはん / 服みたい！ / 映画いきたいなど" data-i18n-ph="hima_memo_ph">
       </div>
 
       <div class="input-group">
-        <label class="input-label">ひま情報を見せるともだち</label>
+        <label class="input-label" data-i18n="hima_scope_label">ひま情報を見せるともだち</label>
         <div id="edit-hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openEditHimaScopeSelectorModal()">
-          <span id="edit-hima-scope-summary-text" style="color: var(--text-sub);">全員に公開</span>
+          <span id="edit-hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
           <span style="color: var(--text-sub);">▼</span>
         </div>
       </div>
 
       <div style="display: flex; gap: 10px; margin-top: 20px;">
-        <button class="btn-modal-cancel" onclick="closeModal('edit-hima-modal')">キャンセル</button>
-        <button class="btn-modal-action" onclick="submitEditHima()">保存する</button>
+        <button class="btn-modal-cancel" onclick="closeModal('edit-hima-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action" onclick="submitEditHima()" data-i18n="common_save">保存する</button>
       </div>
     </div>
   </div>
@@ -3615,7 +3620,7 @@
       </div>
 
       <div style="display: flex; gap: 10px; margin-top: 20px;">
-        <button class="btn-modal-cancel" onclick="closeModal('edit-confirmed-modal')">キャンセル</button>
+        <button class="btn-modal-cancel" onclick="closeModal('edit-confirmed-modal')" data-i18n="common_cancel">キャンセル</button>
         <button class="btn-modal-action" onclick="submitEditConfirmed()">保存する</button>
       </div>
     </div>
@@ -3689,7 +3694,7 @@
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">お誘いの確認</h3>
       <p id="invite-confirm-text" style="font-size: 14px; color: var(--text-sub); line-height: 1.5;"></p>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('invite-confirm-modal')">キャンセル</button>
+        <button class="btn-modal-cancel" onclick="closeModal('invite-confirm-modal')" data-i18n="common_cancel">キャンセル</button>
         <button class="btn-modal-action" onclick="executeInvite()">誘う</button>
       </div>
     </div>
@@ -3804,8 +3809,8 @@
       <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">理由を入力して送信することも、書かずにそのまま送ることもできます。</p>
       <textarea class="decline-modal-input" id="decline-reason-text" placeholder="ごめん！ちょうど先約入っちゃった！&#10;その日は難しそうです"></textarea>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('decline-reason-modal')">キャンセル</button>
-        <button class="btn-modal-action" onclick="executeDeclineInvite()">送信</button>
+        <button class="btn-modal-cancel" onclick="closeModal('decline-reason-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action" onclick="executeDeclineInvite()" data-i18n="common_send">送信</button>
       </div>
     </div>
   </div>
@@ -3816,8 +3821,8 @@
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">ともだちの削除</h3>
       <p id="delete-friend-confirm-text" style="font-size: 13px; color: var(--text-sub); line-height: 1.5;"></p>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('delete-friend-modal')">キャンセル</button>
-        <button class="btn-modal-action btn-modal-danger" onclick="executeDeleteFriend()">削除</button>
+        <button class="btn-modal-cancel" onclick="closeModal('delete-friend-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action btn-modal-danger" onclick="executeDeleteFriend()" data-i18n="common_delete">削除</button>
       </div>
     </div>
   </div>
@@ -3927,7 +3932,7 @@
       <input type="text" class="input-field" id="poll-maybe-note-input" placeholder="例：午後なら行けるかも" style="margin-bottom: 14px;">
       <div class="modal-btn-group">
         <button class="btn-modal-cancel" onclick="closeModal('poll-maybe-note-modal')">やめる</button>
-        <button class="btn-modal-action" onclick="savePollMaybeNote()">保存</button>
+        <button class="btn-modal-action" onclick="savePollMaybeNote()" data-i18n="common_save">保存</button>
       </div>
     </div>
   </div>
@@ -4004,8 +4009,8 @@
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">グループの削除</h3>
       <p style="font-size: 13px; color: var(--text-sub); line-height: 1.5;">このグループ、削除する？</p>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('delete-group-confirm-modal')">キャンセル</button>
-        <button class="btn-modal-action btn-modal-danger" onclick="executeDeleteGroup()">削除</button>
+        <button class="btn-modal-cancel" onclick="closeModal('delete-group-confirm-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action btn-modal-danger" onclick="executeDeleteGroup()" data-i18n="common_delete">削除</button>
       </div>
     </div>
   </div>
@@ -4024,7 +4029,7 @@
         ・ともだち・グループ側からも、あなたの情報が削除されます
       </p>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('account-delete-confirm-modal')">キャンセル</button>
+        <button class="btn-modal-cancel" onclick="closeModal('account-delete-confirm-modal')" data-i18n="common_cancel">キャンセル</button>
         <button class="btn-modal-action btn-modal-danger" onclick="executeAccountDeletion()">退会する</button>
       </div>
     </div>
@@ -4036,7 +4041,7 @@
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">メンバー外しの確認</h3>
       <p id="remove-member-confirm-text" style="font-size: 13px; color: var(--text-sub); line-height: 1.5;"></p>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('remove-member-confirm-modal')">キャンセル</button>
+        <button class="btn-modal-cancel" onclick="closeModal('remove-member-confirm-modal')" data-i18n="common_cancel">キャンセル</button>
         <button class="btn-modal-action btn-modal-danger" onclick="executeRemoveMember()">外す</button>
       </div>
     </div>
@@ -4053,9 +4058,9 @@
 
       <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
 
-      <h4 style="font-size: 14px; font-weight: 700; color: var(--theme-color); margin-bottom: 10px;">この日ひま！</h4>
+      <h4 style="font-size: 14px; font-weight: 700; color: var(--theme-color); margin-bottom: 10px;" data-i18n="cal_day_hima">この日ひま！</h4>
       <div class="input-group">
-        <label class="input-label">時間 <span>書かなくてもOK！</span></label>
+        <label class="input-label"><span data-i18n="hima_time_label">時間</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
         <div class="time-range-row">
           <select class="input-field time-range-input" id="day-input-time-start" style="display:none;"></select>
           <select class="input-field time-range-input" id="day-input-time-end" style="display:none;"></select>
@@ -4072,23 +4077,23 @@
           </div>
           <label class="all-day-checkbox-wrapper">
             <input type="checkbox" id="day-input-all-day" onchange="toggleDayAllDayInput(this)">
-            終日
+            <span data-i18n="hima_all_day">終日</span>
           </label>
         </div>
-        <input type="text" class="input-field time-freeform-input" id="day-input-time" placeholder="例：仕事終わったあと〜 / お昼くらいから夕方まで など">
+        <input type="text" class="input-field time-freeform-input" id="day-input-time" placeholder="例：仕事終わったあと〜 / お昼くらいから夕方まで など" data-i18n-ph="hima_time_freeform_ph">
       </div>
       <div class="input-group">
-        <label class="input-label">どこ？ <span>書かなくてもOK！</span></label>
-        <input type="text" class="input-field" id="day-input-place" placeholder="新宿 / 渋谷 / 都内など">
+        <label class="input-label"><span data-i18n="hima_place_label">どこ？</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
+        <input type="text" class="input-field" id="day-input-place" placeholder="新宿 / 渋谷 / 都内など" data-i18n-ph="hima_place_ph">
       </div>
       <div class="input-group">
-        <label class="input-label">なにしたい？ <span>書かなくてもOK！</span></label>
-        <input type="text" class="input-field" id="day-input-memo" placeholder="ごはん / 服みたい！ / 映画いきたいなど">
+        <label class="input-label"><span data-i18n="hima_memo_label">なにしたい？</span> <span data-i18n="hima_optional">書かなくてもOK！</span></label>
+        <input type="text" class="input-field" id="day-input-memo" placeholder="ごはん / 服みたい！ / 映画いきたいなど" data-i18n-ph="hima_memo_ph">
       </div>
       <div class="input-group">
-        <label class="input-label">ひま情報を見せるともだち <span>未選択の場合はともだち全員に公開</span></label>
+        <label class="input-label"><span data-i18n="hima_scope_label">ひま情報を見せるともだち</span> <span data-i18n="hima_scope_hint">未選択の場合はともだち全員に公開</span></label>
         <div id="day-hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openHimaScopeSelectorModal()">
-          <span id="day-hima-scope-summary-text" style="color: var(--text-sub);">全員に公開</span>
+          <span id="day-hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
           <span style="color: var(--text-sub);">▼</span>
         </div>
       </div>
@@ -4192,7 +4197,7 @@
         <label class="input-label">ともだちID（検索・招待に使うよ）</label>
         <div style="display:flex; align-items:center; gap:8px;">
           <input type="text" class="input-field" id="profile-invite-code-display" placeholder="例）hima_pukan" style="flex:1;">
-          <button class="btn-secondary-sm" onclick="saveMyCustomId()">保存</button>
+          <button class="btn-secondary-sm" onclick="saveMyCustomId()" data-i18n="common_save">保存</button>
         </div>
         <div style="display:flex; align-items:center; gap:10px; margin-top: 4px;">
           <p style="font-size: 11px; color: var(--text-sub); margin: 0;">半角英数字と - _ . で3〜20文字。他の人と被らなければ好きな文字列にできるよ</p>
@@ -4208,7 +4213,7 @@
         </div>
         <p style="font-size: 11px; color: var(--text-sub); margin-top: 4px;">登録しておくと、プレミアムのともだちのカレンダーにお知らせの印が表示されるようになるよ（通知は届かないよ）</p>
       </div>
-      <button class="btn-primary" onclick="saveProfile()">保存</button>
+      <button class="btn-primary" onclick="saveProfile()" data-i18n="common_save">保存</button>
     </div>
   </div>
 
@@ -4216,11 +4221,11 @@
   <div class="modal-overlay center-type" id="color-modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('color-modal')">×</button>
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px;">テーマ</h3>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px;" data-i18n="theme_modal_title">テーマ</h3>
 
       <div class="theme-mode-toggle" id="theme-mode-toggle">
-        <button type="button" class="theme-mode-btn" data-mode="flat" onclick="setThemeMode('flat')">テーマカラー</button>
-        <button type="button" class="theme-mode-btn" data-mode="sky" onclick="setThemeMode('sky')">ヘッダー・アイコン</button>
+        <button type="button" class="theme-mode-btn" data-mode="flat" onclick="setThemeMode('flat')" data-i18n="theme_tab_color">テーマカラー</button>
+        <button type="button" class="theme-mode-btn" data-mode="sky" onclick="setThemeMode('sky')" data-i18n="theme_tab_header">ヘッダー・アイコン</button>
       </div>
 
       <div id="theme-mode-flat-section">
@@ -4229,7 +4234,7 @@
 
         <label style="display:flex; align-items:center; gap:10px; margin-top:18px; font-size:13px; font-weight:700; color: var(--text-main); cursor:pointer;">
           <span class="switch"><input type="checkbox" id="bicolor-toggle" onchange="toggleBicolorMode(this.checked)"><span class="slider"></span></span>
-          グラデーションにする
+          <span data-i18n="theme_gradient_toggle">グラデーションにする</span>
         </label>
         <div id="bicolor-second-section" style="display:none; margin-top:12px;">
           <p style="font-size:12px; color:var(--text-sub); margin-bottom:8px;">2色目を選んでね（ヘッダーと背景がグラデーションになるよ）</p>
@@ -4237,21 +4242,21 @@
           <button class="theme-color-toggle" id="color-toggle-btn-2" onclick="toggleColorGrid()">もっと見る ▾</button>
         </div>
 
-        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;">背景の柄</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;" data-i18n="theme_bg_pattern">背景の柄</h3>
         <div class="bg-pattern-row" id="bg-pattern-picker"></div>
 
-        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 14px;">文字の色</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 14px;" data-i18n="theme_text_color">文字の色</h3>
         <div class="text-color-chip-grid" id="text-color-picker"></div>
 
-        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 14px;">フォント</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 14px;" data-i18n="theme_font">フォント</h3>
         <div class="font-picker-row" id="font-picker-row"></div>
       </div>
 
       <div id="theme-mode-sky-section">
-        <h3 style="font-size: 16px; font-weight: 700; margin: 18px 0 10px;">ヘッダー</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin: 18px 0 10px;" data-i18n="theme_header_heading">ヘッダー</h3>
         <div class="sky-header-grid" id="sky-header-picker"></div>
 
-        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;">アイコン</h3>
+        <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;" data-i18n="theme_icon_heading">アイコン</h3>
         <div class="app-icon-grid-compact" id="app-icon-picker"></div>
       </div>
     </div>
@@ -4301,17 +4306,17 @@
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('friend-setting-modal')">×</button>
       <div style="padding-right: 40px; margin-bottom: 4px;">
-        <h3 style="font-size: 16px; font-weight: 700;">ともだち設定</h3>
+        <h3 style="font-size: 16px; font-weight: 700;" data-i18n="friend_modal_title">ともだち設定</h3>
       </div>
       <div style="margin-bottom: 10px;">
-        <input type="text" id="friend-setting-search-input" class="input-field" placeholder="🔍 名前で検索" oninput="renderFriendSettings()">
+        <input type="text" id="friend-setting-search-input" class="input-field" placeholder="🔍 名前で検索" data-i18n-ph="friend_search_ph" oninput="renderFriendSettings()">
       </div>
       <div style="margin-bottom: 12px;">
         <select id="friend-sort-select" class="select-filter-lg" onchange="renderFriendSettings()">
-          <option value="pinned">お気に入り順</option>
-          <option value="name">名前順</option>
-          <option value="newest">登録が新しい順</option>
-          <option value="oldest">登録が古い順</option>
+          <option value="pinned" data-i18n="friend_sort_pinned">お気に入り順</option>
+          <option value="name" data-i18n="friend_sort_name">名前順</option>
+          <option value="newest" data-i18n="friend_sort_newest">登録が新しい順</option>
+          <option value="oldest" data-i18n="friend_sort_oldest">登録が古い順</option>
         </select>
       </div>
       <div id="friend-setting-list"></div>
@@ -4325,8 +4330,8 @@
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">ともだちの表示名編集</h3>
       <input type="text" id="friend-edit-name-input" class="input-field" style="text-align: center; font-weight: 700; margin-bottom: 16px;">
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('friend-edit-name-modal')">キャンセル</button>
-        <button class="btn-modal-action" onclick="saveFriendCustomName()">保存</button>
+        <button class="btn-modal-cancel" onclick="closeModal('friend-edit-name-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action" onclick="saveFriendCustomName()" data-i18n="common_save">保存</button>
       </div>
     </div>
   </div>
@@ -4337,8 +4342,8 @@
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">ともだちのブロック</h3>
       <p id="block-friend-confirm-text" style="font-size: 13px; color: var(--text-sub); line-height: 1.5;"></p>
       <div class="modal-btn-group">
-        <button class="btn-modal-cancel" onclick="closeModal('block-friend-modal')">キャンセル</button>
-        <button class="btn-modal-action btn-modal-danger" onclick="executeBlockFriend()">ブロック</button>
+        <button class="btn-modal-cancel" onclick="closeModal('block-friend-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action btn-modal-danger" onclick="executeBlockFriend()" data-i18n="common_block">ブロック</button>
       </div>
     </div>
   </div>
@@ -4347,39 +4352,39 @@
   <div class="modal-overlay center-type" id="notification-modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('notification-modal')">×</button>
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">通知設定</h3>
-      
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;" data-i18n="notif_modal_title">通知設定</h3>
+
       <div class="card">
         <div class="setting-row">
-          <span>きょうのひま</span>
+          <span data-i18n="notif_today">きょうのひま</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>あしたのひま</span>
+          <span data-i18n="notif_tomorrow">あしたのひま</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>未来のひま</span>
+          <span data-i18n="notif_future">未来のひま</span>
           <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>お誘い</span>
+          <span data-i18n="notif_invite">お誘い</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>お誘いの確定</span>
+          <span data-i18n="notif_invite_confirm">お誘いの確定</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>ともだち関連</span>
+          <span data-i18n="notif_friend">ともだち関連</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>グループ関連</span>
+          <span data-i18n="notif_group">グループ関連</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>メッセージ</span>
+          <span data-i18n="notif_message">メッセージ</span>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
       </div>
@@ -4390,23 +4395,23 @@
   <div class="modal-overlay center-type" id="display-modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('display-modal')">×</button>
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">表示設定</h3>
-      
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;" data-i18n="display_modal_title">表示設定</h3>
+
       <div class="card">
         <div class="setting-row">
-          <span>カレンダーの祝日名を表示</span>
+          <span data-i18n="display_holiday">カレンダーの祝日名を表示</span>
           <label class="switch"><input type="checkbox" id="holiday-toggle" onchange="toggleHoliday(this)"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>メッセージ既読通知を表示</span>
+          <span data-i18n="display_read">メッセージ既読通知を表示</span>
           <label class="switch"><input type="checkbox" id="read-toggle" checked onchange="toggleReadSetting(this)"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
-          <span>カレンダーに誕生日を表示</span>
+          <span data-i18n="display_birthday">カレンダーに誕生日を表示</span>
           <label class="switch"><input type="checkbox" id="birthday-toggle" onchange="toggleBirthdayDisplay(this)"><span class="slider"></span></label>
         </div>
         <div class="setting-row" id="chat-grace-row" style="cursor: pointer;" onclick="handleChatGraceRowClick()">
-          <span>チャットの保存期間を延長（2日→7日）</span>
+          <span data-i18n="display_chat_grace">チャットの保存期間を延長（2日→7日）</span>
           <span id="chat-grace-badge"></span>
         </div>
       </div>
@@ -4418,7 +4423,7 @@
   <div class="modal-overlay center-type" id="privacy-policy-modal" style="z-index: 5500;">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('privacy-policy-modal')">×</button>
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">プライバシーポリシー</h3>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;" data-i18n="privacy_modal_title">プライバシーポリシー</h3>
       <div style="font-size: 12.5px; color: var(--text-main); line-height: 1.8; max-height: 60vh; overflow-y: auto; text-align: left;">
         <p>「ぷかん」（以下、本アプリ）は、個人情報の取り扱いについて以下の方針で運営しています。</p>
 
@@ -4445,6 +4450,32 @@
     </div>
   </div>
 
+  <!-- 言語設定モーダル（設定画面からいつでも変更できる） -->
+  <div class="modal-overlay center-type" id="language-modal">
+    <div class="modal-content" style="text-align: center;">
+      <button class="modal-close" onclick="closeModal('language-modal')">×</button>
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;" data-i18n="language_modal_title">言語</h3>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="setting-item-btn" style="justify-content:center;" onclick="setLanguage('ja', false)">日本語</button>
+        <button class="setting-item-btn" style="justify-content:center;" onclick="setLanguage('en', false)">English</button>
+        <button class="setting-item-btn" style="justify-content:center;" onclick="setLanguage('ko', false)">한국어</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 初回起動時の言語選択（まだ言語を選んでいないユーザーにだけ表示。まだ言語がわからないので3言語を同時表示） -->
+  <div class="modal-overlay center-type" id="first-language-modal">
+    <div class="modal-content" style="text-align: center;">
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">言語を選んでね</h3>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 16px;">Choose your language / 언어를 선택해 주세요</p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="setting-item-btn" style="justify-content:center;" onclick="setLanguage('ja', true)">日本語</button>
+        <button class="setting-item-btn" style="justify-content:center;" onclick="setLanguage('en', true)">English</button>
+        <button class="setting-item-btn" style="justify-content:center;" onclick="setLanguage('ko', true)">한국어</button>
+      </div>
+    </div>
+  </div>
+
   <!-- チャットモーダル -->
   <div class="modal-overlay" id="chat-modal">
     <div class="modal-content">
@@ -4456,7 +4487,7 @@
         <div id="chat-reply-preview" style="display:none;"></div>
         <div style="display: flex; gap: 8px;">
           <input type="text" class="input-field" id="chat-input" placeholder="何時くらいになりそう？">
-          <button class="btn-primary" style="width: 70px; font-size: 14px;" onclick="sendChatMessage()">送信</button>
+          <button class="btn-primary" style="width: 70px; font-size: 14px;" onclick="sendChatMessage()" data-i18n="common_send">送信</button>
         </div>
         <div id="chat-bottom-action-area"></div>
       </div>
@@ -4528,7 +4559,7 @@
       </div>
       <div class="onboarding-btn-row">
         <button id="onboarding-back-btn" onclick="goBackOnboarding()">戻る</button>
-        <button id="onboarding-skip-btn" onclick="skipOnboarding()">スキップ</button>
+        <button id="onboarding-skip-btn" onclick="skipOnboarding()" data-i18n="ob_skip">スキップ</button>
         <button class="btn-primary" style="flex: 1;" id="onboarding-next-btn" onclick="advanceOnboarding()">次へ</button>
       </div>
     </div>
@@ -4641,6 +4672,8 @@
 
     // アプリ状態
     let appData = {
+      language: 'ja', // 'ja' / 'en' / 'ko'
+      languageChosen: false, // 初回起動時の言語選択をまだしていなければfalse
       userProfile: { name: '自分', id: 'my_hima_id', avatar: '👤' },
       themeColor: '#FF5E97',
       themeBicolorWith: null, // バイカラーテーマの2色目(hex)。nullなら単色
@@ -4782,6 +4815,7 @@
         applyTextColor(appData.textColor);
         applyFont(appData.fontId);
         applyBgPattern(appData.bgPatternId);
+        applyLanguage();
         renderUserProfile();
         renderHome();
         renderFriends();
@@ -4797,8 +4831,8 @@
         // アプリを開いたままの間も、時間が経てば「もうすぐ始まるよ」バナーが自動で出たり消えたりするようにする
         setInterval(() => { renderStartingSoonBanner(); renderPlanReminderBanner(); }, 60 * 1000);
 
-        // 初めて開いた時だけ、簡単なチュートリアルを表示する
-        maybeStartOnboarding();
+        // 初めて開いた時はまず言語選択（それ以降は簡単なチュートリアルを表示）
+        maybeShowFirstLanguagePicker();
 
         // 招待リンク（?invite=コード）から開かれていたら、ともだち追加を自動で進める
         handleInviteLinkIfPresent();
@@ -4897,6 +4931,390 @@
       if (hiddenEl) hiddenEl.disabled = disabled;
       if (hourEl) hourEl.disabled = disabled;
       if (minEl) minEl.disabled = disabled;
+    }
+
+    // ===== 言語（かんたんな多言語対応） =====
+    // アプリ全体の文言を完全に翻訳しているわけではなく、設定画面まわりなど
+    // 主要なUI文言のみを対象にした軽量な仕組み。data-i18n属性を持つ要素のテキストを
+    // 現在の言語に差し替える。
+    const translations = {
+      ja: {
+        settings_title: '設定',
+        settings_theme: 'テーマ',
+        settings_friend: 'ともだち設定',
+        settings_notification: '通知設定',
+        settings_display: '表示設定',
+        settings_language: '言語',
+        settings_howto: '使い方を見る',
+        settings_privacy: 'プライバシーポリシー',
+        settings_delete_account: '退会・アカウント削除',
+        theme_modal_title: 'テーマ',
+        theme_tab_color: 'テーマカラー',
+        theme_tab_header: 'ヘッダー・アイコン',
+        theme_header_heading: 'ヘッダー',
+        theme_icon_heading: 'アイコン',
+        theme_gradient_toggle: 'グラデーションにする',
+        theme_bg_pattern: '背景の柄',
+        theme_text_color: '文字の色',
+        theme_font: 'フォント',
+        friend_modal_title: 'ともだち設定',
+        friend_search_ph: '🔍 名前で検索',
+        friend_sort_pinned: 'お気に入り順',
+        friend_sort_name: '名前順',
+        friend_sort_newest: '登録が新しい順',
+        friend_sort_oldest: '登録が古い順',
+        notif_modal_title: '通知設定',
+        notif_today: 'きょうのひま',
+        notif_tomorrow: 'あしたのひま',
+        notif_future: '未来のひま',
+        notif_invite: 'お誘い',
+        notif_invite_confirm: 'お誘いの確定',
+        notif_friend: 'ともだち関連',
+        notif_group: 'グループ関連',
+        notif_message: 'メッセージ',
+        display_modal_title: '表示設定',
+        display_holiday: 'カレンダーの祝日名を表示',
+        display_read: 'メッセージ既読通知を表示',
+        display_birthday: 'カレンダーに誕生日を表示',
+        display_chat_grace: 'チャットの保存期間を延長（2日→7日）',
+        privacy_modal_title: 'プライバシーポリシー',
+        language_modal_title: '言語',
+        lang_name_ja: '日本語',
+        lang_name_en: 'English',
+        lang_name_ko: '한국어',
+        first_language_title: '言語を選んでね',
+        home_confirmed: '確定済みの予定',
+        home_recruiting: '参加募集中',
+        home_host_event: 'イベントを開催する',
+        home_my_hima: 'あなたのひま',
+        home_friends_hima: 'ひまあり！',
+        fg_friends: 'ともだち',
+        fg_add_friend: 'ともだち追加',
+        fg_search_name_ph: '名前で検索...',
+        fg_batch_invite: 'まとめて誘う',
+        fg_batch_invite_send: '選択した人を誘ってメッセージを開始',
+        fg_groups: 'グループ',
+        fg_add_group: 'グループを追加',
+        fg_sort_custom: '並び順（自分で設定）',
+        fg_reorder: '並び替え',
+        cal_title: 'ひまカレンダー',
+        cal_bulk_export: '一括反映',
+        cal_filter: 'フィルター',
+        cal_add_hima_day: 'この日のひまを追加',
+        cal_add_stamp: '個人の予定（スタンプ）を追加',
+        dow_sun: '日', dow_mon: '月', dow_tue: '火', dow_wed: '水', dow_thu: '木', dow_fri: '金', dow_sat: '土',
+        hima_modal_title: 'ひま！',
+        hima_today: 'きょう',
+        hima_tomorrow: 'あした',
+        hima_pick_date: '日付を選ぶ',
+        hima_time_label: '時間',
+        hima_optional: '書かなくてもOK！',
+        hima_all_day: '終日',
+        hima_time_freeform_ph: '例：仕事終わったあと〜 / お昼くらいから夕方まで など',
+        hima_place_label: 'どこ？',
+        hima_place_ph: '新宿 / 渋谷 / 都内など',
+        hima_memo_label: 'なにしたい？',
+        hima_memo_ph: 'ごはん / 服みたい！ / 映画いきたいなど',
+        hima_scope_label: 'ひま情報を見せるともだち',
+        hima_scope_hint: '未選択の場合はともだち全員に公開',
+        hima_scope_all: '全員に公開',
+        hima_submit: 'ひまを追加',
+        hima_edit_title: 'ひま情報を編集',
+        hima_date_label: '日付',
+        cal_day_hima: 'この日ひま！',
+        common_cancel: 'キャンセル',
+        common_save: '保存',
+        common_close: '閉じる',
+        common_delete: '削除',
+        common_confirm: '確定',
+        common_decline: '断る',
+        common_block: 'ブロック',
+        common_send: '送信',
+        common_edit: '編集',
+        common_edit_name: '表示名編集',
+        common_delete_friend: 'ともだち削除',
+        common_premium: 'プレミアム',
+        common_scope_prefix: '公開範囲: ',
+        ob_skip: 'スキップ',
+        ob_finish: 'おわり',
+        ob1_title: '<span class="onboarding-title-big">ぷかん</span><span class="onboarding-title-small">とは、、、</span>',
+        ob1_desc: '"ぷかぷか"と浮かんだ"じかん"\nそこから生まれた「ぷかん」。\n\nもっと気軽に、つながりを。\n\nあなたのひまな時間、\nぷかんっと浮かせて共有しよう♩',
+        ob2_title: 'まずはひまなタイミングを追加',
+        ob2_desc: 'ここから、あなたの"ひま"を追加してみよう♩\n「いまひまだな〜」「あしただれかとランチ行きたいな〜」など、思いついたタイミングでOK！\n\nざっくり曖昧でも、日時をきっちり決めても、\n好きなように....💭\n\n追加した"ひま"は、ともだちに共有されるよ♩',
+        ob3_title: '見せる相手も選べる',
+        ob3_desc: '"ひま"を追加するとき、\n公開範囲を選べます♩\n\n仲良しの友達だけ、特定のグループだけ、\nそんな風にこっそり共有するのもOK！\n\n何も選ばなければ、\nともだち全員に公開されるよ♩',
+        ob4_title: 'ともだちの"ひま"をチェック',
+        ob4_desc: 'ともだち・グループのみんなの"ひま"を見てみよう♩\n\nともだちの"ひま"を見て誘ってみたり、\n気になることはチャットで相談できます💬',
+        ob5_title: 'みんなで予定を作ることも',
+        ob5_desc: '"参加募集中"になっている予定には、\nあとからともだちも参加リクエストできます♩\n\n1人の"ひま"から、\nいつのまにか複数人の予定に\n育つこともあるよ◎',
+        ob6_title: '予定が決まったら',
+        ob6_desc: '予定が確定したら、\nあとはチャットで待ち合わせの相談をするだけ！\nこれで基本はバッチリ♩',
+      },
+      en: {
+        settings_title: 'Settings',
+        settings_theme: 'Theme',
+        settings_friend: 'Friend Settings',
+        settings_notification: 'Notifications',
+        settings_display: 'Display Settings',
+        settings_language: 'Language',
+        settings_howto: 'How to Use',
+        settings_privacy: 'Privacy Policy',
+        settings_delete_account: 'Delete Account',
+        theme_modal_title: 'Theme',
+        theme_tab_color: 'Theme Color',
+        theme_tab_header: 'Header & Icon',
+        theme_header_heading: 'Header',
+        theme_icon_heading: 'Icon',
+        theme_gradient_toggle: 'Use gradient',
+        theme_bg_pattern: 'Background pattern',
+        theme_text_color: 'Text color',
+        theme_font: 'Font',
+        friend_modal_title: 'Friend Settings',
+        friend_search_ph: '🔍 Search by name',
+        friend_sort_pinned: 'Favorites first',
+        friend_sort_name: 'By name',
+        friend_sort_newest: 'Newest first',
+        friend_sort_oldest: 'Oldest first',
+        notif_modal_title: 'Notifications',
+        notif_today: "Today's free time",
+        notif_tomorrow: "Tomorrow's free time",
+        notif_future: 'Future free time',
+        notif_invite: 'Invites',
+        notif_invite_confirm: 'Invite confirmed',
+        notif_friend: 'Friend activity',
+        notif_group: 'Group activity',
+        notif_message: 'Messages',
+        display_modal_title: 'Display Settings',
+        display_holiday: 'Show holiday names in calendar',
+        display_read: 'Show read receipts',
+        display_birthday: 'Show birthdays in calendar',
+        display_chat_grace: 'Extend chat storage (2 days → 7 days)',
+        privacy_modal_title: 'Privacy Policy',
+        language_modal_title: 'Language',
+        lang_name_ja: '日本語',
+        lang_name_en: 'English',
+        lang_name_ko: '한국어',
+        first_language_title: 'Choose your language',
+        home_confirmed: 'Confirmed plans',
+        home_recruiting: 'Open invites',
+        home_host_event: 'Host an event',
+        home_my_hima: 'Your free time',
+        home_friends_hima: "Friends' free time",
+        fg_friends: 'Friends',
+        fg_add_friend: 'Add friend',
+        fg_search_name_ph: 'Search by name...',
+        fg_batch_invite: 'Invite multiple',
+        fg_batch_invite_send: 'Invite selected and start a message',
+        fg_groups: 'Groups',
+        fg_add_group: 'Add group',
+        fg_sort_custom: 'Custom order',
+        fg_reorder: 'Reorder',
+        cal_title: 'Calendar',
+        cal_bulk_export: 'Bulk apply',
+        cal_filter: 'Filter',
+        cal_add_hima_day: 'Add free time for this day',
+        cal_add_stamp: 'Add a personal plan (stamp)',
+        dow_sun: 'Su', dow_mon: 'Mo', dow_tue: 'Tu', dow_wed: 'We', dow_thu: 'Th', dow_fri: 'Fr', dow_sat: 'Sa',
+        hima_modal_title: "I'm free!",
+        hima_today: 'Today',
+        hima_tomorrow: 'Tomorrow',
+        hima_pick_date: 'Pick a date',
+        hima_time_label: 'Time',
+        hima_optional: 'Optional!',
+        hima_all_day: 'All day',
+        hima_time_freeform_ph: 'e.g. After work / Afternoon to evening',
+        hima_place_label: 'Where?',
+        hima_place_ph: 'e.g. Shinjuku / Shibuya',
+        hima_memo_label: 'What to do?',
+        hima_memo_ph: 'e.g. Dinner / Shopping / Movie',
+        hima_scope_label: 'Who can see this',
+        hima_scope_hint: 'Visible to all friends if not selected',
+        hima_scope_all: 'Visible to everyone',
+        hima_submit: 'Add free time',
+        hima_edit_title: 'Edit free time',
+        hima_date_label: 'Date',
+        cal_day_hima: "I'm free this day!",
+        common_cancel: 'Cancel',
+        common_save: 'Save',
+        common_close: 'Close',
+        common_delete: 'Delete',
+        common_confirm: 'Confirm',
+        common_decline: 'Decline',
+        common_block: 'Block',
+        common_send: 'Send',
+        common_edit: 'Edit',
+        common_edit_name: 'Edit display name',
+        common_delete_friend: 'Remove friend',
+        common_premium: 'Premium',
+        common_scope_prefix: 'Visible to: ',
+        ob_skip: 'Skip',
+        ob_finish: 'Done',
+        ob1_title: '<span class="onboarding-title-big">Pukan</span><span class="onboarding-title-small">is...</span>',
+        ob1_desc: 'A floating bit of free time —\nthat\'s where "Pukan" comes from.\n\nStaying in touch, made easier.\n\nLet your free time float up\nand share it with friends ♩',
+        ob2_title: 'Start by adding a free moment',
+        ob2_desc: 'Add your "free time" from here ♩\n"I\'m free right now" or "want lunch with someone tomorrow" — whenever it comes to mind!\n\nKeep it vague, or set exact times —\nwhatever you like ....💭\n\nWhat you add is shared with your friends ♩',
+        ob3_title: 'Choose who can see it',
+        ob3_desc: 'When you add free time,\nyou can choose who sees it ♩\n\nShare with just close friends, or a specific group —\nkeeping it low-key is fine too!\n\nIf you don\'t choose,\nit\'s shared with all your friends ♩',
+        ob4_title: 'Check your friends\' free time',
+        ob4_desc: 'Take a look at what your friends and groups are up to ♩\n\nInvite them when you see their free time,\nor chat about the details 💬',
+        ob5_title: 'Plans can grow together',
+        ob5_desc: 'Plans marked "open invite" can get\njoin requests from friends later on ♩\n\nOne person\'s free time can\ngrow into a plan for\nseveral people before you know it ◎',
+        ob6_title: 'Once a plan is set',
+        ob6_desc: 'Once a plan is confirmed,\njust chat to sort out where to meet!\nThat covers the basics ♩',
+      },
+      ko: {
+        settings_title: '설정',
+        settings_theme: '테마',
+        settings_friend: '친구 설정',
+        settings_notification: '알림 설정',
+        settings_display: '화면 설정',
+        settings_language: '언어',
+        settings_howto: '사용법 보기',
+        settings_privacy: '개인정보 처리방침',
+        settings_delete_account: '탈퇴·계정 삭제',
+        theme_modal_title: '테마',
+        theme_tab_color: '테마 색상',
+        theme_tab_header: '헤더·아이콘',
+        theme_header_heading: '헤더',
+        theme_icon_heading: '아이콘',
+        theme_gradient_toggle: '그라데이션으로 하기',
+        theme_bg_pattern: '배경 패턴',
+        theme_text_color: '글자 색',
+        theme_font: '글꼴',
+        friend_modal_title: '친구 설정',
+        friend_search_ph: '🔍 이름으로 검색',
+        friend_sort_pinned: '즐겨찾기순',
+        friend_sort_name: '이름순',
+        friend_sort_newest: '최근 등록순',
+        friend_sort_oldest: '오래된 등록순',
+        notif_modal_title: '알림 설정',
+        notif_today: '오늘의 히마',
+        notif_tomorrow: '내일의 히마',
+        notif_future: '다가오는 히마',
+        notif_invite: '초대',
+        notif_invite_confirm: '초대 확정',
+        notif_friend: '친구 관련',
+        notif_group: '그룹 관련',
+        notif_message: '메시지',
+        display_modal_title: '화면 설정',
+        display_holiday: '달력에 공휴일 이름 표시',
+        display_read: '읽음 표시 보기',
+        display_birthday: '달력에 생일 표시',
+        display_chat_grace: '채팅 보관 기간 연장 (2일→7일)',
+        privacy_modal_title: '개인정보 처리방침',
+        language_modal_title: '언어',
+        lang_name_ja: '日本語',
+        lang_name_en: 'English',
+        lang_name_ko: '한국어',
+        first_language_title: '언어를 선택해 주세요',
+        home_confirmed: '확정된 일정',
+        home_recruiting: '모집 중인 초대',
+        home_host_event: '이벤트 개최하기',
+        home_my_hima: '나의 히마',
+        home_friends_hima: '친구들의 히마',
+        fg_friends: '친구',
+        fg_add_friend: '친구 추가',
+        fg_search_name_ph: '이름으로 검색...',
+        fg_batch_invite: '한번에 초대',
+        fg_batch_invite_send: '선택한 사람을 초대하고 메시지 시작',
+        fg_groups: '그룹',
+        fg_add_group: '그룹 추가',
+        fg_sort_custom: '사용자 지정 순서',
+        fg_reorder: '순서 변경',
+        cal_title: '히마 캘린더',
+        cal_bulk_export: '일괄 반영',
+        cal_filter: '필터',
+        cal_add_hima_day: '이 날의 히마 추가',
+        cal_add_stamp: '개인 일정(스탬프) 추가',
+        dow_sun: '일', dow_mon: '월', dow_tue: '화', dow_wed: '수', dow_thu: '목', dow_fri: '금', dow_sat: '토',
+        hima_modal_title: '히마!',
+        hima_today: '오늘',
+        hima_tomorrow: '내일',
+        hima_pick_date: '날짜 선택',
+        hima_time_label: '시간',
+        hima_optional: '입력 안 해도 OK!',
+        hima_all_day: '종일',
+        hima_time_freeform_ph: '예: 퇴근 후 / 점심부터 저녁까지 등',
+        hima_place_label: '어디서?',
+        hima_place_ph: '신주쿠 / 시부야 / 도쿄 시내 등',
+        hima_memo_label: '뭐 하고 싶어?',
+        hima_memo_ph: '밥 먹기 / 쇼핑 / 영화 보기 등',
+        hima_scope_label: '히마 정보를 보여줄 친구',
+        hima_scope_hint: '선택하지 않으면 모든 친구에게 공개',
+        hima_scope_all: '전체 공개',
+        hima_submit: '히마 추가',
+        hima_edit_title: '히마 정보 편집',
+        hima_date_label: '날짜',
+        cal_day_hima: '이 날 히마!',
+        common_cancel: '취소',
+        common_save: '저장',
+        common_close: '닫기',
+        common_delete: '삭제',
+        common_confirm: '확정',
+        common_decline: '거절',
+        common_block: '차단',
+        common_send: '전송',
+        common_edit: '편집',
+        common_edit_name: '표시 이름 편집',
+        common_delete_friend: '친구 삭제',
+        common_premium: '프리미엄',
+        common_scope_prefix: '공개 범위: ',
+        ob_skip: '건너뛰기',
+        ob_finish: '완료',
+        ob1_title: '<span class="onboarding-title-big">푸칸</span><span class="onboarding-title-small">이란....</span>',
+        ob1_desc: '둥실 떠오른 "시간"\n그래서 태어난 이름 "푸칸".\n\n더 가볍게, 더 편하게 이어져요.\n\n당신의 한가한 시간을\n둥실 띄워서 공유해 보세요 ♩',
+        ob2_title: '먼저 한가한 타이밍을 추가해요',
+        ob2_desc: '여기서부터 당신의 "히마(한가함)"를 추가해 보세요 ♩\n"지금 한가하다~" "내일 누군가랑 점심 먹고 싶다~" 등\n생각났을 때 바로 OK!\n\n대충 애매하게 적어도, 시간을 딱 정해도\n원하는 대로....💭\n\n추가한 "히마"는 친구에게 공유돼요 ♩',
+        ob3_title: '보여줄 상대도 고를 수 있어요',
+        ob3_desc: '"히마"를 추가할 때\n공개 범위를 고를 수 있어요 ♩\n\n친한 친구에게만, 특정 그룹에게만\n이렇게 살짝 공유하는 것도 OK!\n\n아무것도 고르지 않으면\n모든 친구에게 공개돼요 ♩',
+        ob4_title: '친구의 "히마"를 확인해요',
+        ob4_desc: '친구·그룹 모두의 "히마"를 살펴보세요 ♩\n\n친구의 "히마"를 보고 초대해보거나\n궁금한 건 채팅으로 상담할 수 있어요 💬',
+        ob5_title: '다같이 약속을 만들 수도 있어요',
+        ob5_desc: '"모집 중"인 약속에는\n나중에 친구도 참가 요청을 할 수 있어요 ♩\n\n한 사람의 "히마"에서 시작해\n어느새 여러 명의 약속으로\n커지는 경우도 있어요 ◎',
+        ob6_title: '약속이 정해지면',
+        ob6_desc: '약속이 확정되면\n이제 채팅으로 만날 장소만 정하면 끝!\n이걸로 기본은 완벽해요 ♩',
+      }
+    };
+
+    function t(key) {
+      const lang = appData.language || 'ja';
+      return (translations[lang] && translations[lang][key]) || translations.ja[key] || key;
+    }
+
+    function applyLanguage() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t(el.getAttribute('data-i18n'));
+      });
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        el.placeholder = t(el.getAttribute('data-i18n-ph'));
+      });
+      document.documentElement.lang = appData.language || 'ja';
+    }
+
+    function setLanguage(lang, isFirstRun) {
+      appData.language = lang;
+      appData.languageChosen = true;
+      saveData();
+      applyLanguage();
+      if (isFirstRun) {
+        closeModal('first-language-modal');
+        maybeStartOnboarding();
+      } else {
+        closeModal('language-modal');
+      }
+    }
+
+    function maybeShowFirstLanguagePicker() {
+      if (appData.languageChosen) {
+        maybeStartOnboarding();
+        return;
+      }
+      const modal = document.getElementById('first-language-modal');
+      if (modal) {
+        modal.classList.add('active');
+      } else {
+        maybeStartOnboarding();
+      }
     }
 
     // データの保存と読み込み
@@ -5992,7 +6410,7 @@
           <div class="poll-card">
             <div class="poll-card-title">
               <span>📊 ${poll.title || (group ? group.name + 'の候補日アンケート' : '候補日アンケート')}</span>
-              <button class="poll-delete-btn" onclick="deletePoll('${poll.id}')">削除</button>
+              <button class="poll-delete-btn" onclick="deletePoll('${poll.id}')">${t('common_delete')}</button>
             </div>
             ${rowsHtml}
           </div>
@@ -6236,7 +6654,7 @@
       container.innerHTML = '<h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">この日の個人の予定</h4>' + items.map(s => `
         <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-color); border-radius:10px; padding:8px 12px; margin-bottom:6px;">
           <span style="font-size:14px;">${renderStampEmojiHtml(s.emoji, 19)} ${s.time}</span>
-          <button style="background:none; border:none; color:var(--text-sub); font-size:12px; cursor:pointer;" onclick="deletePersonalStamp('${s.id}')">削除</button>
+          <button style="background:none; border:none; color:var(--text-sub); font-size:12px; cursor:pointer;" onclick="deletePersonalStamp('${s.id}')">${t('common_delete')}</button>
         </div>
       `).join('');
     }
@@ -6540,44 +6958,18 @@
 
     // 初回チュートリアル：6ステップで基本操作を案内する。
     // targetSelector があるステップは、実際の画面上のボタンに赤枠を当てて説明する。
-    const onboardingSteps = [
-      {
-        icon: '☁️',
-        title: '<span class="onboarding-title-big">ぷかん</span><span class="onboarding-title-small">とは、、、</span>',
-        desc: '"ぷかぷか"と浮かんだ"じかん"\nそこから生まれた「ぷかん」。\n\nもっと気軽に、つながりを。\n\nあなたのひまな時間、\nぷかんっと浮かせて共有しよう♩',
-        targetSelector: null
-      },
-      {
-        icon: '✨',
-        title: 'まずはひまなタイミングを追加',
-        desc: 'ここから、あなたの"ひま"を追加してみよう♩\n「いまひまだな〜」「あしただれかとランチ行きたいな〜」など、思いついたタイミングでOK！\n\nざっくり曖昧でも、日時をきっちり決めても、\n好きなように....💭\n\n追加した"ひま"は、ともだちに共有されるよ♩',
-        targetSelector: '.nav-btn-fab'
-      },
-      {
-        icon: '🔒',
-        title: '見せる相手も選べる',
-        desc: '"ひま"を追加するとき、\n公開範囲を選べます♩\n\n仲良しの友達だけ、特定のグループだけ、\nそんな風にこっそり共有するのもOK！\n\n何も選ばなければ、\nともだち全員に公開されるよ♩',
-        targetSelector: null
-      },
-      {
-        icon: '💌',
-        title: 'ともだちの"ひま"をチェック',
-        desc: 'ともだち・グループのみんなの"ひま"を見てみよう♩\n\nともだちの"ひま"を見て誘ってみたり、\n気になることはチャットで相談できます💬',
-        targetSelector: 'button[onclick="switchTab(\'friendsgroups\')"]'
-      },
-      {
-        icon: '🫶',
-        title: 'みんなで予定を作ることも',
-        desc: '"参加募集中"になっている予定には、\nあとからともだちも参加リクエストできます♩\n\n1人の"ひま"から、\nいつのまにか複数人の予定に\n育つこともあるよ◎',
-        targetSelector: null
-      },
-      {
-        icon: '🎉',
-        title: '予定が決まったら',
-        desc: '予定が確定したら、\nあとはチャットで待ち合わせの相談をするだけ！\nこれで基本はバッチリ♩',
-        targetSelector: null
-      }
+    // アイコンと対象ボタン（ハイライト位置）は言語によらず共通。文言だけ言語ごとに translations から取得する。
+    const onboardingMeta = [
+      { icon: '☁️', titleKey: 'ob1_title', descKey: 'ob1_desc', targetSelector: null },
+      { icon: '✨', titleKey: 'ob2_title', descKey: 'ob2_desc', targetSelector: '.nav-btn-fab' },
+      { icon: '🔒', titleKey: 'ob3_title', descKey: 'ob3_desc', targetSelector: null },
+      { icon: '💌', titleKey: 'ob4_title', descKey: 'ob4_desc', targetSelector: 'button[onclick="switchTab(\'friendsgroups\')"]' },
+      { icon: '🫶', titleKey: 'ob5_title', descKey: 'ob5_desc', targetSelector: null },
+      { icon: '🎉', titleKey: 'ob6_title', descKey: 'ob6_desc', targetSelector: null }
     ];
+    function getOnboardingSteps() {
+      return onboardingMeta.map(m => ({ icon: m.icon, title: t(m.titleKey), desc: t(m.descKey), targetSelector: m.targetSelector }));
+    }
     let currentOnboardingStep = 0;
 
     // 初めてアプリを開いた時だけ、自動でチュートリアルを始める
@@ -6597,8 +6989,9 @@
     }
 
     function renderOnboardingStep() {
-      const step = onboardingSteps[currentOnboardingStep];
-      const isLast = currentOnboardingStep === onboardingSteps.length - 1;
+      const steps = getOnboardingSteps();
+      const step = steps[currentOnboardingStep];
+      const isLast = currentOnboardingStep === steps.length - 1;
 
       document.getElementById('onboarding-icon').textContent = step.icon;
       // titleは基本プレーンテキストだが、「ぷかん(大きい文字)とは...(普通サイズ)」のように
@@ -6606,13 +6999,13 @@
       // （内容は全てこちらで用意した固定文言のみなので、ユーザー入力が混ざる心配は無い）
       document.getElementById('onboarding-title').innerHTML = step.title;
       document.getElementById('onboarding-desc').textContent = step.desc;
-      document.getElementById('onboarding-next-btn').textContent = isLast ? 'おわり' : '▶';
+      document.getElementById('onboarding-next-btn').textContent = isLast ? t('ob_finish') : '▶';
       // 1枚目では戻る場所が無いので非表示、2枚目以降は表示（スキップして進んだ人が見返せるように）
       document.getElementById('onboarding-back-btn').textContent = '◀';
       document.getElementById('onboarding-back-btn').style.display = currentOnboardingStep === 0 ? 'none' : '';
 
       const dotsEl = document.getElementById('onboarding-dots');
-      dotsEl.innerHTML = onboardingSteps.map((s, i) =>
+      dotsEl.innerHTML = steps.map((s, i) =>
         `<span class="${i === currentOnboardingStep ? 'on' : ''}"></span>`
       ).join('');
 
@@ -6643,7 +7036,7 @@
     }
 
     function advanceOnboarding() {
-      if (currentOnboardingStep < onboardingSteps.length - 1) {
+      if (currentOnboardingStep < getOnboardingSteps().length - 1) {
         currentOnboardingStep++;
         renderOnboardingStep();
       } else {
@@ -7444,7 +7837,7 @@
     // 公開範囲オブジェクトから人間が読める文字列を生成（本人用）
     function getScopeSummaryText(scope) {
       if (!scope || ((!scope.friends || scope.friends.length === 0) && (!scope.groups || scope.groups.length === 0))) {
-        return '全員に公開';
+        return t('hima_scope_all');
       }
       let parts = [];
       if (scope.groups && scope.groups.length > 0) {
@@ -7514,12 +7907,12 @@
           ${confirmedHtml}
           ${pendingHtml}
           <div style="display:flex; gap:6px; margin-top:8px;">
-            <button class="btn-primary" style="flex:1; margin-top:0; padding:10px; font-size:14px;" onclick="confirmMyHimaInvite('${item.id}')">確定</button>
+            <button class="btn-primary" style="flex:1; margin-top:0; padding:10px; font-size:14px;" onclick="confirmMyHimaInvite('${item.id}')">${t('common_confirm')}</button>
             <button class="btn-icon-chat" style="padding:10px 14px; display:flex; align-items:center; justify-content:center;" onclick="event.stopPropagation(); openChat('${friend.id}')">${ICON_MAIL}</button>
-            <button class="btn-cancel-plan-sm" style="padding:10px 12px; font-size:14px;" onclick="promptDeclineMyHimaInvite('${item.id}')">断る</button>
+            <button class="btn-cancel-plan-sm" style="padding:10px 12px; font-size:14px;" onclick="promptDeclineMyHimaInvite('${item.id}')">${t('common_decline')}</button>
           </div>
           <div class="my-hima-scope-display">
-            <span>公開範囲: ${getScopeSummaryText(item.scope)}</span>
+            <span>${t('common_scope_prefix')}${getScopeSummaryText(item.scope)}</span>
           </div>
         `;
         return card;
@@ -7531,14 +7924,14 @@
             <span class="my-hima-badge">${formatDateDisp(item.date)}</span>
           </div>
           <div style="display:flex; gap:6px;">
-            <button class="btn-secondary-sm" onclick="openEditHimaModal('${item.id}')">編集</button>
-            <button class="btn-cancel-plan-sm" onclick="promptCancelMyHima('${item.id}')">削除</button>
+            <button class="btn-secondary-sm" onclick="openEditHimaModal('${item.id}')">${t('common_edit')}</button>
+            <button class="btn-cancel-plan-sm" onclick="promptCancelMyHima('${item.id}')">${t('common_delete')}</button>
           </div>
         </div>
         ${detailsHtml}
         ${overlapWarningHtml}
         <div class="my-hima-scope-display">
-          <span>公開範囲: ${getScopeSummaryText(item.scope)}</span>
+          <span>${t('common_scope_prefix')}${getScopeSummaryText(item.scope)}</span>
         </div>
       `;
       return card;
@@ -8301,7 +8694,7 @@
         stampsList.innerHTML = stampsOnDay.map(s => `
           <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-color); border-radius:10px; padding:8px 12px; margin-bottom:8px;">
             <span style="font-size:14px; font-weight:700;">${renderStampEmojiHtml(s.emoji, 19)} ${s.time}</span>
-            <button style="background:none; border:none; color:var(--text-sub); font-size:12px; cursor:pointer;" onclick="deletePersonalStamp('${s.id}'); renderDayInlinePreviewContent('${dateStr}');">削除</button>
+            <button style="background:none; border:none; color:var(--text-sub); font-size:12px; cursor:pointer;" onclick="deletePersonalStamp('${s.id}'); renderDayInlinePreviewContent('${dateStr}');">${t('common_delete')}</button>
           </div>
         `).join('');
       }
@@ -9290,17 +9683,18 @@
       const editSummaryTextEl = document.getElementById('edit-hima-scope-summary-text');
       const daySummaryTextEl = document.getElementById('day-hima-scope-summary-text');
       const text = getScopeSummaryText(tempSelectedScope);
+      const isDefault = !tempSelectedScope || ((!tempSelectedScope.friends || tempSelectedScope.friends.length === 0) && (!tempSelectedScope.groups || tempSelectedScope.groups.length === 0));
       if (summaryTextEl) {
         summaryTextEl.textContent = text;
-        summaryTextEl.style.color = text === '全員に公開' ? 'var(--text-sub)' : 'var(--theme-color)';
+        summaryTextEl.style.color = isDefault ? 'var(--text-sub)' : 'var(--theme-color)';
       }
       if (editSummaryTextEl) {
         editSummaryTextEl.textContent = text;
-        editSummaryTextEl.style.color = text === '全員に公開' ? 'var(--text-sub)' : 'var(--theme-color)';
+        editSummaryTextEl.style.color = isDefault ? 'var(--text-sub)' : 'var(--theme-color)';
       }
       if (daySummaryTextEl) {
         daySummaryTextEl.textContent = text;
-        daySummaryTextEl.style.color = text === '全員に公開' ? 'var(--text-sub)' : 'var(--theme-color)';
+        daySummaryTextEl.style.color = isDefault ? 'var(--text-sub)' : 'var(--theme-color)';
       }
     }
 
@@ -11389,9 +11783,9 @@
               </div>
             </div>
             <div class="friend-setting-actions">
-              <button class="btn-link-action" onclick="openFriendEditNameModal('${f.id}')">表示名編集</button>
-              <button class="btn-link-action" style="color:#E53935;" onclick="promptBlockFriend('${f.id}')">ブロック</button>
-              <button class="btn-link-action" style="color:#E53935;" onclick="promptDeleteFriend('${f.id}')">ともだち削除</button>
+              <button class="btn-link-action" onclick="openFriendEditNameModal('${f.id}')">${t('common_edit_name')}</button>
+              <button class="btn-link-action" style="color:#E53935;" onclick="promptBlockFriend('${f.id}')">${t('common_block')}</button>
+              <button class="btn-link-action" style="color:#E53935;" onclick="promptDeleteFriend('${f.id}')">${t('common_delete_friend')}</button>
             </div>
           </div>
         `;
