@@ -2294,6 +2294,36 @@
       font-weight: 700;
     }
 
+    .app-icon-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid transparent;
+      transition: transform 0.1s;
+    }
+
+    .sky-header-option.selected .app-icon-thumb {
+      border-color: var(--theme-color);
+      transform: scale(1.04);
+    }
+
+    .app-icon-thumb.locked {
+      position: relative;
+    }
+    .app-icon-thumb.locked::after {
+      content: "🔒";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: rgba(255,255,255,0.55);
+      border-radius: 18px;
+    }
+
     .sky-header-thumb.locked {
       position: relative;
     }
@@ -3198,11 +3228,6 @@
       <div id="page-mypage" class="page">
         <h2 class="section-title" style="margin-bottom: 12px;">設定</h2>
         
-        <div class="setting-item-btn" onclick="openProfileModal()">
-          <span>プロフィール編集</span>
-          <span style="color: #CCC;">&gt;</span>
-        </div>
-
         <div class="setting-item-btn" onclick="openThemeModal()">
           <span>テーマ</span>
           <span style="color: #CCC;">&gt;</span>
@@ -4155,7 +4180,7 @@
           <button class="btn-secondary-sm" onclick="saveMyCustomId()">保存</button>
         </div>
         <div style="display:flex; align-items:center; gap:10px; margin-top: 4px;">
-          <p style="font-size: 11px; color: var(--text-sub); margin: 0;">半角英数字と _ で3〜20文字。他の人と被らなければ好きな文字列にできるよ</p>
+          <p style="font-size: 11px; color: var(--text-sub); margin: 0;">半角英数字と - _ . で3〜20文字。他の人と被らなければ好きな文字列にできるよ</p>
           <button class="btn-secondary-sm" style="flex-shrink:0; padding:4px 8px; font-size:11px;" onclick="copyMyInviteCode()">📋 コピー</button>
         </div>
         <p id="profile-custom-id-msg" style="display:none; font-size: 12px; margin-top: 6px;"></p>
@@ -4206,6 +4231,10 @@
         <p style="font-size: 12px; color: var(--text-sub); margin: 18px 0 12px;">選ぶと、ヘッダーの絵とあわせてテーマカラーも自動でその雰囲気に変わるよ♩</p>
         <div class="sky-header-grid" id="sky-header-picker"></div>
       </div>
+
+      <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;">ホーム画面のアイコン</h3>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">「ホーム画面に追加」したときのアイコンだけを変えられるよ(ヘッダーの絵とは別)</p>
+      <div class="sky-header-grid" id="app-icon-picker"></div>
 
       <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 14px;">文字の色</h3>
       <div class="text-color-chip-grid" id="text-color-picker"></div>
@@ -4735,6 +4764,7 @@
         checkTodayScheduleReminders();
         applyThemeColor(appData.themeColor, appData.themeBicolorWith || null);
         applySkyHeaderImage(appData.skyHeaderId || 1);
+        applyAppIcon(appData.appIconId || appData.skyHeaderId || 1);
         applyThemeModeVisuals(appData.themeMode);
         applyTextColor(appData.textColor);
         applyFont(appData.fontId);
@@ -5177,27 +5207,21 @@
       { id: 3, label: 'ムーンナイト', color: '#7B61FF', img: SKY_HEADER_IMG_3, icon: APP_ICON_IMG_3 },
       { id: 4, label: 'サニー', color: '#FFC933', img: SKY_HEADER_IMG_4, icon: APP_ICON_IMG_4 },
       { id: 5, label: 'レインボー', color: '#EE9FFE', img: SKY_HEADER_IMG_5, icon: APP_ICON_IMG_5 },
-      { id: 6, label: 'プレーンブルー', color: '#33B5FF', img: SKY_HEADER_IMG_6, icon: APP_ICON_IMG_6 },
-      { id: 7, label: 'ぷかんマーク(ピンク)', color: '#FF8FC0', img: SKY_HEADER_IMG_7 },
-      { id: 8, label: 'ぷかんマーク(ブルー)', color: '#4FB6FF', img: SKY_HEADER_IMG_8 },
-      { id: 9, label: 'ぷかんマーク(グレー)', color: '#9AA0A6', img: SKY_HEADER_IMG_9 },
-      { id: 10, label: 'ぷかんロゴ(ピンク)', color: '#FF8FC0', img: SKY_HEADER_IMG_10 },
-      { id: 11, label: 'ぷかんロゴ(ブルー)', color: '#4FB6FF', img: SKY_HEADER_IMG_11 },
-      { id: 12, label: 'ぷかんロゴ(グレー)', color: '#9AA0A6', img: SKY_HEADER_IMG_12 }
+      { id: 6, label: 'プレーンブルー', color: '#33B5FF', img: SKY_HEADER_IMG_6, icon: APP_ICON_IMG_6 }
     ];
 
     // ヘッダーの背景画像だけを差し替える（色はapplyThemeColor側で担当）
+    // ※ホーム画面アイコンとは別選択になったので、ここではアイコンは変えない。
     function applySkyHeaderImage(id) {
       const option = skyHeaderOptions.find(o => o.id === id) || skyHeaderOptions[0];
       document.documentElement.style.setProperty('--sky-header-img', `url("data:image/png;base64,${option.img}")`);
-      applyAppIcon(option.id);
     }
 
-    // ホーム画面に追加したときのアイコン（apple-touch-icon）も、空の背景と連動して切り替える
+    // ホーム画面に追加したときのアイコン（apple-touch-icon）。「空の背景」とは別に、専用の選択肢から選ぶ。
     // ※ iOSの「ホーム画面に追加」はdata:URIのアイコンを正しく読み込めないことがあるため、
-    //   実ファイル（pukan-icon-1.png〜6.png、index.htmlと同じ場所に置く）を参照する形にしている。
-    function applyAppIcon(skyId) {
-      const href = `pukan-icon-${skyId}.png`;
+    //   実ファイル（pukan-icon-1.png〜12.png、index.htmlと同じ場所に置く）を参照する形にしている。
+    function applyAppIcon(iconId) {
+      const href = `pukan-icon-${iconId}.png`;
       ['apple-touch-icon', 'icon'].forEach(rel => {
         let link = document.querySelector(`link[rel="${rel}"]`);
         if (!link) {
@@ -5209,15 +5233,70 @@
       });
     }
 
+    // ホーム画面アイコンの選択肢（12種類）。1〜6は元の「空の背景」各テーマとおそろいのデザイン、
+    // 7〜12はあとから追加した「ぷかんマーク」「ぷかんロゴ」の新デザイン。
+    const appIconOptions = [
+      { id: 1, label: 'スカイブルー' },
+      { id: 2, label: 'サンセット' },
+      { id: 3, label: 'ムーンナイト' },
+      { id: 4, label: 'サニー' },
+      { id: 5, label: 'レインボー' },
+      { id: 6, label: 'プレーンブルー' },
+      { id: 7, label: 'ぷかんマーク(ピンク)' },
+      { id: 8, label: 'ぷかんマーク(ブルー)' },
+      { id: 9, label: 'ぷかんマーク(グレー)' },
+      { id: 10, label: 'ぷかんロゴ(ピンク)' },
+      { id: 11, label: 'ぷかんロゴ(ブルー)' },
+      { id: 12, label: 'ぷかんロゴ(グレー)' }
+    ];
+
     // 空の背景は無料で「スカイブルー」のみ、残り5種類は課金で解放
     const FREE_SKY_HEADER_ID = 1;
+    // ホーム画面アイコンも同様に、1番のみ無料
+    const FREE_APP_ICON_IDS = [1, 8, 11]; // スカイブルー（元のロゴ）／ぷかんマーク(ブルー)／ぷかんロゴ(ブルー) の3つだけ無料
 
-    // 空の背景を選んだときの本体：背景画像とアイコンを変えつつ、その雰囲気に合うテーマカラーも自動で適用する
+    // 空の背景を選んだときの本体：背景画像を変えつつ、その雰囲気に合うテーマカラーも自動で適用する
     function applySkyHeader(id) {
       const option = skyHeaderOptions.find(o => o.id === id) || skyHeaderOptions[0];
       appData.skyHeaderId = option.id;
       applySkyHeaderImage(option.id);
       applyThemeColor(option.color); // 内部でsaveData()される
+    }
+
+    // ホーム画面アイコンを選んだときの本体
+    function applyAppIconChoice(id) {
+      const option = appIconOptions.find(o => o.id === id) || appIconOptions[0];
+      appData.appIconId = option.id;
+      applyAppIcon(option.id);
+      saveData();
+    }
+
+    function renderAppIconPicker() {
+      const container = document.getElementById('app-icon-picker');
+      if (!container) return;
+      container.innerHTML = '';
+      const currentId = appData.appIconId || appData.skyHeaderId || 1;
+      appIconOptions.forEach(option => {
+        const isLocked = !appData.isPremium && !FREE_APP_ICON_IDS.includes(option.id);
+        const item = document.createElement('div');
+        item.className = 'sky-header-option' + (currentId === option.id ? ' selected' : '');
+        item.innerHTML = `
+          <div class="app-icon-thumb${isLocked ? ' locked' : ''}" style="background-image:url('pukan-icon-${option.id}.png');"></div>
+          <span>${option.label}</span>
+        `;
+        item.onclick = () => {
+          if (isLocked) {
+            requirePremium('アプリアイコンデザイン', () => {
+              applyAppIconChoice(option.id);
+              renderAppIconPicker();
+            });
+            return;
+          }
+          applyAppIconChoice(option.id);
+          renderAppIconPicker();
+        };
+        container.appendChild(item);
+      });
     }
 
     function renderSkyHeaderPicker() {
@@ -5365,6 +5444,7 @@
       renderColorPicker2();
       renderBgPatternPicker();
       renderSkyHeaderPicker();
+      renderAppIconPicker();
       renderTextColorPicker();
       renderFontPicker();
     }
@@ -10395,8 +10475,8 @@
         showMsg('いまはIDを変更できないみたい（ログイン状態を確認してね）', false);
         return;
       }
-      if (!/^[a-zA-Z0-9_]{3,20}$/.test(newId)) {
-        showMsg('半角英数字と _ (アンダースコア) で3〜20文字にしてね', false);
+      if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(newId)) {
+        showMsg('半角英数字と - _ . で3〜20文字にしてね', false);
         return;
       }
 
@@ -10408,6 +10488,10 @@
         refreshMyInviteCodeDisplay();
       } else if (result.reason === 'taken') {
         showMsg('そのID、もう使われてるみたい。別のID考えてみて！', false);
+      } else if (result.reason === 'not_logged_in') {
+        showMsg('ログインしてないとIDを変更できないよ（「ログインせずに見る」中は変更できません）', false);
+      } else if (result.reason === 'invalid') {
+        showMsg('半角英数字と - _ . で3〜20文字にしてね', false);
       } else {
         showMsg('保存できなかった…もう一度試してみてね', false);
       }
@@ -11804,7 +11888,7 @@
     // プロフィール画面から、自分のともだちIDを好きな文字列に変更する
     window.pukanSetMyCustomId = async function(newId) {
       const id = (newId || '').trim();
-      if (!/^[a-zA-Z0-9_]{3,20}$/.test(id)) return { ok: false, reason: 'invalid' };
+      if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(id)) return { ok: false, reason: 'invalid' };
       const currentUser = auth.currentUser;
       if (!currentUser) return { ok: false, reason: 'not_logged_in' };
 
