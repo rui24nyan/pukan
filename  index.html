@@ -4805,7 +4805,7 @@
       if (loginGateEl) loginGateEl.style.display = 'none';
 
       try {
-        loadData();
+        loadData(!!firebaseUser);
         // ログインしてきたGoogleアカウントの情報を、自分のプロフィールに軽く反映しておく
         // （本格的なFirestore連携は次のステップで行う。ここではまずログイン状態の確認だけ）
         if (firebaseUser) {
@@ -5127,11 +5127,37 @@
         notice_invite_accepted: '{name}が誘いにのったよ！予定が確定したよ',
         notice_invite_declined: '{name}が誘いを見送りました',
         notice_friend_free: '{name}が{date}ひまだよ！{place}',
+        notice_friend_account_deleted: '{name}が退会しました。ともだちリストなどから自動的に削除されました。',
         notice_plan_confirmed: '{name}との予定が確定しました！',
         notice_group_invite_accepted: '{name}がグループの誘いにのったよ！',
         cal_day_info_title: '{m}月{d}日のひま情報',
         cal_day_info_empty: 'この日のひま情報はありません',
         notice_modal_title: '通知',
+        home_empty_mytext: 'まだ「ひま」を登録してないよ。<br>ひまな日を登録して、ともだちに伝えてみよう！',
+        home_empty_add_btn: 'ひまを登録する',
+        chat_empty_search: '当てはまるチャットが見つからなかったよ',
+        chat_empty_history: 'まだチャットの履歴が無いよ',
+        friend_search_empty: '該当するともだちが見つかりません。',
+        friends_empty_text: 'まだともだちがいないみたい。<br>まずはともだちを追加してみよう！',
+        group_search_empty: '該当するグループが見つかりません。',
+        groups_empty_nofriends: 'グループがまだ無いよ。<br>まずはともだちを追加してから作ってみよう！',
+        groups_empty_text: 'グループがまだ無いよ。<br>気の合う仲間でグループを作ってみよう！',
+        groups_create_btn: 'グループを作る',
+        ics_saved_alert: '「{filename}」を保存したよ。そのままカレンダーアプリへの追加画面が開かなければ、ダウンロード一覧からタップして開いてね。{countText}が追加できるよ。',
+        ics_count_multi: '{count}件の予定',
+        ics_count_single: '予定',
+        ics_copied_alert: 'この環境では直接ファイル保存ができなかったから、代わりにカレンダーの内容をコピーしておいたよ。メモアプリなどに貼り付けて、拡張子を.icsにして保存してね。',
+        ics_failed_alert: 'ファイルの保存に失敗しちゃった…ごめんね、もう一度試してみて！',
+        ics_no_date_alert: '日付が未定の予定はカレンダーに追加できないよ。日付が決まったらもう一度試してね。',
+        ics_nothing_new_alert: '新しくエクスポートできる予定はなかったよ。もう反映済みかも！',
+        ics_nothing_alert: 'カレンダーに出せる予定がまだないよ。',
+        event_need_two_dates_alert: '候補日を2つ以上選んでね',
+        favplace_need_place_alert: '場所を入力してから☆を押してね',
+        group_need_name_alert: 'グループ名を入力してね！',
+        account_deleted_alert: '退会したよ。今まで使ってくれてありがとう！',
+        plan_confirmed_alert: '{date}で予定を確定したよ！',
+        event_hosted_alert: '「{title}」を開催したよ！選んだ公開範囲の人たちが参加リクエストを送れるようになるよ。',
+        date_decided_alert: '{date}に決定したよ！',
       },
       en: {
         settings_title: 'Settings',
@@ -5311,11 +5337,37 @@
         notice_invite_accepted: '{name} accepted the invite! The plan is confirmed',
         notice_invite_declined: '{name} declined the invite',
         notice_friend_free: '{name} is free {date}!{place}',
+        notice_friend_account_deleted: '{name} has deleted their account and was automatically removed from your friends list.',
         notice_plan_confirmed: 'Your plan with {name} is confirmed!',
         notice_group_invite_accepted: '{name} accepted the group invite!',
         cal_day_info_title: 'Free time on {m}/{d}',
         cal_day_info_empty: 'No free-time info for this day',
         notice_modal_title: 'Notifications',
+        home_empty_mytext: "You haven't added any free time yet.<br>Add a free day and let your friends know!",
+        home_empty_add_btn: 'Add free time',
+        chat_empty_search: 'No matching chats found',
+        chat_empty_history: 'No chat history yet',
+        friend_search_empty: 'No matching friends found.',
+        friends_empty_text: "You don't have any friends yet.<br>Start by adding one!",
+        group_search_empty: 'No matching groups found.',
+        groups_empty_nofriends: "No groups yet.<br>Add a friend first, then make one!",
+        groups_empty_text: 'No groups yet.<br>Make one with friends you click with!',
+        groups_create_btn: 'Create group',
+        ics_saved_alert: 'Saved "{filename}". If the add-to-calendar screen doesn\'t open automatically, tap it from your downloads. {countText} can be added.',
+        ics_count_multi: '{count} plans',
+        ics_count_single: 'The plan',
+        ics_copied_alert: "This environment couldn't save the file directly, so the calendar details were copied instead. Paste them into a notes app and save with a .ics extension.",
+        ics_failed_alert: "Saving the file failed... sorry, please try again!",
+        ics_no_date_alert: "Plans without a set date can't be added to the calendar. Try again once the date is set.",
+        ics_nothing_new_alert: "There was nothing new to export — it might already be added!",
+        ics_nothing_alert: 'There are no plans to add to the calendar yet.',
+        event_need_two_dates_alert: 'Please choose two or more candidate dates',
+        favplace_need_place_alert: 'Please enter a place before tapping the star',
+        group_need_name_alert: 'Please enter a group name!',
+        account_deleted_alert: 'Account deleted. Thanks for using the app!',
+        plan_confirmed_alert: 'Confirmed the plan for {date}!',
+        event_hosted_alert: 'Hosted "{title}"! The people in the audience you picked can now send join requests.',
+        date_decided_alert: 'Decided on {date}!',
       },
       ko: {
         settings_title: '설정',
@@ -5495,11 +5547,37 @@
         notice_invite_accepted: '{name}님이 초대를 수락했어요! 약속이 확정됐어요',
         notice_invite_declined: '{name}님이 초대를 거절했어요',
         notice_friend_free: '{name}님이 {date} 히마예요!{place}',
+        notice_friend_account_deleted: '{name}님이 탈퇴해서 친구 목록 등에서 자동으로 삭제됐어요.',
         notice_plan_confirmed: '{name}님과의 약속이 확정됐어요!',
         notice_group_invite_accepted: '{name}님이 그룹 초대를 수락했어요!',
         cal_day_info_title: '{m}월 {d}일의 히마 정보',
         cal_day_info_empty: '이 날의 히마 정보가 없어요',
         notice_modal_title: '알림',
+        home_empty_mytext: '아직 "히마"를 등록하지 않았어요.<br>히마인 날을 등록해서 친구에게 알려보세요!',
+        home_empty_add_btn: '히마 등록하기',
+        chat_empty_search: '해당하는 채팅을 찾을 수 없어요',
+        chat_empty_history: '아직 채팅 기록이 없어요',
+        friend_search_empty: '해당하는 친구를 찾을 수 없어요.',
+        friends_empty_text: '아직 친구가 없는 것 같아요.<br>먼저 친구를 추가해보세요!',
+        group_search_empty: '해당하는 그룹을 찾을 수 없어요.',
+        groups_empty_nofriends: '아직 그룹이 없어요.<br>먼저 친구를 추가한 다음 만들어보세요!',
+        groups_empty_text: '아직 그룹이 없어요.<br>마음 맞는 친구들과 그룹을 만들어보세요!',
+        groups_create_btn: '그룹 만들기',
+        ics_saved_alert: '"{filename}"을(를) 저장했어요. 캘린더 앱 추가 화면이 자동으로 열리지 않으면, 다운로드 목록에서 탭해서 열어주세요. {countText}을(를) 추가할 수 있어요.',
+        ics_count_multi: '{count}건의 일정',
+        ics_count_single: '일정',
+        ics_copied_alert: '이 환경에서는 파일을 직접 저장할 수 없어서, 대신 캘린더 내용을 복사해뒀어요. 메모 앱 등에 붙여넣고 확장자를 .ics로 저장해주세요.',
+        ics_failed_alert: '파일 저장에 실패했어요... 미안해요, 다시 시도해주세요!',
+        ics_no_date_alert: '날짜가 미정인 일정은 캘린더에 추가할 수 없어요. 날짜가 정해지면 다시 시도해주세요.',
+        ics_nothing_new_alert: '새로 내보낼 수 있는 일정이 없었어요. 이미 반영됐을지도 몰라요!',
+        ics_nothing_alert: '캘린더에 낼 수 있는 일정이 아직 없어요.',
+        event_need_two_dates_alert: '후보 날짜를 2개 이상 선택해주세요',
+        favplace_need_place_alert: '장소를 입력한 후 별을 눌러주세요',
+        group_need_name_alert: '그룹 이름을 입력해주세요!',
+        account_deleted_alert: '탈퇴했어요. 그동안 이용해주셔서 감사했어요!',
+        plan_confirmed_alert: '{date}로 일정을 확정했어요!',
+        event_hosted_alert: '"{title}"을(를) 개최했어요! 선택한 공개 범위의 사람들이 참가 요청을 보낼 수 있게 됐어요.',
+        date_decided_alert: '{date}로 결정했어요!',
       }
     };
 
@@ -5556,7 +5634,11 @@
       }
     }
 
-    function loadData() {
+    // isRealLogin: 本物のログイン（Google/メールなど）で開かれたかどうか。
+    // 保存データがまだ無い「まっさらな初回起動」のときだけ意味を持つ：
+    //   ・スキップ（ゲストプレビュー）→ 今まで通りデモの友だち・予定で賑やかな状態のまま
+    //   ・本物のログイン → 架空の友だち・予定を全部消して、まっさらな状態からスタートさせる
+    function loadData(isRealLogin) {
       const data = localStorage.getItem(STORAGE_KEY);
       if (data) {
         try {
@@ -5594,6 +5676,19 @@
           console.error("Data parse error", e);
         }
       } else {
+        // 保存データがまだ無い＝このブラウザ／端末での初回起動。
+        // 本物のログインなら、コード埋め込みのデモデータ（架空の友だち・予定）を全部消してまっさらにする。
+        // （ゲストプレビュー＝スキップログインのときは、このif自体に入らないのでデモデータのまま）
+        if (isRealLogin) {
+          appData.friends = [];
+          appData.groups = [];
+          appData.friendHima = [];
+          appData.myHima = [];
+          appData.strangers = [];
+          appData.confirmedSchedules = [];
+          appData.chats = {};
+          appData.notices = [];
+        }
         migrateConfirmedSchedules();
       }
       cleanupOverlappingConfirmedSchedules();
@@ -6425,13 +6520,13 @@
 
     function describeICSExportResult(result, count) {
       if (result.ok) {
-        alert(`「${result.filename}」を保存したよ。そのままカレンダーアプリへの追加画面が開かなければ、ダウンロード一覧からタップして開いてね。${count > 1 ? `${count}件の予定` : '予定'}が追加できるよ。`);
+        alert(t('ics_saved_alert').replace('{filename}', result.filename).replace('{countText}', count > 1 ? t('ics_count_multi').replace('{count}', count) : t('ics_count_single')));
       } else if (result.declined) {
         // 本人が保存をキャンセルしただけなので、何も言わず静かに終える
       } else if (result.copied) {
-        alert('この環境では直接ファイル保存ができなかったから、代わりにカレンダーの内容をコピーしておいたよ。メモアプリなどに貼り付けて、拡張子を.icsにして保存してね。');
+        alert(t('ics_copied_alert'));
       } else {
-        alert('ファイルの保存に失敗しちゃった…ごめんね、もう一度試してみて！');
+        alert(t('ics_failed_alert'));
       }
     }
 
@@ -6442,7 +6537,7 @@
       if (!item) return;
       const vevent = buildICSEventForSchedule(item);
       if (!vevent) {
-        alert('日付が未定の予定はカレンダーに追加できないよ。日付が決まったらもう一度試してね。');
+        alert(t('ics_no_date_alert'));
         return;
       }
       const result = await downloadICSFile('pukan-schedule.ics', wrapICSCalendar([vevent]));
@@ -6471,7 +6566,7 @@
       ];
 
       if (veventBlocks.length === 0) {
-        alert(onlyUnexported ? '新しくエクスポートできる予定はなかったよ。もう反映済みかも！' : 'カレンダーに出せる予定がまだないよ。');
+        alert(onlyUnexported ? t('ics_nothing_new_alert') : t('ics_nothing_alert'));
         return;
       }
 
@@ -6543,7 +6638,7 @@
 
       dmInboxOpenHandlers = {};
       if (entries.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon" style="color:var(--text-sub);"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"></rect><path d="m4 7 8 6 8-6"></path></svg></div><div class="empty-state-text">${query ? '当てはまるチャットが見つからなかったよ' : 'まだチャットの履歴が無いよ'}</div></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon" style="color:var(--text-sub);"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"></rect><path d="m4 7 8 6 8-6"></path></svg></div><div class="empty-state-text">${query ? t('chat_empty_search') : t('chat_empty_history')}</div></div>`;
         return;
       }
       container.innerHTML = entries.map((e, idx) => {
@@ -6642,7 +6737,7 @@
       const title = (document.getElementById('poll-title-input')?.value || '').trim();
       const candidateDates = [...pollSelectedDates].sort();
       if (candidateDates.length < 2) {
-        alert('候補日を2つ以上選んでね');
+        alert(t('event_need_two_dates_alert'));
         return;
       }
       if (!appData.datePolls) appData.datePolls = [];
@@ -6829,7 +6924,7 @@
       saveData();
       renderGroupPolls(poll.groupId);
       renderCalendar();
-      alert(`${formatDateDisp(dateStr)}で予定を確定したよ！`);
+      alert(t('plan_confirmed_alert').replace('{date}', formatDateDisp(dateStr)));
     }
 
     function deletePoll(pollId) {
@@ -7014,7 +7109,7 @@
       const input = document.getElementById('input-place');
       const val = input ? input.value.trim() : '';
       if (!val) {
-        alert('場所を入力してから☆を押してね');
+        alert(t('favplace_need_place_alert'));
         return;
       }
       requirePremium('お気に入り場所登録', () => {
@@ -8290,8 +8385,8 @@
       if (appData.myHima.length === 0) {
         container.innerHTML = `
           <div class="empty-state" style="padding: 36px 16px;">
-            <div class="empty-state-text">まだ「ひま」を登録してないよ。<br>暇な日を登録して、ともだちに伝えてみよう！</div>
-            <button class="empty-state-btn" onclick="openHimaModal()">＋ ひまを登録する</button>
+            <div class="empty-state-text">${t('home_empty_mytext')}</div>
+            <button class="empty-state-btn" onclick="openHimaModal()">＋ ${t('home_empty_add_btn')}</button>
           </div>`;
         return;
       }
@@ -8542,13 +8637,13 @@
 
       if (list.length === 0) {
         if (query) {
-          container.innerHTML = `<div style="color:var(--text-sub); font-size:13px; text-align:center; padding:20px;">該当するともだちが見つかりません。</div>`;
+          container.innerHTML = `<div style="color:var(--text-sub); font-size:13px; text-align:center; padding:20px;">${t('friend_search_empty')}</div>`;
         } else {
           container.innerHTML = `
             <div class="empty-state">
               <div class="empty-state-icon">👋</div>
-              <div class="empty-state-text">まだともだちがいないみたい。<br>まずはともだちを追加してみよう！</div>
-              <button class="empty-state-btn" onclick="openAddFriendModal()">＋ ともだちを追加</button>
+              <div class="empty-state-text">${t('friends_empty_text')}</div>
+              <button class="empty-state-btn" onclick="openAddFriendModal()">＋ ${t('fg_add_friend')}</button>
             </div>`;
         }
         return;
@@ -8680,20 +8775,20 @@
 
       if (list.length === 0) {
         if (query) {
-          container.innerHTML = `<div style="color:var(--text-sub); font-size:13px; text-align:center; padding:20px;">該当するグループが見つかりません。</div>`;
+          container.innerHTML = `<div style="color:var(--text-sub); font-size:13px; text-align:center; padding:20px;">${t('group_search_empty')}</div>`;
         } else if (appData.friends.length === 0) {
           container.innerHTML = `
             <div class="empty-state">
               <div class="empty-state-icon">📁</div>
-              <div class="empty-state-text">グループがまだ無いよ。<br>まずはともだちを追加してから作ってみよう！</div>
-              <button class="empty-state-btn" onclick="openAddFriendModal()">＋ ともだちを追加</button>
+              <div class="empty-state-text">${t('groups_empty_nofriends')}</div>
+              <button class="empty-state-btn" onclick="openAddFriendModal()">＋ ${t('fg_add_friend')}</button>
             </div>`;
         } else {
           container.innerHTML = `
             <div class="empty-state">
               <div class="empty-state-icon">📁</div>
-              <div class="empty-state-text">グループがまだ無いよ。<br>気の合う仲間でグループを作ってみよう！</div>
-              <button class="empty-state-btn" onclick="openCreateGroupModal()">＋ グループを作る</button>
+              <div class="empty-state-text">${t('groups_empty_text')}</div>
+              <button class="empty-state-btn" onclick="openCreateGroupModal()">＋ ${t('groups_create_btn')}</button>
             </div>`;
         }
         return;
@@ -9741,7 +9836,7 @@
       saveData();
       renderHome();
       renderCalendar();
-      alert(`「${data.title}」を開催したよ！選んだ公開範囲の人たちが参加リクエストを送れるようになるよ。`);
+      alert(t('event_hosted_alert').replace('{title}', data.title));
 
       // このデモには相手側のアプリが無いため、開催してしばらくすると
       // 公開範囲内の誰かから参加リクエストが届いたことにする（追加募集と同じ仕組み）
@@ -9775,7 +9870,7 @@
       openConfirmedDetailModal(scheduleId);
       renderHome();
       renderCalendar();
-      alert(`${formatDateDisp(dateStr)}に決定したよ！`);
+      alert(t('date_decided_alert').replace('{date}', formatDateDisp(dateStr)));
     }
 
     // 募集中の予定に、公開範囲内の友達から参加リクエストが届いたことをシミュレーションする。
@@ -10174,39 +10269,72 @@
       renderHome();
       renderCalendar();
 
-      // 「きょうひま／あしたひま」を投稿したら、公開範囲に入っている（本物でログイン済みの）友だちに
-      // プッシュ通知を送る。いちばんの核になる機能なので、ここで必ず呼ぶ。
-      notifyFriendsOfNewHimaPost(himaObj);
+      // 公開範囲に入っている（本物でログイン済みの）友だちに、この「ひま」を実際に同期する。
+      // いちばんの核になる機能なので、ここで必ず呼ぶ。
+      syncHimaToFriends(himaObj, false);
 
       // 投稿したひまを見た友達が、あとから「一緒にやろう」と誘ってくる動きをシミュレーションする
       // （このデモには実際の相手側アプリが無いため。誘う側＝executeInviteの逆方向にあたる）
       setTimeout(() => simulateIncomingHimaInvite(himaObj.id), 2400 + Math.random() * 1600);
     }
 
-    // 「きょうひま！」「あしたひま！」のプッシュ通知を、公開範囲に入っている友だちに送る。
-    // 対象は date が「きょう」か「あした」の投稿だけ（それより先の日付は、直前の通知として
-    // うるさくなりすぎるので送らない）。本物のFirestore連携ができている友だち
-    // （招待コードで追加した、id が 'f_' + uid の形になっている相手）にだけ送れる。
-    // サンプルの友だち（id: 'f1' など）やFirebase未ログインの場合は、何もせず静かに終わる。
-    function notifyFriendsOfNewHimaPost(himaObj) {
+    // 「ひま」の新規投稿・編集・削除を、本物でログイン済み＆公開範囲に入っている友だちに同期する。
+    // himaObj.notifiedUids に「これまでに送った相手のuid一覧」を記録しておくことで：
+    //   ・新規投稿 → 公開範囲の相手に 'hima_posted'（カードとして追加）
+    //   ・編集して公開範囲が増えた → 新しく入った相手には 'hima_posted'
+    //   ・編集して公開範囲が減った → 外れた相手には 'hima_deleted'（カードを消す）
+    //   ・内容だけ編集（公開範囲は同じ） → 'hima_updated'（カードの中身を更新）
+    //   ・削除 → これまで送った相手全員に 'hima_deleted'
+    // を送り分ける。本物のFirestore連携ができている友だち（招待コードで追加した、
+    // idが 'f_' + uid の形になっている相手）にだけ送れる。サンプルの友だちや
+    // Firebase未ログイン（「ログインせずに中身だけ見る」）の場合は、何もせず静かに終わる。
+    // 通知バナー（🔔）は「きょう／あした」の投稿のときだけ出す（先の日付まで出すとうるさいため）。
+    function syncHimaToFriends(himaObj, isDelete) {
       if (typeof window.pukanSendInboxNotification !== 'function') return; // Firebase未読み込み（プレビュー環境など）
-      if (!appData.firebaseUid) return; // ログインしていない（「ログインせずに中身だけ見る」）場合は送れない
+      if (!appData.firebaseUid) return; // ログインしていない場合は送れない
+
+      const prevUids = himaObj.notifiedUids || [];
+
+      if (isDelete) {
+        prevUids.forEach(uid => {
+          window.pukanSendInboxNotification(uid, 'hima_deleted', { himaId: himaObj.id });
+        });
+        return;
+      }
+
+      const targets = appData.friends.filter(f => f.id.startsWith('f_') && canUserSeeHima(himaObj, f.id));
+      const targetUids = targets.map(f => f.id.slice(2)); // 'f_' を除いた部分が本物のFirebase uid
 
       const todayStr = getFormattedDate(0);
       const tomorrowStr = getFormattedDate(1);
       let dateLabel = null;
       if (himaObj.date === todayStr) dateLabel = 'today';
       else if (himaObj.date === tomorrowStr) dateLabel = 'tomorrow';
-      if (!dateLabel) return; // きょう・あした以外は通知しない
 
-      const targets = appData.friends.filter(f => f.id.startsWith('f_') && canUserSeeHima(himaObj, f.id));
-      targets.forEach(f => {
-        const uid = f.id.slice(2); // 'f_' を除いた部分が本物のFirebase uid
-        window.pukanSendInboxNotification(uid, 'hima_posted', {
-          dateLabel: dateLabel,
-          place: himaObj.place || ''
-        });
+      const payload = {
+        himaId: himaObj.id,
+        dateLabel: dateLabel,
+        date: himaObj.date,
+        time: himaObj.time || '',
+        timeStart: himaObj.timeStart || '',
+        timeEnd: himaObj.timeEnd || '',
+        allDay: !!himaObj.allDay,
+        place: himaObj.place || '',
+        memo: himaObj.memo || ''
+      };
+
+      targetUids.forEach(uid => {
+        const type = prevUids.includes(uid) ? 'hima_updated' : 'hima_posted';
+        window.pukanSendInboxNotification(uid, type, payload);
       });
+      prevUids.forEach(uid => {
+        if (!targetUids.includes(uid)) {
+          window.pukanSendInboxNotification(uid, 'hima_deleted', { himaId: himaObj.id });
+        }
+      });
+
+      himaObj.notifiedUids = targetUids;
+      saveData();
     }
 
     // 自分が投稿した「ひま」を見た友達が、後から誘ってくる動きをシミュレーションする関数。
@@ -10303,6 +10431,10 @@
       closeModal('edit-hima-modal');
       renderHome();
       renderCalendar();
+
+      // 編集後の内容・公開範囲で、本物の友だちへの同期をし直す
+      // （新しく範囲に入った人には追加、外れた人には削除、両方に残ってる人には内容更新を送る）
+      syncHimaToFriends(hima, false);
     }
 
     // currentCancelMode: 'myhima'（ひま投稿の削除）/ 'solo'（1対1の予定キャンセル）/
@@ -10382,6 +10514,9 @@
       const reason = reasonEl ? reasonEl.value.trim() : '';
 
       if (currentCancelMode === 'myhima') {
+        // 削除前に、同期していた本物の友だちがいれば「消えたよ」を送っておく
+        const deletedHima = appData.myHima.find(h => h.id === currentCancelPlanId);
+        if (deletedHima) syncHimaToFriends(deletedHima, true);
         appData.myHima = appData.myHima.filter(h => h.id !== currentCancelPlanId);
       } else {
         const item = (appData.confirmedSchedules || []).find(s => s.id === currentCancelPlanId);
@@ -10518,6 +10653,34 @@
       const fromUid = data.fromUid;
       const localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
 
+      if (data.type === 'account_deleted') {
+        // 相手が退会した。ともだち・グループ所属・ひま投稿・確定予定・チャット履歴など
+        // 関連データをまとめて片付けてから、ともだち一覧からも削除する。
+        if (!localFriend) return;
+        const who = formatNameWithHonorific(localFriend);
+        cleanupFriendReferences(localFriend.id);
+        appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
+
+        if (!appData.notices) appData.notices = [];
+        appData.notices.unshift({
+          id: 'n_' + Date.now(),
+          textKey: 'notice_friend_account_deleted',
+          params: { name: who },
+          dateKey: 'date_today',
+          read: false
+        });
+        renderNoticeBadge();
+
+        saveData();
+        renderFriends();
+        renderFriendSettings();
+        renderHome();
+        renderGroups();
+        renderCalendar();
+        renderChatUnreadBadges();
+        return;
+      }
+
       if (data.type === 'invite') {
         if (!localFriend) { console.warn('知らない相手から誘いが届いた(まだともだち追加されていない?):', fromUid); return; }
         const p = data.payload || {};
@@ -10576,22 +10739,66 @@
         return;
       }
 
-      if (data.type === 'hima_posted') {
-        // 本物の友だちが「きょう／あしたひま」を投稿した時に届く、いちばん核になる通知。
-        // アプリを開いたままの時は、プッシュ通知に加えて🔔のお知らせ一覧にも残しておく。
+      if (data.type === 'hima_posted' || data.type === 'hima_updated') {
+        // 本物の友だちが「ひま」を投稿／編集した時に届く、いちばん核になる同期。
+        // 「きょう／あした」のときだけ🔔のお知らせ一覧にも通知バナーを出す（先の日付まで出すとうるさいため）。
+        // 日付が何であれ、ホーム画面・カレンダーに「友だちのひまカード」として表示されるよう、
+        // appData.friendHima に実データを追加・更新する。
         const p = data.payload || {};
-        const who = localFriend ? formatNameWithHonorific(localFriend) : 'ともだち';
-        const dateWord = p.dateLabel === 'tomorrow' ? 'あした' : 'きょう';
-        if (!appData.notices) appData.notices = [];
-        appData.notices.unshift({
-          id: 'n_' + Date.now(),
-          textKey: 'notice_friend_free',
-          params: { name: who, date: p.dateLabel === 'tomorrow' ? t('date_tomorrow') : t('date_today'), place: p.place ? (' @' + p.place) : '' },
-          dateKey: 'date_today',
-          read: false
-        });
+        if (!localFriend) { console.warn('知らない相手から「ひま」が届いた(まだともだち追加されていない?):', fromUid); return; }
+
+        if (p.dateLabel === 'today' || p.dateLabel === 'tomorrow') {
+          const who = formatNameWithHonorific(localFriend);
+          if (!appData.notices) appData.notices = [];
+          appData.notices.unshift({
+            id: 'n_' + Date.now(),
+            textKey: 'notice_friend_free',
+            params: { name: who, date: p.dateLabel === 'tomorrow' ? t('date_tomorrow') : t('date_today'), place: p.place ? (' @' + p.place) : '' },
+            dateKey: 'date_today',
+            read: false
+          });
+          renderNoticeBadge();
+        }
+
+        if (p.himaId) {
+          if (!appData.friendHima) appData.friendHima = [];
+          let entry = appData.friendHima.find(h => h.remoteHimaId === p.himaId && h.remoteFromUid === fromUid);
+          if (!entry) {
+            entry = {
+              id: 'fh_remote_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+              friendId: localFriend.id,
+              status: 'none',
+              scope: { friends: [], groups: [] }, // 受け取る時点ですでに送り主の公開範囲で絞られているので、こちら側では絞らない
+              remoteHimaId: p.himaId,
+              remoteFromUid: fromUid
+            };
+            appData.friendHima.push(entry);
+          }
+          entry.date = p.date;
+          entry.time = p.time || '';
+          entry.timeStart = p.timeStart || '';
+          entry.timeEnd = p.timeEnd || '';
+          entry.allDay = !!p.allDay;
+          entry.place = p.place || '';
+          entry.memo = p.memo || '';
+        }
+
         saveData();
-        renderNoticeBadge();
+        renderHome();
+        renderCalendar();
+        return;
+      }
+
+      if (data.type === 'hima_deleted') {
+        // 本物の友だちが「ひま」を削除した時に届く。こちら側のカードも消す。
+        const p = data.payload || {};
+        const before = appData.friendHima ? appData.friendHima.length : 0;
+        appData.friendHima = (appData.friendHima || []).filter(h => !(h.remoteHimaId === p.himaId && h.remoteFromUid === fromUid));
+        if (appData.friendHima.length !== before) {
+          saveData();
+          renderHome();
+          renderCalendar();
+        }
         return;
       }
     }
@@ -11557,7 +11764,7 @@
       const nameInput = document.getElementById('create-group-name');
       const name = nameInput ? nameInput.value.trim() : '';
       if (!name) {
-        alert("グループ名を入力してね！");
+        alert(t('group_need_name_alert'));
         return;
       }
 
@@ -12052,15 +12259,41 @@
       openSubModal('account-delete-confirm-modal');
     }
 
-    function executeAccountDeletion() {
+    async function executeAccountDeletion() {
       closeModal('account-delete-confirm-modal');
+
+      // 本物のともだちには「退会したよ」を知らせておく。
+      // 相手側のアプリを開いたタイミングで、ともだち・グループ・予定・チャットなど
+      // 関連データがまとめて自動的に片付く（pukanHandleInboxItem の 'account_deleted' ハンドラ参照）。
+      try {
+        if (typeof window.pukanSendInboxNotification === 'function') {
+          (appData.friends || []).forEach(f => {
+            if (f.id && f.id.startsWith('f_')) {
+              window.pukanSendInboxNotification(f.id.slice(2), 'account_deleted', {});
+            }
+          });
+        }
+      } catch (e) {
+        console.error('退会通知の送信に失敗:', e);
+      }
+
+      // Firestore上の自分のデータ＋ログインアカウント自体を削除
+      try {
+        if (typeof window.pukanDeleteAccountData === 'function') {
+          await window.pukanDeleteAccountData();
+        }
+      } catch (e) {
+        console.error('アカウントデータの削除に失敗:', e);
+      }
+
+      // 端末内のデータ（デモ利用分も含む）を削除
       try {
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(ONBOARDING_KEY);
       } catch (e) {
         console.error("Account deletion error", e);
       }
-      alert("退会したよ。今まで使ってくれてありがとう！");
+      alert(t('account_deleted_alert'));
       location.reload();
     }
 
@@ -12561,7 +12794,7 @@
     import { initializeApp } from "https://cdn.jsdelivr.net/npm/firebase@11/app/+esm";
     import {
       getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, onAuthStateChanged,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile
+      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, deleteUser
     } from "https://cdn.jsdelivr.net/npm/firebase@11/auth/+esm";
     import {
       getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp,
@@ -12816,6 +13049,46 @@
         console.error('通知の送信に失敗:', e);
         return { ok: false, reason: 'error', message: e && e.message };
       }
+    };
+
+    // 退会処理：Firestore上の自分のデータ（ユーザードキュメント・friendsサブコレクション・inboxサブコレクション）を
+    // すべて削除し、最後にFirebase Authのアカウント自体も削除する。
+    // ログインしていない（ゲスト/デモ状態）場合は何もしない。
+    window.pukanDeleteAccountData = async function() {
+      const user = auth.currentUser;
+      if (!user) return { ok: true, skipped: true };
+      const uid = user.uid;
+
+      try {
+        const friendsSnap = await getDocs(collection(db, 'users', uid, 'friends'));
+        await Promise.all(friendsSnap.docs.map(d => deleteDoc(d.ref)));
+      } catch (e) {
+        console.warn('friendsサブコレクションの削除に失敗:', e);
+      }
+
+      try {
+        const inboxSnap = await getDocs(collection(db, 'users', uid, 'inbox'));
+        await Promise.all(inboxSnap.docs.map(d => deleteDoc(d.ref)));
+      } catch (e) {
+        console.warn('inboxサブコレクションの削除に失敗:', e);
+      }
+
+      try {
+        await deleteDoc(doc(db, 'users', uid));
+      } catch (e) {
+        console.warn('ユーザードキュメントの削除に失敗:', e);
+      }
+
+      try {
+        await deleteUser(user);
+      } catch (e) {
+        // ログインから時間が経っていると auth/requires-recent-login で失敗することがある。
+        // その場合アプリ内データはすべて消えるが、認証アカウントだけ残ってしまう（致命的ではない）。
+        console.warn('認証アカウントの削除に失敗（再ログインが必要な場合があります）:', e);
+        return { ok: false, reason: (e && e.code) || 'error' };
+      }
+
+      return { ok: true };
     };
 
     // 自分のinboxをリアルタイムで監視し、新しい通知が来たらアプリ本体（hima.html側）のハンドラーに渡す。
