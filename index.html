@@ -5098,6 +5098,8 @@
         common_invite: '誘う',
         badge_inviting: '誘い中',
         common_withdraw: '取消',
+        btn_add_friend_plus: '＋ともだち追加',
+        group_member_not_friend: 'ともだち未追加',
         common_friend_fallback: 'ともだち',
         addfriend_title: 'ともだち追加',
         addfriend_tab_id: 'ID',
@@ -5313,6 +5315,8 @@
         common_invite: 'Invite',
         badge_inviting: 'Invited',
         common_withdraw: 'Cancel',
+        btn_add_friend_plus: '+ Add friend',
+        group_member_not_friend: 'Not a friend yet',
         common_friend_fallback: 'friend',
         addfriend_title: 'Add Friend',
         addfriend_tab_id: 'ID',
@@ -5528,6 +5532,8 @@
         common_invite: '초대',
         badge_inviting: '초대 중',
         common_withdraw: '취소',
+        btn_add_friend_plus: '+ 친구 추가',
+        group_member_not_friend: '아직 친구 아님',
         common_friend_fallback: '친구',
         addfriend_title: '친구 추가',
         addfriend_tab_id: 'ID',
@@ -6844,7 +6850,7 @@
         return;
       }
       const group = appData.groups.find(g => g.id === groupId);
-      const totalMembers = (group ? (group.memberIds || []).length : 0) + 1; // +1は自分
+      const totalMembers = (group ? (group.memberIds || []).length + (group.extraMembers || []).length : 0) + 1; // +1は自分
 
       container.innerHTML = polls.map(poll => {
         // 一番参加しやすい日を見つける（スコアが0より大きい時だけ🏆を付ける。同率なら複数に付く）
@@ -7745,6 +7751,16 @@
       saveData();
       renderUserProfile();
       closeModal('profile-modal');
+      syncProfileToFriends();
+    }
+
+    // 自分の名前・誕生日を、本物のともだち全員に送る（相手側で名前と誕生日が更新される）
+    function syncProfileToFriends(onlyUid) {
+      if (typeof window.pukanSendInboxNotification !== 'function') return;
+      const p = appData.userProfile || {};
+      const payload = { name: p.name || '', birthdayMonth: p.birthdayMonth || null, birthdayDay: p.birthdayDay || null };
+      const uids = onlyUid ? [onlyUid] : appData.friends.map(getFriendRealUidLocal).filter(Boolean);
+      uids.forEach(uid => window.pukanSendInboxNotification(uid, 'profile_updated', payload));
     }
 
     // アイコン画像は「カメラロールから選択」か「デフォルト（グレー丸＋👤）」の二択。
@@ -7955,7 +7971,7 @@
             ${renderPersonAvatarCircleHtml(p.avatar, 26)}
             <span>${p.name}${(p.isSelf && p.name !== '自分') ? '（自分）' : ''}</span>
           </div>
-          ${showAddBtn ? `<button class="btn-add-stranger-friend" onclick="promptAddStrangerAsFriend('${p.id}')">＋ともだち追加</button>` : ''}
+          ${showAddBtn ? `<button class="btn-add-stranger-friend" onclick="promptAddStrangerAsFriend('${p.id}')">${t('btn_add_friend_plus')}</button>` : ''}
         `;
         body.appendChild(row);
       });
@@ -8874,7 +8890,7 @@
         const memberNames = (group.memberIds || []).map(fid => {
           const f = appData.friends.find(fr => fr.id === fid);
           return f ? f.name : '';
-        }).filter(Boolean).join('、');
+        }).filter(Boolean).concat((group.extraMembers || []).map(m => m.name)).join('、');
 
         card.innerHTML = `
           <div style="display: flex; align-items: center; gap: 12px; overflow: hidden; flex: 1;">
@@ -10007,6 +10023,32 @@
       openConfirmedDetailModal(scheduleId);
     }
 
+    // グループにいる「ともだち未追加」の本物の人を、ともだちに追加する（相手側にも自動で追加される）
+    function addGroupExtraMemberAsFriend(uid) {
+      let name = 'ともだち';
+      appData.groups.forEach(g => (g.extraMembers || []).forEach(m => { if (m.uid === uid) name = m.name; }));
+      const fid = 'f_' + uid;
+      if (!appData.friends.some(f => f.id === fid)) {
+        appData.friends.push({ id: fid, name, avatar: '👤', pinned: false, addedAt: getFormattedDate(0) });
+      }
+      appData.groups.forEach(g => {
+        if (!(g.extraMembers || []).some(m => m.uid === uid)) return;
+        g.extraMembers = g.extraMembers.filter(m => m.uid !== uid);
+        if (!g.memberIds.includes(fid)) g.memberIds.push(fid);
+      });
+      saveData();
+      if (typeof window.pukanSendInboxNotification === 'function' && appData.firebaseUid) {
+        const mp = appData.userProfile || {};
+        const av = (typeof mp.avatar === 'string' && mp.avatar.length < 20000) ? mp.avatar : '👤';
+        window.pukanSendInboxNotification(uid, 'friend_added', { name: mp.name || '', avatar: av, birthdayMonth: mp.birthdayMonth || null, birthdayDay: mp.birthdayDay || null });
+      }
+      renderFriends();
+      renderGroups();
+      const isActive = id => { const el = document.getElementById(id); return !!(el && el.classList.contains('active')); };
+      if (currentGroupDetailId && isActive('group-detail-modal')) openGroupDetail(currentGroupDetailId);
+      if (currentEditGroupId && isActive('group-edit-modal')) renderEditGroupMembersList();
+    }
+
     // 未登録の人（ストレンジャー）をともだちに追加する（ワンクッション：確認モーダルを挟む）
     let currentAddStrangerFriendId = null;
     function promptAddStrangerAsFriend(strangerId) {
@@ -10722,12 +10764,92 @@
       const fromUid = data.fromUid;
       const localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
 
+      if (data.type === 'friend_added') {
+        // 相手が自分のIDでともだち追加してくれた → こちらのともだち一覧にも自動で入れる
+        if (!fromUid || localFriend) return;
+        const pl = data.payload || {};
+        const nf = { id: 'f_' + fromUid, name: pl.name || data.fromName || 'ともだち', avatar: pl.avatar || '👤', pinned: false, addedAt: getFormattedDate(0) };
+        if (pl.birthdayMonth && pl.birthdayDay) { nf.birthdayMonth = pl.birthdayMonth; nf.birthdayDay = pl.birthdayDay; }
+        appData.friends.push(nf);
+        saveData();
+        renderFriends();
+        renderFriendSettings();
+        renderHome();
+        renderGroups();
+        return;
+      }
+
+      if (data.type === 'profile_updated') {
+        if (!localFriend) return;
+        const pl = data.payload || {};
+        if (!localFriend.isCustomName && pl.name) localFriend.name = pl.name;
+        if (pl.birthdayMonth && pl.birthdayDay) {
+          localFriend.birthdayMonth = pl.birthdayMonth;
+          localFriend.birthdayDay = pl.birthdayDay;
+        } else {
+          delete localFriend.birthdayMonth;
+          delete localFriend.birthdayDay;
+        }
+        saveData();
+        renderFriends();
+        renderFriendSettings();
+        renderHome();
+        renderGroups();
+        return;
+      }
+
+      if (data.type === 'group_sync' || data.type === 'group_deleted') {
+        const pl = data.payload || {};
+        if (!pl.groupId) return;
+        const myUid = appData.firebaseUid;
+        const ownerUid = pl.ownerUid || fromUid;
+        const localGid = ownerUid === myUid ? pl.groupId : 'gr_' + ownerUid + '_' + pl.groupId;
+        if (data.type === 'group_deleted') {
+          if (!appData.groups.some(g => g.id === localGid)) return;
+          cleanupGroupReferences(localGid);
+          appData.groups = appData.groups.filter(g => g.id !== localGid);
+        } else {
+          const uids = pl.memberUids || [];
+          const existing = appData.groups.find(x => x.id === localGid);
+          // ともだちから、または自分が名簿に載っているグループだけ受け付ける
+          if (!localFriend && !uids.includes(myUid)) return;
+          if (!existing && ownerUid === myUid) return; // 自分のグループが消えているのに復活させない
+          const names = {};
+          (pl.profiles || []).forEach(pr => { if (pr && pr.uid) names[pr.uid] = pr.name || 'ともだち'; });
+          const memberIds = [], extraMembers = [];
+          uids.forEach(uid => {
+            if (uid === myUid) return;
+            const fr = appData.friends.find(f => getFriendRealUidLocal(f) === uid);
+            if (fr) memberIds.push(fr.id);
+            else extraMembers.push({ uid, name: names[uid] || 'ともだち' });
+          });
+          if (existing) {
+            existing.name = pl.name || existing.name;
+            if (pl.icon) existing.icon = pl.icon;
+            existing.memberIds = memberIds;
+            existing.extraMembers = extraMembers;
+            if (!uids.includes(myUid)) { /* 自分が外された場合は group_deleted が届く */ }
+          } else {
+            const g = { id: localGid, name: pl.name || 'グループ', icon: pl.icon || '📁', memberIds, extraMembers, pinned: false };
+            if (ownerUid !== myUid) g.ownerUid = ownerUid;
+            appData.groups.push(g);
+          }
+        }
+        saveData();
+        renderGroups();
+        renderHome();
+        return;
+      }
+
       if (data.type === 'account_deleted') {
         // 相手が退会した。ともだち・グループ所属・ひま投稿・確定予定・チャット履歴など
         // 関連データをまとめて片付けてから、ともだち一覧からも削除する。
         if (!localFriend) return;
         const who = formatNameWithHonorific(localFriend);
         cleanupFriendReferences(localFriend.id);
+        // 退会した相手が作ったグループ（共有されていたもの）もまとめて片付ける
+        appData.groups.filter(g => g.ownerUid === fromUid).forEach(g => cleanupGroupReferences(g.id));
+        appData.groups = appData.groups.filter(g => g.ownerUid !== fromUid);
         appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
 
         if (!appData.notices) appData.notices = [];
@@ -11744,6 +11866,11 @@
           const already = appData.friends.find(f => f.id === newFriend.id);
           if (!already) appData.friends.push(newFriend);
           saveData();
+          if (!already && typeof window.pukanSendInboxNotification === 'function') {
+            const mp = appData.userProfile || {};
+            const av = (typeof mp.avatar === 'string' && mp.avatar.length < 20000) ? mp.avatar : '👤';
+            window.pukanSendInboxNotification(result.friend.uid, 'friend_added', { name: mp.name || '', avatar: av, birthdayMonth: mp.birthdayMonth || null, birthdayDay: mp.birthdayDay || null });
+          }
           res.innerHTML = `<p style="font-size:13px; color:var(--theme-color); font-weight:700;">${newFriend.name}さんをともだちに追加したよ！</p>`;
           renderFriends();
           renderGroups();
@@ -11829,6 +11956,39 @@
       }
     }
 
+    // ===== グループの共有（本物のともだち同士） =====
+    // 自分が作ったグループ（ownerUidなし）の最新状態を、本物のメンバー全員に送る。
+    function groupRealMemberUids(group) {
+      return (group.memberIds || []).map(id => (typeof id === 'string' && id.startsWith('f_')) ? id.slice(2) : null).filter(Boolean);
+    }
+    // メンバー全員（ともだち＋ともだちじゃない共有メンバー）のuid一覧
+    function groupAllMemberUids(group) {
+      const extra = (group.extraMembers || []).map(m => m.uid);
+      return [...new Set([...groupRealMemberUids(group), ...extra])];
+    }
+    // グループの最新状態を、自分以外の本物のメンバー全員（作成者含む）に送る。誰が編集しても同じ。
+    function syncGroupToMembers(group, removedUids) {
+      if (!group) return;
+      if (typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+      const myUid = appData.firebaseUid;
+      const ownerUid = group.ownerUid || myUid;
+      const others = groupAllMemberUids(group);
+      if (group.ownerUid && !others.includes(group.ownerUid)) others.push(group.ownerUid);
+      const profiles = [{ uid: myUid, name: (appData.userProfile && appData.userProfile.name) || '' }];
+      (group.memberIds || []).forEach(id => {
+        const f = appData.friends.find(x => x.id === id);
+        const u = getFriendRealUidLocal(f);
+        if (u) profiles.push({ uid: u, name: f.name });
+      });
+      (group.extraMembers || []).forEach(m => profiles.push({ uid: m.uid, name: m.name }));
+      const memberUids = [...new Set([myUid, ...others])];
+      const rawId = group.ownerUid ? group.id.replace('gr_' + group.ownerUid + '_', '') : group.id;
+      const icon = (typeof group.icon === 'string' && group.icon.length < 20000) ? group.icon : '📁';
+      const payload = { groupId: rawId, ownerUid, name: group.name, icon, memberUids, profiles };
+      others.filter(u => u !== myUid).forEach(uid => window.pukanSendInboxNotification(uid, 'group_sync', payload));
+      (removedUids || []).forEach(uid => window.pukanSendInboxNotification(uid, 'group_deleted', { groupId: rawId, ownerUid }));
+    }
+
     function saveCreateGroup() {
       const nameInput = document.getElementById('create-group-name');
       const name = nameInput ? nameInput.value.trim() : '';
@@ -11857,6 +12017,7 @@
       });
 
       saveData();
+      syncGroupToMembers(appData.groups[appData.groups.length - 1]);
       closeModal('create-group-modal');
       renderGroups();
     }
@@ -11912,6 +12073,21 @@
                 ${himaInfoHtml}
               </div>
               ${actionHtml}
+            </div>
+          </div>
+        `;
+      });
+
+      (group.extraMembers || []).forEach(m => {
+        membersContainer.innerHTML += `
+          <div class="list-item-card" style="padding:10px 14px; margin-bottom:6px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              ${renderPersonAvatarCircleHtml('👤', 28)}
+              <div style="flex:1; min-width:0;">
+                <div style="font-weight:700;">${m.name}</div>
+                <div style="font-size:12px; color:var(--text-sub); margin-top:2px;">${t('group_member_not_friend')}</div>
+              </div>
+              <button class="btn-add-stranger-friend" onclick="addGroupExtraMemberAsFriend('${m.uid}')">${t('btn_add_friend_plus')}</button>
             </div>
           </div>
         `;
@@ -12219,6 +12395,17 @@
           </div>
         `;
       });
+      (group.extraMembers || []).forEach(m => {
+        container.innerHTML += `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#FAFAFA; padding:8px 12px; border-radius:10px; margin-bottom:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              ${renderPersonAvatarCircleHtml('👤', 24)}
+              <span style="font-weight:700; font-size:14px;">${m.name}</span>
+            </div>
+            <button class="btn-add-stranger-friend" onclick="addGroupExtraMemberAsFriend('${m.uid}')">${t('btn_add_friend_plus')}</button>
+          </div>
+        `;
+      });
     }
 
     let currentRemoveMemberId = null;
@@ -12235,6 +12422,8 @@
       if (group) {
         group.memberIds = group.memberIds.filter(id => id !== currentRemoveMemberId);
         saveData();
+        const removedUid = (typeof currentRemoveMemberId === 'string' && currentRemoveMemberId.startsWith('f_')) ? currentRemoveMemberId.slice(2) : null;
+        syncGroupToMembers(group, removedUid ? [removedUid] : []);
       }
       closeModal('remove-member-confirm-modal');
       renderEditGroupMembersList();
@@ -12271,6 +12460,7 @@
         if (group) {
           group.memberIds = [...group.memberIds, ...addIds];
           saveData();
+          syncGroupToMembers(group);
         }
       }
       closeModal('add-member-to-group-modal');
@@ -12319,6 +12509,7 @@
       }
 
       saveData();
+      syncGroupToMembers(group);
       closeModal('group-edit-modal');
       renderGroups();
     }
@@ -12408,6 +12599,24 @@
 
     function executeDeleteGroup() {
       if (!currentEditGroupId) return;
+      const delGroup = appData.groups.find(g => g.id === currentEditGroupId);
+      if (delGroup && typeof window.pukanSendInboxNotification === 'function' && appData.firebaseUid) {
+        const rawId = delGroup.ownerUid ? delGroup.id.replace('gr_' + delGroup.ownerUid + '_', '') : delGroup.id;
+        if (!delGroup.ownerUid) {
+          // 作った人が削除 → 全員から消える
+          groupAllMemberUids(delGroup).forEach(uid => window.pukanSendInboxNotification(uid, 'group_deleted', { groupId: rawId, ownerUid: appData.firebaseUid }));
+        } else {
+          // 参加メンバーが削除 → 自分だけ抜ける（他のメンバーには「抜けた」状態を伝える）
+          const myUid = appData.firebaseUid;
+          const rest = groupAllMemberUids(delGroup).filter(u => u !== myUid);
+          if (!rest.includes(delGroup.ownerUid)) rest.push(delGroup.ownerUid);
+          const profiles = [];
+          (delGroup.memberIds || []).forEach(id => { const f = appData.friends.find(x => x.id === id); const u = getFriendRealUidLocal(f); if (u) profiles.push({ uid: u, name: f.name }); });
+          (delGroup.extraMembers || []).forEach(m => profiles.push({ uid: m.uid, name: m.name }));
+          const payload = { groupId: rawId, ownerUid: delGroup.ownerUid, name: delGroup.name, icon: (typeof delGroup.icon === 'string' && delGroup.icon.length < 20000) ? delGroup.icon : '📁', memberUids: rest, profiles };
+          rest.forEach(uid => window.pukanSendInboxNotification(uid, 'group_sync', payload));
+        }
+      }
       cleanupGroupReferences(currentEditGroupId);
       appData.groups = appData.groups.filter(g => g.id !== currentEditGroupId);
       saveData();
