@@ -3282,7 +3282,12 @@
           <span style="color: #CCC;">&gt;</span>
         </div>
 
-        <div class="setting-item-btn" style="color: #E25C5C; margin-top: 24px;" onclick="confirmAccountDeletion()">
+        <div class="setting-item-btn" id="logout-setting-row" style="margin-top: 24px; display: none;" onclick="confirmLogout()">
+          <span data-i18n="settings_logout">ログアウト</span>
+          <span style="color: #CCC;">&gt;</span>
+        </div>
+
+        <div class="setting-item-btn" style="color: #E25C5C;" onclick="confirmAccountDeletion()">
           <span data-i18n="settings_delete_account">退会・アカウント削除</span>
           <span style="color: #CCC;">&gt;</span>
         </div>
@@ -4035,6 +4040,18 @@
     </div>
   </div>
 
+  <!-- ログアウト確認モーダル -->
+  <div class="modal-overlay confirm-type" id="logout-confirm-modal">
+    <div class="modal-content" style="text-align: center;">
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;" data-i18n="logout_confirm_title">ログアウト</h3>
+      <p style="font-size: 13px; color: var(--text-sub); line-height: 1.7;" data-i18n="logout_confirm_desc">ログアウトしても、ともだちや予定のデータは消えないよ。またいつでも同じアカウントでログインし直せば続きから使えるよ。</p>
+      <div class="modal-btn-group">
+        <button class="btn-modal-cancel" onclick="closeModal('logout-confirm-modal')" data-i18n="common_cancel">キャンセル</button>
+        <button class="btn-modal-action" onclick="executeLogout()" data-i18n="logout_confirm_btn">ログアウトする</button>
+      </div>
+    </div>
+  </div>
+
   <!-- メンバー外し確認モーダル -->
   <div class="modal-overlay confirm-type" id="remove-member-confirm-modal">
     <div class="modal-content" style="text-align: center;">
@@ -4436,7 +4453,7 @@
         <p>本アプリのログインは、①ともだちとの「ひま」情報・予定・メッセージなどのデータを同期するため、②機種変更やアプリの再インストール時にデータを引き継ぐため、の2つの目的のみに使用します。それ以外の目的で個人情報を利用・収集することはありません。</p>
 
         <p style="margin-top:12px; font-weight:700;">2. 取得する情報</p>
-        <p>Googleログインを通じて、表示名・プロフィール画像・メールアドレス（アカウント識別用）を取得します。これらは、ともだちに自分だと分かるように表示する目的のためにのみ使用され、第三者に販売・提供されることはありません。</p>
+        <p>Google・Apple・メールアドレスのいずれかでのログインを通じて、表示名・プロフィール画像（提供された場合）・メールアドレス（アカウント識別用）を取得します。これらは、ともだちに自分だと分かるように表示する目的のためにのみ使用され、第三者に販売・提供されることはありません。</p>
 
         <p style="margin-top:12px; font-weight:700;">3. ともだちとの共有範囲</p>
         <p>「ひま」の投稿・予定・メッセージなどは、自分が追加した「ともだち」にのみ共有されます。公開範囲の設定は、ひまの投稿ごとに自分で選ぶことができます。</p>
@@ -4445,10 +4462,7 @@
         <p>お誘いやメッセージを届けるために、プッシュ通知の送信用トークンを保存することがあります。通知は本アプリの機能のためだけに使い、広告目的の通知送信は行いません。</p>
 
         <p style="margin-top:12px; font-weight:700;">5. データの削除</p>
-        <p>アカウントやデータの削除を希望する場合は、開発者まで連絡してください。確認のうえ、対応します。</p>
-
-        <p style="margin-top:12px; font-weight:700;">6. お問い合わせ</p>
-        <p>本ポリシーに関するご質問は、アプリ内のフィードバックや開発者までご連絡ください。</p>
+        <p>アプリ内の「設定」→「退会・アカウント削除」から、いつでもご自身でアカウントとすべてのデータを削除できます。</p>
 
         <p style="margin-top:16px; color:var(--text-sub); font-size:11px;">制定日：2026年10月4日</p>
       </div>
@@ -4809,6 +4823,11 @@
       const loginGateEl = document.getElementById('login-gate');
       if (loginGateEl) loginGateEl.style.display = 'none';
 
+      // 「ログアウト」はゲストプレビュー中（そもそもログインしてない）は意味が無いので、
+      // 本物のログイン時だけ設定画面に出す
+      const logoutRowEl = document.getElementById('logout-setting-row');
+      if (logoutRowEl) logoutRowEl.style.display = firebaseUser ? 'flex' : 'none';
+
       try {
         loadData(firebaseUser);
         // ログインしてきたGoogleアカウントの情報を、自分のプロフィールに軽く反映しておく
@@ -4963,6 +4982,10 @@
         settings_language: '言語',
         settings_howto: '使い方を見る',
         settings_privacy: 'プライバシーポリシー',
+        settings_logout: 'ログアウト',
+        logout_confirm_title: 'ログアウト',
+        logout_confirm_desc: 'ログアウトしても、ともだちや予定のデータは消えないよ。またいつでも同じアカウントでログインし直せば続きから使えるよ。',
+        logout_confirm_btn: 'ログアウトする',
         settings_delete_account: '退会・アカウント削除',
         theme_modal_title: 'テーマ',
         theme_tab_color: 'テーマカラー',
@@ -5174,6 +5197,10 @@
         settings_language: 'Language',
         settings_howto: 'How to Use',
         settings_privacy: 'Privacy Policy',
+        settings_logout: 'Log Out',
+        logout_confirm_title: 'Log Out',
+        logout_confirm_desc: 'Your friends and plans will stay saved. You can log back in with the same account anytime to pick up where you left off.',
+        logout_confirm_btn: 'Log Out',
         settings_delete_account: 'Delete Account',
         theme_modal_title: 'Theme',
         theme_tab_color: 'Theme Color',
@@ -5385,6 +5412,10 @@
         settings_language: '언어',
         settings_howto: '사용법 보기',
         settings_privacy: '개인정보 처리방침',
+        settings_logout: '로그아웃',
+        logout_confirm_title: '로그아웃',
+        logout_confirm_desc: '로그아웃해도 친구나 약속 데이터는 사라지지 않아요. 같은 계정으로 언제든 다시 로그인하면 이어서 쓸 수 있어요.',
+        logout_confirm_btn: '로그아웃하기',
         settings_delete_account: '탈퇴·계정 삭제',
         theme_modal_title: '테마',
         theme_tab_color: '테마 색상',
@@ -12288,6 +12319,25 @@
       renderGroups();
     }
 
+    // ログアウト（データは何も消さず、ログイン状態だけ解除する）
+    function confirmLogout() {
+      if (!appData.firebaseUid) {
+        // ゲストプレビュー中（ログインしてない）はそもそもログアウトする状態じゃない
+        return;
+      }
+      openSubModal('logout-confirm-modal');
+    }
+
+    function executeLogout() {
+      closeModal('logout-confirm-modal');
+      if (typeof window.pukanSignOut === 'function') {
+        window.pukanSignOut();
+      }
+      // ここではlocalStorageのデータには一切触らない。
+      // Firebaseのログイン状態が外れると、下部<script type="module">のonAuthStateChangedが
+      // 検知してログイン画面に戻してくれる。
+    }
+
     // 退会・アカウント削除
     function confirmAccountDeletion() {
       openSubModal('account-delete-confirm-modal');
@@ -12835,7 +12885,7 @@
     import { initializeApp } from "https://cdn.jsdelivr.net/npm/firebase@11/app/+esm";
     import {
       getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, onAuthStateChanged,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, deleteUser
+      createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, deleteUser, signOut
     } from "https://cdn.jsdelivr.net/npm/firebase@11/auth/+esm";
     import {
       getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp,
@@ -13042,6 +13092,13 @@
           errorEl.textContent = emailAuthErrorMessage(err);
           errorEl.style.display = 'block';
         }
+      });
+    };
+
+    // ログアウト（データは消さず、ログイン状態だけ解除）
+    window.pukanSignOut = function() {
+      signOut(auth).catch((err) => {
+        console.error('ログアウトに失敗:', err);
       });
     };
 
