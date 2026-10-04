@@ -5751,6 +5751,10 @@
           appData.confirmedSchedules = [];
           appData.chats = {};
           appData.notices = [];
+          // この端末で前にゲストプレビューや別アカウントを試していると、チュートリアルが
+          // 「見た扱い」のまま残ってしまっている可能性があるので、本物の新規スタート時は
+          // チュートリアルも初回扱いに戻す（言語選択後、自動でまた見られるように）
+          try { localStorage.removeItem(ONBOARDING_KEY); } catch (e) {}
         }
       }
       migrateConfirmedSchedules();
