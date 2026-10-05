@@ -9134,6 +9134,9 @@
       renderUserProfile();
       closeModal('profile-modal');
       syncProfileToFriends();
+      if (typeof window.pukanUpdateMyProfileDoc === 'function' && appData.firebaseUid) {
+        window.pukanUpdateMyProfileDoc({ name: appData.userProfile.name });
+      }
     }
 
     // 自分の名前・誕生日を、本物のともだち全員に送る（相手側で名前と誕生日が更新される）
@@ -12177,8 +12180,36 @@
     // ===== 本物の相手からの通知を受け取った時の処理 =====
     // Firestoreのinbox監視（下部のFirebase用<script>内）が、新しい通知のたびにこの関数を呼ぶ。
     // 関数宣言（windowに自動で生えるので、別scriptブロックのmodule側から window.pukanHandleInboxItem として呼べる）
+    // ===== 他のユーザーから届く文字列の無害化 =====
+    // 画面は innerHTML で組み立てている箇所が多いので、相手から届いた文字列に < > & " ' などの記号が含まれていても
+    // 画面を壊したり、悪意あるコードが動いたりしないよう、受け取った時点で全角などの無害な記号に置き換える。
+    function sanitizeRemoteText(str) {
+      return String(str)
+        .replace(/&/g, '＆').replace(/</g, '＜').replace(/>/g, '＞')
+        .replace(/"/g, '”').replace(/'/g, '’').replace(/`/g, '´').replace(/\\/g, '＼');
+    }
+    function sanitizeRemoteImageOrEmoji(val) {
+      if (typeof val !== 'string') return '👤';
+      if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(val)) return val;
+      if (val.length <= 8 && !/[<>&"'`\\]/.test(val)) return val;
+      return '👤';
+    }
+    function sanitizeRemoteValue(v, key) {
+      if (typeof v === 'string') {
+        return (key === 'avatar' || key === 'icon') ? sanitizeRemoteImageOrEmoji(v) : sanitizeRemoteText(v);
+      }
+      if (Array.isArray(v)) return v.map(x => sanitizeRemoteValue(x, key));
+      if (v && typeof v === 'object') {
+        const out = {};
+        Object.keys(v).forEach(k => { out[k] = sanitizeRemoteValue(v[k], k); });
+        return out;
+      }
+      return v;
+    }
+
     function pukanHandleInboxItem(data) {
       if (!data || !data.type) return;
+      data = sanitizeRemoteValue(data);
       const fromUid = data.fromUid;
       const localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
 
@@ -13352,8 +13383,8 @@
         if (result.ok) {
           const newFriend = {
             id: 'f_' + result.friend.uid,
-            name: result.friend.name,
-            avatar: result.friend.avatar || '👤',
+            name: sanitizeRemoteText(result.friend.name || ''),
+            avatar: sanitizeRemoteImageOrEmoji(result.friend.avatar || '👤'),
             pinned: false,
             addedAt: getFormattedDate(0)
           };
@@ -14678,6 +14709,19 @@
     };
 
     // プロフィール画面から、自分のともだちIDを好きな文字列に変更する
+    // プロフィール（名前）を変えた時に、検索・ともだち追加の元になる users/{uid} にも反映しておく
+    window.pukanUpdateMyProfileDoc = async function(fields) {
+      const currentUser = auth.currentUser;
+      if (!currentUser) return { ok: false, reason: 'not_logged_in' };
+      try {
+        await updateDoc(doc(db, 'users', currentUser.uid), fields);
+        return { ok: true };
+      } catch (e) {
+        console.warn('プロフィールの反映に失敗:', e);
+        return { ok: false };
+      }
+    };
+
     window.pukanSetMyCustomId = async function(newId) {
       const id = (newId || '').trim();
       if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(id)) return { ok: false, reason: 'invalid' };
