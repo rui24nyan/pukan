@@ -9175,10 +9175,9 @@
       if (!el) return;
       if (!appData.firebaseUid || appData.friends.length > 0) { el.style.display = 'none'; el.innerHTML = ''; return; }
       el.innerHTML = `
-        <div class="install-hint-card" style="padding:14px; text-align:center;">
-          <div style="font-size:26px;">👋</div>
-          <div style="margin-top:4px;">${t('home_no_friends_text')}</div>
-          <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <div class="install-hint-card" style="padding:20px 14px; text-align:center;">
+          <div style="margin:10px 0 4px; line-height:1.7;">${t('home_no_friends_text')}</div>
+          <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:14px; margin-bottom:6px;">
             <button class="install-hint-btn" style="margin-top:0;" onclick="shareMyInviteLink()">🔗 ${t('home_send_link')}</button>
             <button class="install-hint-btn" style="margin-top:0; background:#fff; color:var(--theme-color); border:1.5px solid var(--theme-color);" onclick="openAddFriendModal()">＋ ${t('fg_add_friend')}</button>
           </div>
@@ -10130,8 +10129,7 @@
         } else {
           container.innerHTML = `
             <div class="empty-state">
-              <div class="empty-state-icon">👋</div>
-              <div class="empty-state-text">${t('friends_empty_text')}</div>
+              <div class="empty-state-text" style="padding-top:12px; margin-bottom:22px;">${t('friends_empty_text')}</div>
               <button class="empty-state-btn" onclick="openAddFriendModal()">＋ ${t('fg_add_friend')}</button>
               <button class="empty-state-btn" style="margin-top:8px;" onclick="shareMyInviteLink()">🔗 ${t('home_send_link')}</button>
             </div>`;
