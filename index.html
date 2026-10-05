@@ -13412,7 +13412,8 @@
             not_logged_in: t('friend_err_not_logged_in'),
             empty: t('friend_err_empty')
           };
-          res.innerHTML = `<p style="font-size:13px; color:#E6756B;">${messages[result.reason] || t('friend_err_generic')}</p>`;
+          const errCode = (!messages[result.reason] && result.code) ? ` (${String(result.code).replace(/[^a-zA-Z0-9\/_-]/g, '')})` : '';
+          res.innerHTML = `<p style="font-size:13px; color:#E6756B;">${messages[result.reason] || t('friend_err_generic')}${errCode}</p>`;
         }
         return;
       }
@@ -14779,16 +14780,21 @@
           avatar: friendData.avatar || '👤',
           addedAt: serverTimestamp()
         });
-        await setDoc(doc(db, 'users', friendUid, 'friends', currentUser.uid), {
-          name: myProfile.name || 'ぷかんユーザー',
-          avatar: myProfile.avatar || '👤',
-          addedAt: serverTimestamp()
-        });
+        try {
+          await setDoc(doc(db, 'users', friendUid, 'friends', currentUser.uid), {
+            name: myProfile.name || 'ぷかんユーザー',
+            avatar: myProfile.avatar || '👤',
+            addedAt: serverTimestamp()
+          });
+        } catch (e2) {
+          // 相手側の記録に書けなくても、追加自体は成功扱いにする（このあと送る friend_added の通知で相手側にも反映される）
+          console.warn('相手側のともだち記録の書き込みに失敗（続行）:', e2);
+        }
 
         return { ok: true, friend: { uid: friendUid, name: friendData.name || 'ともだち', avatar: friendData.avatar || '👤' } };
       } catch (err) {
         console.error('招待コードでのともだち追加に失敗:', err);
-        return { ok: false, reason: 'error', message: err && err.message };
+        return { ok: false, reason: 'error', message: err && err.message, code: err && err.code };
       }
     };
 
