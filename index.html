@@ -12545,12 +12545,82 @@
         const p = data.payload || {};
         const chatKey = localFriend.id;
         if (!appData.chats[chatKey]) appData.chats[chatKey] = [];
-        appData.chats[chatKey].push({ sender: 'them', text: p.text || '', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+        const themMsg = { sender: 'them', text: p.text || '', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+        if (p.mid) themMsg.mid = p.mid;
+        // そのチャットを今まさに開いて見ている最中なら、すぐ既読を返す（見ていなければ未読ドットを付ける）
+        const chatModalEl = document.getElementById('chat-modal');
+        const viewingNow = !!(currentChatFriendId === localFriend.id && !currentChatPlanId && chatModalEl && chatModalEl.classList.contains('active'));
+        if (!viewingNow) themMsg.seen = false;
+        appData.chats[chatKey].push(themMsg);
         saveData();
         if (typeof renderChatMessages === 'function' && currentChatFriendId === localFriend.id) {
           renderChatMessages();
         }
         if (typeof renderChatUnreadBadges === 'function') renderChatUnreadBadges();
+        if (viewingNow) sendChatReadReceipt(localFriend.id);
+        return;
+      }
+
+      if (data.type === 'plan_chat') {
+        // 3人以上の予定のグループチャットに、本物のともだちが書き込んだメッセージ
+        if (!localFriend) return;
+        const p = data.payload || {};
+        const target = findPlanForRemote(p, localFriend);
+        if (!target) return;
+        const key = 'plan_' + target.id;
+        if (!appData.chats[key]) appData.chats[key] = [];
+        if (p.mid && appData.chats[key].some(m => m.mid === p.mid && m.fromUid === fromUid)) return; // 二重受信を防ぐ
+        const gm = { sender: 'them', senderName: formatNameWithHonorific(localFriend), fromUid: fromUid, text: p.text || '', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+        if (p.mid) gm.mid = p.mid;
+        const modalEl = document.getElementById('chat-modal');
+        const viewing = !!(currentChatPlanId === target.id && modalEl && modalEl.classList.contains('active'));
+        if (!viewing) gm.seen = false;
+        appData.chats[key].push(gm);
+        saveData();
+        if (currentChatPlanId === target.id && typeof renderChatMessages === 'function') renderChatMessages();
+        if (typeof renderChatUnreadBadges === 'function') renderChatUnreadBadges();
+        if (viewing) sendPlanChatReadReceipt(target.id);
+        return;
+      }
+
+      if (data.type === 'plan_chat_read') {
+        // グループチャットで、本物のともだちがこちらのメッセージを見た → 「既読 X/Y」の人数に数える
+        if (!localFriend) return;
+        const p = data.payload || {};
+        const target = findPlanForRemote(p, localFriend);
+        if (!target || !p.mid) return;
+        const msgs = appData.chats['plan_' + target.id];
+        if (!msgs) return;
+        const idx = msgs.findIndex(m => m.sender === 'me' && m.mid === p.mid);
+        if (idx < 0) return;
+        let changed = false;
+        for (let i = 0; i <= idx; i++) {
+          const m = msgs[i];
+          if (m.sender !== 'me') continue;
+          m.readBy = m.readBy || [];
+          if (!m.readBy.includes(localFriend.id)) { m.readBy.push(localFriend.id); changed = true; }
+        }
+        if (changed) {
+          saveData();
+          if (currentChatPlanId === target.id && typeof renderChatMessages === 'function') renderChatMessages();
+        }
+        return;
+      }
+
+      if (data.type === 'chat_read') {
+        // 相手がチャットを開いて、こちらのメッセージを見た → ガチの既読を付ける
+        if (!localFriend) return;
+        const mid = (data.payload || {}).mid;
+        const msgs = appData.chats[localFriend.id];
+        if (!mid || !msgs) return;
+        const idx = msgs.findIndex(m => m.sender === 'me' && m.mid === mid);
+        if (idx < 0) return;
+        let changed = false;
+        for (let i = 0; i <= idx; i++) { if (msgs[i].sender === 'me' && !msgs[i].read) { msgs[i].read = true; changed = true; } }
+        if (changed) {
+          saveData();
+          if (typeof renderChatMessages === 'function' && currentChatFriendId === localFriend.id) renderChatMessages();
+        }
         return;
       }
 
@@ -12694,6 +12764,7 @@
 
       // 開いたタイミングで、相手からの未読メッセージがあれば「見た」ことにして未読バッジを消す
       markChatSeen(friendId);
+      sendChatReadReceipt(friendId);
       renderFriends();
       renderHome();
 
@@ -12731,6 +12802,7 @@
 
       // 開いたタイミングで、グループ内からの未読メッセージがあれば「見た」ことにして未読バッジを消す
       markChatSeen('plan_' + scheduleId);
+      sendPlanChatReadReceipt(scheduleId);
       renderFriends();
       renderGroups();
       renderHome();
@@ -13152,12 +13224,84 @@
     // 「既読」シミュレーション：本来は相手が実際に読んだかどうかだが、このデモには相手側のアプリが無いため、
     // チャットを開いてからしばらく経つと相手が読んだことにする擬似処理（既読通知の設定がONのときのみ意味を持つ）。
     // グループチャットの場合は、メンバーごとに少し時間差をつけて既読が増えていくようにする（既読 1/2 → 2/2 のように）。
+    // ---- グループチャット(3人以上の予定)を本物のともだちに届ける ----
+    // 予定は人ごとにidが違うので、「日付・場所・開始時間」で相手側の同じ予定を探す（予定の取消・脱退通知と同じ方式）
+    function planKeyPayload(item) {
+      return { date: item.date, time: item.time || '', timeStart: item.timeStart || '', place: item.place || '' };
+    }
+    function findPlanForRemote(p, localFriend) {
+      const startOf = x => x.timeStart || x.time || '';
+      const list = (appData.confirmedSchedules || []).filter(s =>
+        s.date === p.date && (s.place || '') === (p.place || '') && startOf(s) === startOf(p));
+      return list.find(s => (s.participantIds || []).includes(localFriend.id)) || (list.length === 1 ? list[0] : null);
+    }
+    function realParticipantUidsOfPlan(item) {
+      const out = [];
+      (item.participantIds || []).forEach(pid => {
+        if (pid === 'my_hima_id') return;
+        const f = appData.friends.find(x => x.id === pid);
+        const u = getFriendRealUidLocal(f);
+        if (u) out.push(u);
+      });
+      return out;
+    }
+    // グループチャットを開いた時に、「見たよ」を本物の参加者に返す（既読通知の設定がOFFなら返さない）
+    function sendPlanChatReadReceipt(scheduleId) {
+      try {
+        if (!appData.showRead) return;
+        if (typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+        const item = (appData.confirmedSchedules || []).find(s => s.id === scheduleId);
+        if (!item) return;
+        const msgs = appData.chats['plan_' + scheduleId] || [];
+        let last = null;
+        for (let i = msgs.length - 1; i >= 0; i--) { if (msgs[i].sender === 'them' && msgs[i].mid && msgs[i].fromUid) { last = msgs[i]; break; } }
+        if (!last) return;
+        if (!appData.chatReadSent) appData.chatReadSent = {};
+        const sentKey = 'plan_' + scheduleId;
+        if (appData.chatReadSent[sentKey] === last.mid) return;
+        appData.chatReadSent[sentKey] = last.mid;
+        saveData();
+        // 既読を返す相手は、そのメッセージを書いた本人
+        window.pukanSendInboxNotification(last.fromUid, 'plan_chat_read', Object.assign({ mid: last.mid }, planKeyPayload(item)));
+      } catch (e) { console.warn('グループ既読の送信に失敗:', e); }
+    }
+
+    // 本物のともだち(IDで追加した相手)かどうか。本物の相手の既読は、実際に相手が見たときにだけ付ける。
+    function isRealFriendLocalId(id) {
+      const f = appData.friends.find(x => x.id === id);
+      return !!(f && getFriendRealUidLocal(f));
+    }
+
+    // 自分が相手のチャットを開いた時に「読んだよ」を相手に返す（相手側で、自分のメッセージに既読が付く）。
+    // 「メッセージ既読通知を表示」がOFFのときは返さない（見せない人は、相手の既読も見えない）。
+    function sendChatReadReceipt(friendId) {
+      try {
+        if (!appData.showRead) return;
+        if (typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+        const f = appData.friends.find(x => x.id === friendId);
+        const uid = f ? getFriendRealUidLocal(f) : null;
+        if (!uid) return;
+        const msgs = appData.chats[friendId] || [];
+        let last = null;
+        for (let i = msgs.length - 1; i >= 0; i--) { if (msgs[i].sender === 'them' && msgs[i].mid) { last = msgs[i]; break; } }
+        if (!last) return;
+        if (!appData.chatReadSent) appData.chatReadSent = {};
+        if (appData.chatReadSent[friendId] === last.mid) return;
+        appData.chatReadSent[friendId] = last.mid;
+        saveData();
+        window.pukanSendInboxNotification(uid, 'chat_read', { mid: last.mid });
+      } catch (e) { console.warn('既読の送信に失敗:', e); }
+    }
+
     function simulateMessageRead(chatKey) {
       const msgs = appData.chats[chatKey];
       if (!msgs || msgs.length === 0) return;
-      const otherIds = getChatOtherParticipantIds(chatKey);
+      if (isRealFriendLocalId(chatKey)) return; // 本物の相手は、実際に見たときにだけ既読が付く
+      const allOtherIds = getChatOtherParticipantIds(chatKey);
+      const otherIds = allOtherIds.filter(id => !isRealFriendLocalId(id));
+      if (otherIds.length === 0) return;
 
-      if (otherIds.length > 1) {
+      if (allOtherIds.length > 1) {
         otherIds.forEach((oid, i) => {
           setTimeout(() => {
             const liveMsgs = appData.chats[chatKey];
@@ -13203,7 +13347,7 @@
       }
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const newMsg = { sender: 'me', text: text, time: timeStr, read: false };
+      const newMsg = { sender: 'me', text: text, time: timeStr, read: false, mid: 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6) };
       if (pendingReplyTarget) {
         newMsg.quote = pendingReplyTarget;
         pendingReplyTarget = null;
@@ -13219,11 +13363,20 @@
         const friend = appData.friends.find(f => f.id === currentChatFriendId);
         const realUid = friend ? getFriendRealUidLocal(friend) : null;
         if (realUid && typeof window.pukanSendInboxNotification === 'function') {
-          window.pukanSendInboxNotification(realUid, 'chat', { text });
+          window.pukanSendInboxNotification(realUid, 'chat', { text, mid: newMsg.mid });
         }
       }
 
-      // このデモには相手側のアプリが無いため、少し時間が経つと相手が読んだことにする
+      // 3人以上の予定のグループチャット：本物のともだちの参加者にも実際に届ける
+      if (currentChatPlanId && typeof window.pukanSendInboxNotification === 'function' && appData.firebaseUid) {
+        const planItem = (appData.confirmedSchedules || []).find(s => s.id === currentChatPlanId);
+        if (planItem) {
+          const gp = Object.assign({ text, mid: newMsg.mid }, planKeyPayload(planItem));
+          realParticipantUidsOfPlan(planItem).forEach(u => window.pukanSendInboxNotification(u, 'plan_chat', gp));
+        }
+      }
+
+      // サンプルのともだち向けのデモ：少し時間が経つと相手が読んだことにする（本物の相手には何もしない）
       setTimeout(() => simulateMessageRead(chatKey), 1800);
     }
 
