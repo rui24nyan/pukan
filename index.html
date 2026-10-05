@@ -3550,7 +3550,7 @@
         <label class="input-label"><span data-i18n="hima_scope_label">ひま情報を見せるともだち</span> <span data-i18n="hima_scope_hint">未選択の場合はともだち全員に公開</span></label>
         <div id="hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openHimaScopeSelectorModal()">
           <span id="hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
-          <span style="color: var(--text-sub);">▼</span>
+          <span style="color: var(--text-sub);">▼︎</span>
         </div>
       </div>
 
@@ -3607,7 +3607,7 @@
         <label class="input-label" data-i18n="hima_scope_label">ひま情報を見せるともだち</label>
         <div id="edit-hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openEditHimaScopeSelectorModal()">
           <span id="edit-hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
-          <span style="color: var(--text-sub);">▼</span>
+          <span style="color: var(--text-sub);">▼︎</span>
         </div>
       </div>
 
@@ -3684,13 +3684,13 @@
 
       <div class="scope-section-header" onclick="toggleScopeSection('groups')">
         <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);" data-i18n="ui_031">グループ</h4>
-        <span class="scope-section-chevron" id="scope-groups-chevron">▾</span>
+        <span class="scope-section-chevron" id="scope-groups-chevron">▾︎</span>
       </div>
       <div id="scope-groups-container" style="margin-bottom: 14px;"></div>
 
       <div class="scope-section-header" onclick="toggleScopeSection('friends')">
         <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);" data-i18n="ui_032">ともだち</h4>
-        <span class="scope-section-chevron" id="scope-friends-chevron">▾</span>
+        <span class="scope-section-chevron" id="scope-friends-chevron">▾︎</span>
       </div>
       <div id="scope-friends-body">
         <button class="btn-secondary-sm" id="scope-favorites-toggle-btn" style="width: 100%; margin-bottom: 8px; text-align: center;" onclick="selectFavoritesInScope()">お気に入りを一括選択</button>
@@ -4172,7 +4172,7 @@
         <label class="input-label"><span data-i18n="hima_scope_label">ひま情報を見せるともだち</span> <span data-i18n="hima_scope_hint">未選択の場合はともだち全員に公開</span></label>
         <div id="day-hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openHimaScopeSelectorModal()">
           <span id="day-hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
-          <span style="color: var(--text-sub);">▼</span>
+          <span style="color: var(--text-sub);">▼︎</span>
         </div>
       </div>
       <button class="btn-primary" onclick="submitDayHima(event)" data-i18n="ui_096">この日のひまを追加</button>
@@ -4308,7 +4308,7 @@
 
       <div id="theme-mode-flat-section">
         <div class="color-chip-grid collapsed" id="color-picker" style="margin-top:18px;"></div>
-        <button class="theme-color-toggle" id="color-toggle-btn" onclick="toggleColorGrid()">もっと見る ▾</button>
+        <button class="theme-color-toggle" id="color-toggle-btn" onclick="toggleColorGrid()">もっと見る ▾︎</button>
 
         <label style="display:flex; align-items:center; gap:10px; margin-top:18px; font-size:13px; font-weight:700; color: var(--text-main); cursor:pointer;">
           <span class="switch"><input type="checkbox" id="bicolor-toggle" onchange="toggleBicolorMode(this.checked)"><span class="slider"></span></span>
@@ -4317,7 +4317,7 @@
         <div id="bicolor-second-section" style="display:none; margin-top:12px;">
           <p style="font-size:12px; color:var(--text-sub); margin-bottom:8px;" data-i18n="ui_108">2色目を選んでね（ヘッダーと背景がグラデーションになるよ）</p>
           <div class="color-chip-grid collapsed" id="color-picker-2"></div>
-          <button class="theme-color-toggle" id="color-toggle-btn-2" onclick="toggleColorGrid()">もっと見る ▾</button>
+          <button class="theme-color-toggle" id="color-toggle-btn-2" onclick="toggleColorGrid()">もっと見る ▾︎</button>
         </div>
 
         <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;" data-i18n="theme_bg_pattern">背景の柄</h3>
@@ -4351,7 +4351,7 @@
       <div class="premium-benefit-list" id="premium-modal-benefits"></div>
       <button class="btn-primary" style="width: 100%;" onclick="purchasePremium()" data-i18n="ui_110">150円でプレミアムになる</button>
       <button style="width: 100%; margin-top: 8px; background: none; border: none; color: var(--text-sub); font-size: 13px; padding: 10px;" onclick="closeModal('premium-modal')" data-i18n="ui_052">やめとく</button>
-      <p style="font-size: 11px; color: var(--text-sub); margin-top: 10px;" data-i18n="ui_111">※デモ版のため、実際の決済は発生しません</p>
+      <p style="font-size: 11px; color: var(--text-sub); margin-top: 10px;" data-i18n="ui_111">※いまは公開記念で、すべての機能を無料で使えます</p>
     </div>
   </div>
 
@@ -5161,8 +5161,10 @@
         common_withdraw: '取消',
         btn_add_friend_plus: '＋ともだち追加',
         group_member_not_friend: 'ともだち未追加',
+        notice_plan_edited: '✏️ {name}が予定の内容を変更しました',
         empty_btn_add: '＋ ともだちを追加',
         empty_btn_invite: 'ともだちを招待する',
+        batch_real_note: 'ともだち本人には、1人ずつ個別に誘いを送ったよ。返事はそれぞれ届くよ。',
         cancel_plan_btn: '予定をキャンセル',
         dm_inbox_title: 'チャット一覧',
         host_desc_1: '「ひま」の共有から一歩踏み込んで、みんなを集めるイベントに。',
@@ -5201,8 +5203,8 @@
         install_hint_ios: '📲 <strong>ホーム画面に追加</strong>すると、アプリみたいに全画面で開けるよ。<br>Safariの <strong>共有ボタン（□↑）</strong> → <strong>「ホーム画面に追加」</strong> をタップしてね。',
         install_hint_android: '📲 <strong>ホーム画面に追加</strong>すると、アプリみたいに開けるよ。',
         install_hint_btn: '追加する',
-        show_less: '閉じる ▴',
-        show_more: 'もっと見る ▾',
+        show_less: '閉じる ▴︎',
+        show_more: 'もっと見る ▾︎',
         premium_badge: '🔒 プレミアム',
         ics_purpose: '目的: {memo}',
         ics_desc_plan: '「ぷかん」で確定した予定だよ',
@@ -5297,7 +5299,7 @@
         unfav: '♥ お気に入りを解除',
         fav_add: '♡ お気に入りに追加',
         premium_active_7d: '✅ 有効（7日）',
-        msg_reply: '↩️ 返信',
+        msg_reply: '↩︎ 返信',
         msg_remove_reaction: '🚫 リアクションを消す',
         no_free_to_invite: '今「ひま」を出している、誘える友達がいません',
         no_free_label: 'ひまなし',
@@ -5514,7 +5516,7 @@
         ui_108: '2色目を選んでね（ヘッダーと背景がグラデーションになるよ）',
         ui_109: 'ぷかんプレミアム',
         ui_110: '150円でプレミアムになる',
-        ui_111: '※デモ版のため、実際の決済は発生しません',
+        ui_111: '※いまは公開記念で、すべての機能を無料で使えます',
         ui_112: 'リアクションを選ぶ',
         ui_113: 'ともだちの表示名編集',
         ui_114: 'ともだちのブロック',
@@ -5773,8 +5775,10 @@
         common_withdraw: 'Cancel',
         btn_add_friend_plus: '+ Add friend',
         group_member_not_friend: 'Not a friend yet',
+        notice_plan_edited: '✏️ {name} changed the plan details',
         empty_btn_add: '＋ Add friend',
         empty_btn_invite: 'Invite friends',
+        batch_real_note: 'Invitations were sent to your friends one by one. Each reply will arrive separately.',
         cancel_plan_btn: 'Cancel plan',
         dm_inbox_title: 'Chats',
         host_desc_1: 'Go a step beyond sharing free time — make it an event that gathers everyone.',
@@ -5813,8 +5817,8 @@
         install_hint_ios: '📲 <strong>Add to Home Screen</strong> to open Pukan full-screen like an app.<br>In Safari, tap the <strong>Share button (□↑)</strong> → <strong>"Add to Home Screen"</strong>.',
         install_hint_android: '📲 <strong>Add to Home Screen</strong> to open Pukan like an app.',
         install_hint_btn: 'Add',
-        show_less: 'Close ▴',
-        show_more: 'Show more ▾',
+        show_less: 'Close ▴︎',
+        show_more: 'Show more ▾︎',
         premium_badge: '🔒 Premium',
         ics_purpose: 'Purpose: {memo}',
         ics_desc_plan: 'A plan confirmed on Pukan',
@@ -5909,7 +5913,7 @@
         unfav: '♥ Remove from favorites',
         fav_add: '♡ Add to favorites',
         premium_active_7d: '✅ Active (7 days)',
-        msg_reply: '↩️ Reply',
+        msg_reply: '↩︎ Reply',
         msg_remove_reaction: '🚫 Remove reaction',
         no_free_to_invite: 'No friends are currently free to invite',
         no_free_label: 'Not free',
@@ -6126,7 +6130,7 @@
         ui_108: 'Pick a second color (the header and background become a gradient)',
         ui_109: 'Pukan Premium',
         ui_110: 'Get Premium for ¥150',
-        ui_111: '*This is a demo — no real payment will be made',
+        ui_111: '*All features are free to use for now',
         ui_112: 'Choose a reaction',
         ui_113: 'Edit friend\'s display name',
         ui_114: 'Block friend',
@@ -6385,8 +6389,10 @@
         common_withdraw: '취소',
         btn_add_friend_plus: '+ 친구 추가',
         group_member_not_friend: '아직 친구 아님',
+        notice_plan_edited: '✏️ {name}님이 일정 내용을 변경했어요',
         empty_btn_add: '＋ 친구 추가',
         empty_btn_invite: '친구 초대하기',
+        batch_real_note: '친구들에게 한 명씩 따로 초대를 보냈어요. 답장은 각각 도착해요.',
         cancel_plan_btn: '일정 취소',
         dm_inbox_title: '채팅 목록',
         host_desc_1: '\'한가해요\' 공유에서 한 걸음 더 나아가 모두를 모으는 이벤트로.',
@@ -6425,8 +6431,8 @@
         install_hint_ios: '📲 <strong>홈 화면에 추가</strong>하면 앱처럼 전체 화면으로 열 수 있어요.<br>Safari의 <strong>공유 버튼 (□↑)</strong> → <strong>"홈 화면에 추가"</strong>를 탭해 주세요.',
         install_hint_android: '📲 <strong>홈 화면에 추가</strong>하면 앱처럼 열 수 있어요.',
         install_hint_btn: '추가',
-        show_less: '닫기 ▴',
-        show_more: '더 보기 ▾',
+        show_less: '닫기 ▴︎',
+        show_more: '더 보기 ▾︎',
         premium_badge: '🔒 프리미엄',
         ics_purpose: '목적: {memo}',
         ics_desc_plan: '푸칸에서 확정한 일정이에요',
@@ -6521,7 +6527,7 @@
         unfav: '♥ 즐겨찾기 해제',
         fav_add: '♡ 즐겨찾기에 추가',
         premium_active_7d: '✅ 사용 중 (7일)',
-        msg_reply: '↩️ 답장',
+        msg_reply: '↩︎ 답장',
         msg_remove_reaction: '🚫 리액션 지우기',
         no_free_to_invite: '지금 \'한가해요\'를 올린 초대할 수 있는 친구가 없어요',
         no_free_label: '한가하지 않음',
@@ -6738,7 +6744,7 @@
         ui_108: '두 번째 색을 골라 주세요 (헤더와 배경이 그라데이션이 돼요)',
         ui_109: '푸칸 프리미엄',
         ui_110: '150엔으로 프리미엄 되기',
-        ui_111: '※데모 버전이라 실제 결제는 발생하지 않아요',
+        ui_111: '※지금은 모든 기능을 무료로 쓸 수 있어요',
         ui_112: '리액션 선택',
         ui_113: '친구 표시 이름 수정',
         ui_114: '친구 차단',
@@ -7055,11 +7061,13 @@
         if (!s.recruiting) return;
         if (s.date < todayStr) {
           s.recruiting = false;
+          closeRecruitBroadcast(s);
           changed = true;
         } else if (s.date === todayStr && !s.allDay && s.timeEnd) {
           const nowHHMM = new Date().toTimeString().slice(0, 5);
           if (nowHHMM >= s.timeEnd) {
             s.recruiting = false;
+            closeRecruitBroadcast(s);
             changed = true;
           }
         }
@@ -7076,6 +7084,13 @@
       if (friend) return { id, name: friend.name, avatar: friend.avatar || '👤', isFriend: true, isCustomName: !!friend.isCustomName };
       const stranger = (appData.strangers || []).find(s => s.id === id);
       if (stranger) return { id, name: stranger.name, avatar: stranger.avatar || '👤', isStranger: true };
+      if (typeof id === 'string' && id.indexOf('f_') === 0) {
+        const xuid = id.slice(2);
+        for (const g of (appData.groups || [])) {
+          const xm = (g.extraMembers || []).find(m => m.uid === xuid);
+          if (xm) return { id, name: xm.name, avatar: xm.avatar || '👤' };
+        }
+      }
       return { id, name: 'ともだち', avatar: '👤' };
     }
 
@@ -8064,6 +8079,40 @@
       }
     }
 
+    // ---- 日程アンケートを、グループの本物のメンバーと共有する ----
+    // グループは人ごとにidが違うので、「グループの元のid＋作った人のuid」でお互いのグループを対応づける
+    function groupRawRef(group) {
+      const myUid = appData.firebaseUid;
+      const ownerUid = group.ownerUid || myUid;
+      const raw = group.ownerUid ? group.id.replace('gr_' + group.ownerUid + '_', '') : group.id;
+      return { groupId: raw, ownerUid };
+    }
+    function localGroupFromRef(ref) {
+      if (!ref || !ref.groupId || !ref.ownerUid) return null;
+      const gid = ref.ownerUid === appData.firebaseUid ? ref.groupId : 'gr_' + ref.ownerUid + '_' + ref.groupId;
+      return appData.groups.find(g => g.id === gid) || null;
+    }
+    function peerUidsOfGroup(group) {
+      const myUid = appData.firebaseUid;
+      const out = new Set(groupAllMemberUids(group));
+      if (group.ownerUid) out.add(group.ownerUid);
+      out.delete(myUid);
+      return [...out];
+    }
+    function sendToGroupPeers(group, type, payload) {
+      if (!group || typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+      peerUidsOfGroup(group).forEach(u => window.pukanSendInboxNotification(u, type, payload));
+    }
+    function isGroupPeer(group, uid) {
+      return !!group && peerUidsOfGroup(group).includes(uid);
+    }
+    function sendPollVote(poll, dateStr) {
+      const group = appData.groups.find(g => g.id === poll.groupId);
+      if (!group) return;
+      const r = (poll.responses[dateStr] || {})['my_hima_id'];
+      sendToGroupPeers(group, 'poll_vote', { pollId: poll.id, date: dateStr, status: r ? r.status : '', note: r ? (r.note || '') : '' });
+    }
+
     function savePoll() {
       if (!currentGroupDetailId) return;
       const title = (document.getElementById('poll-title-input')?.value || '').trim();
@@ -8082,6 +8131,11 @@
         creatorId: 'my_hima_id'
       });
       saveData();
+      {
+        const pg = appData.groups.find(g => g.id === currentGroupDetailId);
+        const np = appData.datePolls[appData.datePolls.length - 1];
+        if (pg) sendToGroupPeers(pg, 'poll_sync', Object.assign({ pollId: np.id, title: np.title, candidateDates: np.candidateDates }, groupRawRef(pg)));
+      }
       closeModal('poll-create-modal');
       renderGroupPolls(currentGroupDetailId);
     }
@@ -8141,7 +8195,7 @@
                 <button class="poll-answer-btn ${myResp && myResp.status === 'yes' ? 'selected-yes' : ''}" onclick="respondToPoll('${poll.id}', '${dateStr}', 'yes')">${t('poll_yes')}</button>
                 <button class="poll-answer-btn ${myResp && myResp.status === 'maybe' ? 'selected-maybe' : ''}" onclick="openPollMaybeNote('${poll.id}', '${dateStr}')">${t('poll_maybe')}</button>
                 <button class="poll-answer-btn ${myResp && myResp.status === 'no' ? 'selected-no' : ''}" onclick="respondToPoll('${poll.id}', '${dateStr}', 'no')">${t('poll_no')}</button>
-                <button class="btn-secondary-sm" onclick="simulateOtherMembersPollResponse('${poll.id}', '${dateStr}')">${t('poll_simulate')}</button>
+                ${appData.firebaseUid ? '' : `<button class="btn-secondary-sm" onclick="simulateOtherMembersPollResponse('${poll.id}', '${dateStr}')">${t('poll_simulate')}</button>`}
                 ${yesCount + maybeEntries.length > 0 ? `<button class="btn-secondary-sm" onclick="confirmPollDate('${poll.id}', '${dateStr}')">${t('poll_confirm_date')}</button>` : ''}
               </div>
             </div>
@@ -8172,6 +8226,7 @@
       }
       saveData();
       renderGroupPolls(poll.groupId);
+      sendPollVote(poll, dateStr);
     }
 
     // 「△ 微妙」は理由を一言添えられるようにする（例：午後なら／途中合流かも）
@@ -8203,6 +8258,7 @@
       poll.responses[dateStr]['my_hima_id'] = { status: 'maybe', note };
       saveData();
       renderGroupPolls(poll.groupId);
+      sendPollVote(poll, dateStr);
     }
 
     // デモ用：自分以外のメンバーの回答を、まだ答えていない日付についてだけランダムに埋める
@@ -8234,8 +8290,13 @@
       if (!poll) return;
       const resp = poll.responses[dateStr] || {};
       const goingIds = Object.keys(resp).filter(fid => resp[fid] && (resp[fid].status === 'yes' || resp[fid].status === 'maybe'));
-      const participantIds = [...new Set(['my_hima_id', ...goingIds])];
       const group = appData.groups.find(g => g.id === poll.groupId);
+      // 予定の参加者はともだち(と自分)だけ。ともだち未追加の人は、予定には入れられない
+      const participantIds = [...new Set(['my_hima_id', ...goingIds.filter(fid => fid === 'my_hima_id' || appData.friends.some(f => f.id === fid))])];
+      if (group && appData.firebaseUid) {
+        const goingUids = goingIds.map(fid => fid === 'my_hima_id' ? appData.firebaseUid : (fid.indexOf('f_') === 0 ? fid.slice(2) : null)).filter(Boolean);
+        sendToGroupPeers(group, 'poll_confirmed', { pollId: poll.id, date: dateStr, title: poll.title || '', groupName: group.name, goingUids });
+      }
 
       appData.confirmedSchedules.push({
         id: 'cs_poll_' + Date.now(),
@@ -8262,6 +8323,8 @@
     function deletePoll(pollId) {
       const poll = (appData.datePolls || []).find(p => p.id === pollId);
       if (!poll) return;
+      const dgroup = appData.groups.find(g => g.id === poll.groupId);
+      if (dgroup) sendToGroupPeers(dgroup, 'poll_deleted', { pollId: poll.id });
       appData.datePolls = (appData.datePolls || []).filter(p => p.id !== pollId);
       saveData();
       renderGroupPolls(poll.groupId);
@@ -8875,9 +8938,9 @@
       // （内容は全てこちらで用意した固定文言のみなので、ユーザー入力が混ざる心配は無い）
       document.getElementById('onboarding-title').innerHTML = step.title;
       document.getElementById('onboarding-desc').textContent = step.desc;
-      document.getElementById('onboarding-next-btn').textContent = isLast ? t('ob_finish') : '▶';
+      document.getElementById('onboarding-next-btn').textContent = isLast ? t('ob_finish') : '▶︎';
       // 1枚目では戻る場所が無いので非表示、2枚目以降は表示（スキップして進んだ人が見返せるように）
-      document.getElementById('onboarding-back-btn').textContent = '◀';
+      document.getElementById('onboarding-back-btn').textContent = '◀︎';
       document.getElementById('onboarding-back-btn').style.display = currentOnboardingStep === 0 ? 'none' : '';
 
       const dotsEl = document.getElementById('onboarding-dots');
@@ -9823,6 +9886,8 @@
       // すでに確定している予定同士の変更なので、重なっていても「本当にこの内容でいい？」と確認するだけで、
       // 「あなたのひま」新規投稿のようにブロックまではしない（既存の確定予定編集と同じ考え方）
       checkOverlapThenRun(draft, () => {
+        const oldKey = { date: item.date, time: item.time || '', timeStart: item.timeStart || '', place: item.place || '' };
+        const hadPk = ensurePlanPk(item);
         item.date = draft.date;
         item.time = draft.time;
         item.timeStart = draft.timeStart;
@@ -9842,6 +9907,14 @@
         // 今編集したこの予定を優先してそちらを自動的に取り除く（新規に予定が確定する時と同じ扱い）
         removeOverlappingConfirmedSchedules(item);
         removeOverlappingMyHima(item);
+
+        // 本物のともだちが参加している予定なら、変更内容を相手にも反映する
+        try {
+          if (typeof window.pukanSendInboxNotification === 'function' && appData.firebaseUid) {
+            const ep = { pk: hadPk, old: oldKey, date: item.date, time: item.time || '', timeStart: item.timeStart || '', timeEnd: item.timeEnd || '', allDay: !!item.allDay, place: item.place || '', memo: item.memo || '', groupName: item.groupName || '' };
+            realParticipantUidsOfPlan(item).forEach(u => window.pukanSendInboxNotification(u, 'plan_edited', ep));
+          }
+        } catch (e) { console.warn('予定変更の送信に失敗:', e); }
 
         saveData();
         closeModal('edit-confirmed-modal');
@@ -9920,12 +9993,12 @@
 
         // すでに参加が決まっている人・まだ返事待ちの人がいれば、あわせて表示する
         const confirmedNames = (item.groupConfirmedIds || []).map(fid => {
-          const f = appData.friends.find(ff => ff.id === fid);
-          return f ? f.name : t('common_friend_fallback');
+          const f = getPersonById(fid);
+          return f && f.name ? f.name : t('common_friend_fallback');
         });
         const pendingNames = (item.groupPendingIds || []).map(fid => {
-          const f = appData.friends.find(ff => ff.id === fid);
-          return f ? f.name : t('common_friend_fallback');
+          const f = getPersonById(fid);
+          return f && f.name ? f.name : t('common_friend_fallback');
         });
         const confirmedHtml = confirmedNames.length > 0
           ? `<div class="my-hima-scope-display">${t('also_joining', {names: confirmedNames.join('、')})}</div>`
@@ -11210,6 +11283,40 @@
       }
     }
 
+    // ================= 追加募集を本物のともだちに届ける =================
+    // 募集中の予定を、公開範囲に入っている本物のともだちに送る。人ごとに予定のidが違うので、
+    // 募集を始めた予定に共通の番号(sharedId)を付けて、お互いの画面で同じ募集として扱う。
+    function recruitPayload(s) {
+      const uids = [appData.firebaseUid];
+      (s.participantIds || []).forEach(pid => {
+        if (pid === 'my_hima_id') return;
+        const f = appData.friends.find(x => x.id === pid);
+        const u = getFriendRealUidLocal(f);
+        if (u) uids.push(u);
+      });
+      return { planId: s.sharedId, date: s.date, time: s.time || '', timeStart: s.timeStart || '', timeEnd: s.timeEnd || '', allDay: !!s.allDay, place: s.place || '', memo: s.memo || '', participantUids: uids };
+    }
+    function broadcastRecruitPlan(s) {
+      try {
+        if (!s || typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+        if (!s.sharedId) s.sharedId = 'rp' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        const payload = recruitPayload(s);
+        const targets = appData.friends.filter(f => getFriendRealUidLocal(f) && !(s.participantIds || []).includes(f.id) && canUserSeeHima(s, f.id)).map(f => getFriendRealUidLocal(f));
+        const prev = s.recruitNotifiedUids || [];
+        targets.forEach(u => window.pukanSendInboxNotification(u, 'recruit_plan', payload));
+        prev.filter(u => !targets.includes(u)).forEach(u => window.pukanSendInboxNotification(u, 'recruit_closed', { planId: s.sharedId }));
+        s.recruitNotifiedUids = targets;
+        saveData();
+      } catch (e) { console.warn('募集の送信に失敗:', e); }
+    }
+    function closeRecruitBroadcast(s) {
+      try {
+        if (!s || s.remote || !s.sharedId || typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+        (s.recruitNotifiedUids || []).forEach(u => window.pukanSendInboxNotification(u, 'recruit_closed', { planId: s.sharedId }));
+        s.recruitNotifiedUids = [];
+      } catch (e) {}
+    }
+
     // ================= 追加募集フロー =================
     // 予定確定後、または確定済み予定の詳細から呼び出す。
     // 「まだ募集を続けますか？」→「公開範囲に変更はありますか？」の順に確認する。
@@ -11255,6 +11362,7 @@
         if (!s.participantIds.includes('my_hima_id')) s.participantIds.push('my_hima_id');
         if (!s.pendingRequests) s.pendingRequests = [];
         saveData();
+        broadcastRecruitPlan(s);
       }
       const finishedId = pendingRecruitScheduleId;
       pendingRecruitScheduleId = null;
@@ -11289,6 +11397,7 @@
       if (s) {
         s.scope = JSON.parse(JSON.stringify(scopeObj || { friends: [], groups: [] }));
         saveData();
+        broadcastRecruitPlan(s);
       }
       const finishedId = pendingRecruitScheduleId;
       pendingRecruitScheduleId = null;
@@ -11474,7 +11583,9 @@
       const s = (appData.confirmedSchedules || []).find(x => x.id === scheduleId);
       if (!s || !s.recruiting) return; // すでに募集を締め切っていたら何もしない
 
+      // 本物のともだちからの参加リクエストを勝手にでっち上げないよう、デモ用のサンプルともだちだけを対象にする
       const candidates = appData.friends.filter(f =>
+        !isRealFriendLocalId(f.id) &&
         !(s.participantIds || []).includes(f.id) &&
         !(s.pendingRequests || []).includes(f.id) &&
         canUserSeeHima(s, f.id)
@@ -11500,6 +11611,7 @@
       const s = (appData.confirmedSchedules || []).find(x => x.id === scheduleId);
       if (!s) return;
       s.recruiting = false;
+      closeRecruitBroadcast(s);
       saveData();
       renderHome();
       renderCalendar();
@@ -11513,6 +11625,21 @@
       s.pendingRequests = (s.pendingRequests || []).filter(id => id !== personId);
       if (!s.participantIds.includes(personId)) s.participantIds.push(personId);
       const p = getPersonById(personId);
+      // 本物のともだちからのリクエストなら、承認を相手に知らせる。ほかの参加者にも「参加したよ」を伝え、募集の表示も更新する
+      {
+        const nf = appData.friends.find(f => f.id === personId);
+        const nuid = getFriendRealUidLocal(nf);
+        if (nuid && s.sharedId && typeof window.pukanSendInboxNotification === 'function') {
+          window.pukanSendInboxNotification(nuid, 'join_approved', recruitPayload(s));
+          (s.participantIds || []).forEach(pid => {
+            if (pid === 'my_hima_id' || pid === personId) return;
+            const pf = appData.friends.find(f => f.id === pid);
+            const pu = getFriendRealUidLocal(pf);
+            if (pu) window.pukanSendInboxNotification(pu, 'plan_member_added', Object.assign({ uid: nuid, name: nf.name }, planKeyPayload(s)));
+          });
+          broadcastRecruitPlan(s);
+        }
+      }
       appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_joined', params: { name: formatNameWithHonorific(p) }, dateKey: 'date_today', read: false, action: { type: 'confirmedDetail', id: scheduleId } });
       // チャットに「ここから参加しました」の区切りを残す（参加より前の会話が続けて見えてしまわないようにするため）
       pushChatSystemMessage('plan_' + scheduleId, t('joined_msg', {name: formatNameWithHonorific(p)}));
@@ -11528,6 +11655,13 @@
       const s = (appData.confirmedSchedules || []).find(x => x.id === scheduleId);
       if (!s) return;
       s.pendingRequests = (s.pendingRequests || []).filter(id => id !== personId);
+      {
+        const nf = appData.friends.find(f => f.id === personId);
+        const nuid = getFriendRealUidLocal(nf);
+        if (nuid && s.sharedId && typeof window.pukanSendInboxNotification === 'function') {
+          window.pukanSendInboxNotification(nuid, 'join_rejected', { planId: s.sharedId });
+        }
+      }
       saveData();
       renderHome();
       openConfirmedDetailModal(scheduleId);
@@ -11581,6 +11715,9 @@
         const stranger = appData.strangers[idx];
         appData.friends.push({ id: stranger.id, name: stranger.name, avatar: stranger.avatar, pinned: false, addedAt: getFormattedDate(0) });
         appData.strangers.splice(idx, 1);
+        // 本物の人なら、相手のともだち一覧にも自分が入るよう知らせる
+        const sUid = getFriendRealUidLocal({ id: stranger.id });
+        if (sUid) { try { sendFriendAddedTo(sUid); } catch (e) {} }
         saveData();
         renderFriends();
         renderGroups();
@@ -11694,6 +11831,12 @@
       saveData();
       renderRecruitPlans();
 
+      // 本物のともだちの募集なら、募集した人にリクエストを送って、返事を待つ（デモの自動承認はしない）
+      if (s.remote && s.remote.hostUid) {
+        if (typeof window.pukanSendInboxNotification === 'function') window.pukanSendInboxNotification(s.remote.hostUid, 'join_request', { planId: s.remote.planId });
+        return;
+      }
+
       setTimeout(() => {
         const still = (appData.confirmedSchedules || []).find(x => x.id === scheduleId);
         if (!still || !still.pendingRequests || !still.pendingRequests.includes('my_hima_id')) return;
@@ -11741,7 +11884,7 @@
 
       const isCollapsed = body.style.display === 'none';
       body.style.display = isCollapsed ? '' : 'none';
-      if (chevron) chevron.textContent = isCollapsed ? '▾' : '▸';
+      if (chevron) chevron.textContent = isCollapsed ? '▾︎' : '▸︎';
     }
 
     function updateHimaScopeSummaryText() {
@@ -11970,13 +12113,14 @@
       if (!hima || hima.status) return; // 既に誘われている／状態が変わっている場合は何もしない
 
       // この「ひま」が公開範囲的に見える友達の中からランダムに選ぶ
-      const candidates = appData.friends.filter(f => canUserSeeHima(hima, f.id));
+      // 本物のともだちから誘われたことにしない（デモ用のサンプルともだちだけ）
+      const candidates = appData.friends.filter(f => !isRealFriendLocalId(f.id) && canUserSeeHima(hima, f.id));
       if (candidates.length === 0) return;
       const friend = candidates[Math.floor(Math.random() * candidates.length)];
 
       // ある程度の確率で「実は他の友達も一緒（すでに参加予定／まだ返事待ち）」という、
       // 1対1に留まらないグループっぽい誘いにする。誘われた側の画面にその状況を伝えるための演出。
-      const others = appData.friends.filter(f => f.id !== friend.id);
+      const others = appData.friends.filter(f => f.id !== friend.id && !isRealFriendLocalId(f.id));
       let groupConfirmedIds = [];
       let groupPendingIds = [];
       if (others.length > 0 && Math.random() < 0.5) {
@@ -12137,7 +12281,8 @@
     // 確定予定を取り消し／抜けた時に、本物のともだちの参加者へ知らせる（kind: 'cancel' | 'leave'）
     function notifyRealParticipantsOfPlanChange(item, kind) {
       if (!item || typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
-      const payload = { kind, date: item.date, time: item.time || '', timeStart: item.timeStart || '', timeEnd: item.timeEnd || '', place: item.place || '' };
+      if (kind === 'cancel') closeRecruitBroadcast(item);
+      const payload = { kind, pk: ensurePlanPk(item), date: item.date, time: item.time || '', timeStart: item.timeStart || '', timeEnd: item.timeEnd || '', place: item.place || '' };
       (item.participantIds || []).forEach(pid => {
         if (pid === 'my_hima_id') return;
         const f = appData.friends.find(x => x.id === pid);
@@ -12321,13 +12466,19 @@
       if (!data || !data.type) return;
       data = sanitizeRemoteValue(data);
       const fromUid = data.fromUid;
-      const localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
+      let localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
+      // 予定のグループチャット等は、ともだちではない同じ予定の参加者（ストレンジャー）からも届く
+      if (!localFriend && typeof data.type === 'string' && data.type.indexOf('plan_') === 0) {
+        localFriend = (appData.strangers || []).find(x => x.id === 'f_' + fromUid) || null;
+      }
 
       if (data.type === 'friend_added') {
         // 相手が自分のIDでともだち追加してくれた → こちらのともだち一覧にも自動で入れる
         if (!fromUid) return;
+        if ((appData.blockedFriendIds || []).includes('f_' + fromUid)) return; // ブロック中の相手は入れない
         const pl = data.payload || {};
         if (!localFriend) {
+          appData.strangers = (appData.strangers || []).filter(x => x.id !== 'f_' + fromUid); // 予定で知り合っていた人なら、ストレンジャーからともだちに
           const nf = { id: 'f_' + fromUid, name: pl.name || data.fromName || 'ともだち', avatar: pl.avatar || '👤', pinned: false, addedAt: getFormattedDate(0) };
           if (pl.birthdayMonth && pl.birthdayDay) { nf.birthdayMonth = pl.birthdayMonth; nf.birthdayDay = pl.birthdayDay; }
           appData.friends.push(nf);
@@ -12421,6 +12572,24 @@
         return;
       }
 
+      if (data.type === 'friend_removed') {
+        // 相手が自分をともだちから外した（ブロックの場合も同じ）。こちらからも静かに片付ける
+        if (!localFriend) return;
+        cleanupFriendReferences(localFriend.id);
+        appData.groups.filter(g => g.ownerUid === fromUid).forEach(g => cleanupGroupReferences(g.id));
+        appData.groups = appData.groups.filter(g => g.ownerUid !== fromUid);
+        appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
+        removeEmptiedPlans();
+        saveData();
+        renderFriends();
+        renderFriendSettings();
+        renderHome();
+        renderGroups();
+        renderCalendar();
+        renderChatUnreadBadges();
+        return;
+      }
+
       if (data.type === 'account_deleted') {
         // 相手が退会した。ともだち・グループ所属・ひま投稿・確定予定・チャット履歴など
         // 関連データをまとめて片付けてから、ともだち一覧からも削除する。
@@ -12431,6 +12600,7 @@
         appData.groups.filter(g => g.ownerUid === fromUid).forEach(g => cleanupGroupReferences(g.id));
         appData.groups = appData.groups.filter(g => g.ownerUid !== fromUid);
         appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
+        removeEmptiedPlans();
 
         if (!appData.notices) appData.notices = [];
         appData.notices.unshift({
@@ -12464,7 +12634,15 @@
           invitedByUid: fromUid,
           remoteHimaId: p.himaId
         });
-        appData.myHima[appData.myHima.length - 1].status = 'invited';
+        const newH = appData.myHima[appData.myHima.length - 1];
+        newH.status = 'invited';
+        // 「まとめて誘う」の一員として届いた誘いなら、ほかに誘われている人も「返事待ち」として覚えておく
+        if (p.batch && p.batch.pk && Array.isArray(p.batch.members)) {
+          newH.batchPk = p.batch.pk;
+          newH.groupPendingIds = p.batch.members
+            .filter(m => m && m.uid && m.uid !== appData.firebaseUid && m.uid !== fromUid)
+            .map(m => ensureRealStranger(m.uid, m.name, m.avatar));
+        }
         saveData();
         renderHome();
         return;
@@ -12474,6 +12652,30 @@
         const p = data.payload || {};
         const hima = appData.friendHima.find(h => h.id === p.himaId);
         if (!hima) return;
+        const grpS = hima.groupInviteScheduleId ? (appData.confirmedSchedules || []).find(x => x.id === hima.groupInviteScheduleId) : null;
+        if (grpS) {
+          if (p.accepted) {
+            applyRealGroupAccept(grpS, hima, p);
+          } else {
+            grpS.invitedFriendIds = (grpS.invitedFriendIds || []).filter(id => id !== hima.friendId);
+            grpS.isGroupInvite = grpS.invitedFriendIds.length > 0;
+            hima.status = 'none';
+            delete hima.groupInviteScheduleId;
+            if (!appData.notices) appData.notices = [];
+            appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_invite_declined', params: { name: localFriend ? formatNameWithHonorific(localFriend) : t('common_friend_fallback') }, dateKey: 'date_today', read: false });
+            renderNoticeBadge();
+            // 誰も来なくなったグループは片付ける
+            if (!(grpS.participantIds || []).some(id => id !== 'my_hima_id') && (grpS.invitedFriendIds || []).length === 0) {
+              appData.confirmedSchedules = appData.confirmedSchedules.filter(x => x.id !== grpS.id);
+            }
+          }
+          saveData();
+          renderHome();
+          renderFriends();
+          renderCalendar();
+          if (currentChatPlanId === grpS.id) openGroupChat(grpS.id);
+          return;
+        }
         if (p.accepted) {
           const newSchedule = createConfirmedScheduleFromHima(
             { date: p.date, time: p.time, timeStart: p.timeStart, timeEnd: p.timeEnd, allDay: p.allDay, place: p.place, memo: p.memo, scope: hima.scope },
@@ -12515,10 +12717,8 @@
       if (data.type === 'plan_changed') {
         if (!localFriend) return;
         const p = data.payload || {};
-        const startOf = x => x.timeStart || x.time || '';
-        const target = (appData.confirmedSchedules || []).find(s =>
-          s.date === p.date && (s.place || '') === (p.place || '') && startOf(s) === startOf(p) && (s.participantIds || []).includes(localFriend.id));
-        if (!target) return;
+        const target = findPlanForRemote(p, localFriend);
+        if (!target || !(target.participantIds || []).includes(localFriend.id)) return;
         const who = formatNameWithHonorific(localFriend);
         if (p.kind === 'cancel') {
           appData.confirmedSchedules = appData.confirmedSchedules.filter(s => s.id !== target.id);
@@ -12540,6 +12740,24 @@
         return;
       }
 
+      if (data.type === 'plan_edited') {
+        // 参加者のひとりが予定の日時・場所などを変更した
+        if (!localFriend) return;
+        const p = data.payload || {};
+        const target = findPlanForRemote(Object.assign({ pk: p.pk }, p.old || {}), localFriend);
+        if (!target || !(target.participantIds || []).includes(localFriend.id)) return;
+        ['date', 'time', 'timeStart', 'timeEnd', 'place', 'memo'].forEach(k => { if (typeof p[k] === 'string') target[k] = String(p[k]).slice(0, 300); });
+        target.allDay = !!p.allDay;
+        if (typeof p.groupName === 'string') { if (p.groupName) target.groupName = p.groupName.slice(0, 60); else delete target.groupName; }
+        if (!appData.notices) appData.notices = [];
+        appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_plan_edited', params: { name: formatNameWithHonorific(localFriend) }, dateKey: 'date_today', read: false, action: { type: 'confirmedDetail', id: target.id } });
+        saveData();
+        renderNoticeBadge();
+        renderHome();
+        renderCalendar();
+        return;
+      }
+
       if (data.type === 'chat') {
         if (!localFriend) return;
         const p = data.payload || {};
@@ -12547,6 +12765,8 @@
         if (!appData.chats[chatKey]) appData.chats[chatKey] = [];
         const themMsg = { sender: 'them', text: p.text || '', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
         if (p.mid) themMsg.mid = p.mid;
+        const rq = buildRemoteQuote(p.quote);
+        if (rq) themMsg.quote = rq;
         // そのチャットを今まさに開いて見ている最中なら、すぐ既読を返す（見ていなければ未読ドットを付ける）
         const chatModalEl = document.getElementById('chat-modal');
         const viewingNow = !!(currentChatFriendId === localFriend.id && !currentChatPlanId && chatModalEl && chatModalEl.classList.contains('active'));
@@ -12572,6 +12792,8 @@
         if (p.mid && appData.chats[key].some(m => m.mid === p.mid && m.fromUid === fromUid)) return; // 二重受信を防ぐ
         const gm = { sender: 'them', senderName: formatNameWithHonorific(localFriend), fromUid: fromUid, text: p.text || '', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
         if (p.mid) gm.mid = p.mid;
+        const rqg = buildRemoteQuote(p.quote);
+        if (rqg) gm.quote = rqg;
         const modalEl = document.getElementById('chat-modal');
         const viewing = !!(currentChatPlanId === target.id && modalEl && modalEl.classList.contains('active'));
         if (!viewing) gm.seen = false;
@@ -12604,6 +12826,185 @@
           saveData();
           if (currentChatPlanId === target.id && typeof renderChatMessages === 'function') renderChatMessages();
         }
+        return;
+      }
+
+      if (data.type === 'recruit_plan') {
+        // 本物のともだちの「追加募集」。ホームの「募集中のプラン」に出す
+        if (!localFriend) return;
+        const p = data.payload || {};
+        if (!p.planId || !p.date) return;
+        const key = 'rp_' + fromUid + '_' + p.planId;
+        const uids = Array.isArray(p.participantUids) ? p.participantUids : [];
+        let card = (appData.confirmedSchedules || []).find(x => x.id === key);
+        if (uids.includes(appData.firebaseUid)) {
+          // すでに自分が参加している → 募集カードは不要
+          if (card && card.remote) appData.confirmedSchedules = appData.confirmedSchedules.filter(x => x.id !== key);
+        } else {
+          const ids = [];
+          uids.forEach(u => { const fr = appData.friends.find(f => getFriendRealUidLocal(f) === u); if (fr && !ids.includes(fr.id)) ids.push(fr.id); });
+          if (!ids.includes(localFriend.id)) ids.unshift(localFriend.id);
+          if (!card) {
+            card = { id: key, friendId: null, pendingRequests: [], scope: { friends: [], groups: [] } };
+            appData.confirmedSchedules.push(card);
+          }
+          Object.assign(card, { date: p.date, time: p.time || '', timeStart: p.timeStart || '', timeEnd: p.timeEnd || '', allDay: !!p.allDay, place: p.place || '', memo: p.memo || '', participantIds: ids, creatorId: localFriend.id, recruiting: true, remote: { hostUid: fromUid, planId: p.planId } });
+        }
+        saveData();
+        renderHome();
+        renderCalendar();
+        return;
+      }
+
+      if (data.type === 'recruit_closed') {
+        const p = data.payload || {};
+        const before = appData.confirmedSchedules.length;
+        appData.confirmedSchedules = appData.confirmedSchedules.filter(x => !(x.remote && x.remote.hostUid === fromUid && x.remote.planId === p.planId));
+        if (appData.confirmedSchedules.length !== before) { saveData(); renderHome(); renderCalendar(); }
+        return;
+      }
+
+      if (data.type === 'join_request') {
+        // ともだちから、自分の募集への参加リクエストが届いた
+        if (!localFriend) return;
+        const p = data.payload || {};
+        const sc = (appData.confirmedSchedules || []).find(x => x.sharedId && x.sharedId === p.planId && x.recruiting && scheduleInvolvesSelf(x));
+        if (!sc) return;
+        if (!sc.pendingRequests) sc.pendingRequests = [];
+        if ((sc.participantIds || []).includes(localFriend.id) || sc.pendingRequests.includes(localFriend.id)) return;
+        sc.pendingRequests.push(localFriend.id);
+        if (!appData.notices) appData.notices = [];
+        appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_join_request', params: { name: formatNameWithHonorific(localFriend) }, dateKey: 'date_today', read: false, action: { type: 'confirmedDetail', id: sc.id } });
+        saveData();
+        renderNoticeBadge();
+        renderHome();
+        renderCalendar();
+        if (currentDetailScheduleId === sc.id && document.getElementById('confirmed-detail-modal')?.classList.contains('active')) openConfirmedDetailModal(sc.id);
+        return;
+      }
+
+      if (data.type === 'join_approved') {
+        // 参加リクエストが承認された → 募集カードを、自分も参加する予定に切り替える
+        const p = data.payload || {};
+        const rc = (appData.confirmedSchedules || []).find(x => x.remote && x.remote.hostUid === fromUid && x.remote.planId === p.planId);
+        if (!rc) return;
+        const ids = [];
+        (Array.isArray(p.participantUids) ? p.participantUids : []).forEach(u => { const fr = appData.friends.find(f => getFriendRealUidLocal(f) === u); if (fr && !ids.includes(fr.id)) ids.push(fr.id); });
+        if (localFriend && !ids.includes(localFriend.id)) ids.unshift(localFriend.id);
+        rc.participantIds = ids;
+        rc.remote = null;
+        rc.recruiting = false;
+        if (!rc.pendingRequests) rc.pendingRequests = [];
+        if (!rc.pendingRequests.includes('my_hima_id')) rc.pendingRequests.push('my_hima_id');
+        finalizeJoinPlan(rc.id);
+        return;
+      }
+
+      if (data.type === 'join_rejected') {
+        const p = data.payload || {};
+        const rc = (appData.confirmedSchedules || []).find(x => x.remote && x.remote.hostUid === fromUid && x.remote.planId === p.planId);
+        if (!rc) return;
+        rc.pendingRequests = (rc.pendingRequests || []).filter(id => id !== 'my_hima_id');
+        saveData();
+        renderRecruitPlans();
+        renderHome();
+        return;
+      }
+
+      if (data.type === 'plan_member_added') {
+        // 同じ予定に、新しい人が参加した
+        if (!localFriend) return;
+        const p = data.payload || {};
+        const target = findPlanForRemote(p, localFriend);
+        if (!target || !p.uid) return;
+        if (!p.uid || p.uid === appData.firebaseUid) return;
+        let nf = appData.friends.find(f => getFriendRealUidLocal(f) === p.uid);
+        if (!nf) { const sid = ensureRealStranger(p.uid, p.name, p.avatar); nf = (appData.strangers || []).find(x => x.id === sid); }
+        if (!nf) return;
+        target.invitedFriendIds = (target.invitedFriendIds || []).filter(id => id !== nf.id);
+        if (target.isGroupInvite && target.invitedFriendIds.length === 0) target.isGroupInvite = false;
+        if ((target.participantIds || []).includes(nf.id)) { saveData(); renderHome(); return; }
+        target.participantIds.push(nf.id);
+        pushChatSystemMessage('plan_' + target.id, t('joined_msg', { name: formatNameWithHonorific(nf) }));
+        saveData();
+        renderHome();
+        renderCalendar();
+        if (currentChatPlanId === target.id && typeof renderChatMessages === 'function') renderChatMessages();
+        return;
+      }
+
+      if (data.type === 'poll_sync') {
+        const p = data.payload || {};
+        const g = localGroupFromRef(p);
+        if (!g || !p.pollId || !isGroupPeer(g, fromUid)) return;
+        if (!appData.datePolls) appData.datePolls = [];
+        if (appData.datePolls.some(x => x.id === p.pollId)) return;
+        const dates = (Array.isArray(p.candidateDates) ? p.candidateDates : []).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d)).slice(0, 31);
+        if (dates.length < 2) return;
+        appData.datePolls.push({ id: p.pollId, groupId: g.id, title: p.title || '', candidateDates: dates, responses: {}, creatorId: 'f_' + fromUid });
+        saveData();
+        if (currentGroupDetailId === g.id && typeof renderGroupPolls === 'function') renderGroupPolls(g.id);
+        return;
+      }
+
+      if (data.type === 'poll_vote') {
+        const p = data.payload || {};
+        const poll = (appData.datePolls || []).find(x => x.id === p.pollId);
+        if (!poll || !poll.candidateDates.includes(p.date)) return;
+        const g = appData.groups.find(x => x.id === poll.groupId);
+        if (!g || !isGroupPeer(g, fromUid)) return;
+        const key = 'f_' + fromUid;
+        if (!poll.responses[p.date]) poll.responses[p.date] = {};
+        if (p.status === 'yes' || p.status === 'maybe' || p.status === 'no') {
+          poll.responses[p.date][key] = { status: p.status, note: p.note || '' };
+        } else {
+          delete poll.responses[p.date][key];
+        }
+        saveData();
+        if (currentGroupDetailId === g.id && typeof renderGroupPolls === 'function') renderGroupPolls(g.id);
+        return;
+      }
+
+      if (data.type === 'poll_deleted' || data.type === 'poll_confirmed') {
+        const p = data.payload || {};
+        const poll = (appData.datePolls || []).find(x => x.id === p.pollId);
+        if (!poll) return;
+        const g = appData.groups.find(x => x.id === poll.groupId);
+        if (!g || !isGroupPeer(g, fromUid)) return;
+        if (data.type === 'poll_confirmed' && p.date && Array.isArray(p.goingUids) && p.goingUids.includes(appData.firebaseUid)) {
+          const ids = new Set(['my_hima_id']);
+          p.goingUids.forEach(u => { const fr = appData.friends.find(f => getFriendRealUidLocal(f) === u); if (fr) ids.add(fr.id); });
+          const sf = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
+          if (sf) ids.add(sf.id);
+          appData.confirmedSchedules.push({
+            id: 'cs_poll_' + Date.now(), friendId: null, date: p.date, time: '', timeStart: '', timeEnd: '', allDay: false,
+            place: '', memo: poll.title || '', groupName: g.name, participantIds: [...ids], creatorId: sf ? sf.id : 'my_hima_id',
+            recruiting: false, scope: { friends: [], groups: [] }, pendingRequests: []
+          });
+          if (!appData.notices) appData.notices = [];
+          appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_plan_confirmed', params: { name: g.name }, dateKey: 'date_today', read: false });
+          renderNoticeBadge();
+        }
+        appData.datePolls = appData.datePolls.filter(x => x.id !== poll.id);
+        saveData();
+        if (currentGroupDetailId === g.id && typeof renderGroupPolls === 'function') renderGroupPolls(g.id);
+        renderHome();
+        renderCalendar();
+        return;
+      }
+
+      if (data.type === 'chat_reaction') {
+        if (!localFriend) return;
+        applyRemoteReaction(localFriend.id, data.payload || {});
+        return;
+      }
+
+      if (data.type === 'plan_chat_reaction') {
+        if (!localFriend) return;
+        const p = data.payload || {};
+        const target = findPlanForRemote(p, localFriend);
+        if (!target) return;
+        applyRemoteReaction('plan_' + target.id, p);
         return;
       }
 
@@ -12918,8 +13319,9 @@
 
       // 本物の相手（IDでともだち追加した相手）からの誘いだった場合は、相手のアプリにも「承諾したよ」を届ける
       if (hima.invitedByUid && typeof window.pukanSendInboxNotification === 'function') {
+        if (hima.batchPk) newSchedule.pk = hima.batchPk;
         window.pukanSendInboxNotification(hima.invitedByUid, 'invite_response', {
-          himaId: hima.remoteHimaId, accepted: true,
+          himaId: hima.remoteHimaId, accepted: true, pk: hima.batchPk || '',
           date: hima.date, time: hima.time || '', timeStart: hima.timeStart || '', timeEnd: hima.timeEnd || '',
           allDay: !!hima.allDay, place: hima.place || '', memo: hima.memo || ''
         });
@@ -13151,6 +13553,7 @@
       msg.reaction = emoji || null;
       saveData();
       renderChatMessages();
+      sendReactionToReal(chatKey, msg, emoji);
     }
 
     // ===== リアクション絵文字拡張（課金機能） =====
@@ -13190,9 +13593,14 @@
         const friend = appData.friends.find(f => f.id === currentChatFriendId);
         themLabel = friend ? friend.name : t('common_friend_fallback');
       }
+      let authorUid = '';
+      if (msg.sender === 'me') authorUid = appData.firebaseUid || '';
+      else if (msg.fromUid) authorUid = msg.fromUid;
+      else if (currentChatFriendId) { const fr = appData.friends.find(f => f.id === currentChatFriendId); authorUid = getFriendRealUidLocal(fr) || ''; }
       pendingReplyTarget = {
         senderLabel: msg.sender === 'me' ? t('self_name') : (themLabel || t('common_friend_fallback')),
-        text: msg.text
+        text: msg.text,
+        authorUid: authorUid
       };
       renderReplyPreview();
       const input = document.getElementById('chat-input');
@@ -13215,7 +13623,7 @@
       bar.style.display = 'block';
       bar.innerHTML = `
         <div class="chat-reply-preview-bar">
-          <span class="chat-reply-preview-text">↩️ ${pendingReplyTarget.senderLabel}: ${pendingReplyTarget.text}</span>
+          <span class="chat-reply-preview-text">↩︎ ${pendingReplyTarget.senderLabel}: ${pendingReplyTarget.text}</span>
           <button class="chat-reply-preview-close" onclick="cancelReplyPreview()">×</button>
         </div>
       `;
@@ -13224,26 +13632,153 @@
     // 「既読」シミュレーション：本来は相手が実際に読んだかどうかだが、このデモには相手側のアプリが無いため、
     // チャットを開いてからしばらく経つと相手が読んだことにする擬似処理（既読通知の設定がONのときのみ意味を持つ）。
     // グループチャットの場合は、メンバーごとに少し時間差をつけて既読が増えていくようにする（既読 1/2 → 2/2 のように）。
+    // ---- 引用返信・リアクションを本物のともだちに届ける ----
+    function quoteForSend(msg) {
+      if (!msg || !msg.quote || !msg.quote.text) return undefined;
+      return { text: String(msg.quote.text).slice(0, 500), authorUid: msg.quote.authorUid || '', name: msg.quote.senderLabel || '' };
+    }
+    // 届いた引用を、こちらの画面用に作り直す（誰の発言かは、書き手のuidから名前を引く）
+    function buildRemoteQuote(q) {
+      if (!q || !q.text) return null;
+      let label = q.name || t('common_friend_fallback');
+      if (q.authorUid && q.authorUid === appData.firebaseUid) label = t('self_name');
+      else if (q.authorUid) {
+        const fr = appData.friends.find(f => getFriendRealUidLocal(f) === q.authorUid);
+        if (fr) label = formatNameWithHonorific(fr);
+      }
+      return { senderLabel: label, text: q.text };
+    }
+    function sendReactionToReal(chatKey, msg, emoji) {
+      try {
+        if (!msg || !msg.mid) return;
+        if (typeof window.pukanSendInboxNotification !== 'function' || !appData.firebaseUid) return;
+        if (chatKey.indexOf('plan_') === 0) {
+          const item = (appData.confirmedSchedules || []).find(x => x.id === chatKey.slice(5));
+          if (!item) return;
+          const payload = Object.assign({ mid: msg.mid, emoji: emoji || '' }, planKeyPayload(item));
+          realParticipantUidsOfPlan(item).forEach(u => window.pukanSendInboxNotification(u, 'plan_chat_reaction', payload));
+        } else {
+          const f = appData.friends.find(x => x.id === chatKey);
+          const u = f ? getFriendRealUidLocal(f) : null;
+          if (u) window.pukanSendInboxNotification(u, 'chat_reaction', { mid: msg.mid, emoji: emoji || '' });
+        }
+      } catch (e) { console.warn('リアクションの送信に失敗:', e); }
+    }
+    function applyRemoteReaction(chatKey, p) {
+      const msgs = appData.chats[chatKey];
+      if (!msgs || !p || !p.mid) return;
+      const m = msgs.find(x => x.mid === p.mid);
+      if (!m) return;
+      const em = p.emoji ? String(p.emoji).slice(0, 8) : null;
+      m.reaction = em;
+      saveData();
+      if (typeof renderChatMessages === 'function') renderChatMessages();
+    }
+
     // ---- グループチャット(3人以上の予定)を本物のともだちに届ける ----
     // 予定は人ごとにidが違うので、「日付・場所・開始時間」で相手側の同じ予定を探す（予定の取消・脱退通知と同じ方式）
+    // 予定ごとの共通ID(pk)。最初に誰かが送った時に作られ、相手が受け取るとそのIDに揃う。
+    // 以降は予定の日付や場所を編集しても、同じ予定として見つけられる。
+    function ensurePlanPk(item) {
+      if (!item.pk) { item.pk = 'pk' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); try { saveData(); } catch (e) {} }
+      return item.pk;
+    }
     function planKeyPayload(item) {
-      return { date: item.date, time: item.time || '', timeStart: item.timeStart || '', place: item.place || '' };
+      return { pk: ensurePlanPk(item), date: item.date, time: item.time || '', timeStart: item.timeStart || '', place: item.place || '' };
     }
     function findPlanForRemote(p, localFriend) {
+      const all = appData.confirmedSchedules || [];
+      if (p.pk) {
+        const byPk = all.find(s => s.pk === p.pk && (!localFriend || (s.participantIds || []).includes(localFriend.id) || s.participantIds.length <= 1));
+        if (byPk) return byPk;
+      }
       const startOf = x => x.timeStart || x.time || '';
-      const list = (appData.confirmedSchedules || []).filter(s =>
+      const list = all.filter(s =>
         s.date === p.date && (s.place || '') === (p.place || '') && startOf(s) === startOf(p));
-      return list.find(s => (s.participantIds || []).includes(localFriend.id)) || (list.length === 1 ? list[0] : null);
+      const found = list.find(s => (s.participantIds || []).includes(localFriend.id)) || (list.length === 1 ? list[0] : null);
+      if (found && p.pk && found.pk !== p.pk) { found.pk = p.pk; try { saveData(); } catch (e) {} } // 相手のIDに揃える
+      return found;
     }
     function realParticipantUidsOfPlan(item) {
       const out = [];
       (item.participantIds || []).forEach(pid => {
         if (pid === 'my_hima_id') return;
-        const f = appData.friends.find(x => x.id === pid);
+        const f = appData.friends.find(x => x.id === pid) || { id: pid }; // ともだちではない参加者(ストレンジャー)も 'f_'+uid なら本物
         const u = getFriendRealUidLocal(f);
-        if (u) out.push(u);
+        if (u && !out.includes(u)) out.push(u);
       });
       return out;
+    }
+    // ともだちではない本物の参加者を「ストレンジャー」として覚えておく（id は 'f_'+uid。ともだち追加するとそのまま友達になる）
+    function ensureRealStranger(uid, name, avatar) {
+      const id = 'f_' + uid;
+      if (appData.friends.some(f => f.id === id)) return id;
+      if (!appData.strangers) appData.strangers = [];
+      let st = appData.strangers.find(x => x.id === id);
+      if (!st) { st = { id, name: name || 'ともだち', avatar: '👤' }; appData.strangers.push(st); }
+      if (name) st.name = name;
+      if (avatar && String(avatar).indexOf('data:image') === 0) st.avatar = avatar;
+      return id;
+    }
+    function avatarForPlanSync(av) { return (av && String(av).indexOf('data:image') === 0 && av.length < 20000) ? av : ((av && String(av).length <= 8 && String(av).indexOf('data:') !== 0) ? av : '👤'); }
+
+    // ===== 実際のともだちを「まとめて誘う」：1つのグループ予定にまとめる =====
+    function startRealGroupInvite(ids) {
+      const invitedIds = ids.filter(fid => { const h = findMemberActiveHima(fid); return h && h.status !== 'invited'; });
+      if (invitedIds.length < 2) { invitedIds.forEach(fid => { const h = findMemberActiveHima(fid); if (h) performInvite(h.id); }); return null; }
+      const scheduleId = 'cs_group_' + Date.now();
+      const pk = 'pk' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      appData.confirmedSchedules.push({
+        id: scheduleId, friendId: null, date: '', time: '', timeStart: '', timeEnd: '', allDay: false, place: '', memo: '',
+        participantIds: ['my_hima_id'], creatorId: 'my_hima_id', recruiting: false, scope: { friends: [], groups: [] }, pendingRequests: [],
+        isGroupInvite: true, invitedFriendIds: invitedIds, pk
+      });
+      const members = invitedIds.map(fid => { const f = appData.friends.find(x => x.id === fid) || {}; return { uid: getFriendRealUidLocal({ id: fid }), name: f.name || '', avatar: avatarForPlanSync(f.avatar) }; });
+      invitedIds.forEach(fid => {
+        const hima = findMemberActiveHima(fid);
+        if (!hima) return;
+        hima.status = 'invited';
+        hima.groupInviteScheduleId = scheduleId;
+        window.pukanSendInboxNotification && window.pukanSendInboxNotification(getFriendRealUidLocal({ id: fid }), 'invite', {
+          himaId: hima.id, date: hima.date, time: hima.time || '', timeStart: hima.timeStart || '', timeEnd: hima.timeEnd || '',
+          allDay: !!hima.allDay, place: hima.place || '', memo: hima.memo || '', batch: { pk, members }
+        });
+      });
+      saveData();
+      renderHome();
+      renderFriends();
+      return scheduleId;
+    }
+    // 誘った相手のひとりが「行く」と答えた → グループ予定に加え、ほかの参加者にも知らせてそろえる
+    function applyRealGroupAccept(S, hima, p) {
+      const fid = hima.friendId;
+      const nf = appData.friends.find(f => f.id === fid);
+      const nuid = getFriendRealUidLocal({ id: fid });
+      const firstAccept = !(S.participantIds || []).some(id => id !== 'my_hima_id');
+      if (!S.participantIds.includes(fid)) S.participantIds.push(fid);
+      S.invitedFriendIds = (S.invitedFriendIds || []).filter(id => id !== fid);
+      S.isGroupInvite = S.invitedFriendIds.length > 0;
+      if (firstAccept && !S.date) { Object.assign(S, { date: p.date || '', time: p.time || '', timeStart: p.timeStart || '', timeEnd: p.timeEnd || '', allDay: !!p.allDay, place: p.place || '', memo: p.memo || '' }); }
+      appData.friendHima = appData.friendHima.filter(h => h.id !== hima.id);
+      const pkp = planKeyPayload(S);
+      const send = window.pukanSendInboxNotification;
+      if (typeof send === 'function' && nuid) {
+        S.participantIds.filter(id => id !== 'my_hima_id' && id !== fid).forEach(pid => {
+          const pf = appData.friends.find(f => f.id === pid) || {};
+          const pu = getFriendRealUidLocal({ id: pid });
+          if (!pu) return;
+          send(pu, 'plan_member_added', Object.assign({ uid: nuid, name: nf ? nf.name : '', avatar: avatarForPlanSync(nf && nf.avatar) }, pkp));
+          send(nuid, 'plan_member_added', Object.assign({ uid: pu, name: pf.name || '', avatar: avatarForPlanSync(pf.avatar) }, pkp));
+        });
+        const startOf = x => x.timeStart || x.time || '';
+        if (S.date && (p.date !== S.date || startOf(p) !== startOf(S) || (p.place || '') !== (S.place || ''))) {
+          send(nuid, 'plan_edited', { pk: S.pk, old: { date: p.date || '', time: p.time || '', timeStart: p.timeStart || '', place: p.place || '' }, date: S.date, time: S.time || '', timeStart: S.timeStart || '', timeEnd: S.timeEnd || '', allDay: !!S.allDay, place: S.place || '', memo: S.memo || '', groupName: S.groupName || '' });
+        }
+      }
+      if (!appData.notices) appData.notices = [];
+      appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_group_invite_accepted', params: { name: nf ? formatNameWithHonorific(nf) : t('common_friend_fallback') }, dateKey: 'date_today', read: false, action: { type: 'confirmedDetail', id: S.id } });
+      pushChatSystemMessage('plan_' + S.id, t('joined_msg', { name: nf ? formatNameWithHonorific(nf) : t('common_friend_fallback') }));
+      renderNoticeBadge();
     }
     // グループチャットを開いた時に、「見たよ」を本物の参加者に返す（既読通知の設定がOFFなら返さない）
     function sendPlanChatReadReceipt(scheduleId) {
@@ -13363,7 +13898,7 @@
         const friend = appData.friends.find(f => f.id === currentChatFriendId);
         const realUid = friend ? getFriendRealUidLocal(friend) : null;
         if (realUid && typeof window.pukanSendInboxNotification === 'function') {
-          window.pukanSendInboxNotification(realUid, 'chat', { text, mid: newMsg.mid });
+          window.pukanSendInboxNotification(realUid, 'chat', { text, mid: newMsg.mid, quote: quoteForSend(newMsg) });
         }
       }
 
@@ -13371,7 +13906,7 @@
       if (currentChatPlanId && typeof window.pukanSendInboxNotification === 'function' && appData.firebaseUid) {
         const planItem = (appData.confirmedSchedules || []).find(s => s.id === currentChatPlanId);
         if (planItem) {
-          const gp = Object.assign({ text, mid: newMsg.mid }, planKeyPayload(planItem));
+          const gp = Object.assign({ text, mid: newMsg.mid, quote: quoteForSend(newMsg) }, planKeyPayload(planItem));
           realParticipantUidsOfPlan(planItem).forEach(u => window.pukanSendInboxNotification(u, 'plan_chat', gp));
         }
       }
@@ -13953,6 +14488,24 @@
     function executeBatchInviteForIds(selectedIds) {
       if (!selectedIds || selectedIds.length === 0) return null;
 
+      // 本物のともだちには、1人ずつ個別に本物の誘いを送る（相手が実際に返事する）。
+      // デモ用のサンプルともだちだけが、これまで通り「一時的なグループ」にまとまる。
+      // 2人以上なら1つのグループ予定にまとめ、1人だけなら個別の誘いにする。
+      let sentReal = 0;
+      let realGroupId = null;
+      const realSel = selectedIds.filter(fid => isRealFriendLocalId(fid));
+      if (realSel.length >= 2) {
+        realGroupId = startRealGroupInvite(realSel);
+      } else {
+        realSel.forEach(fid => {
+          const h = findMemberActiveHima(fid);
+          if (h && h.status !== 'invited') { performInvite(h.id); sentReal++; }
+        });
+        if (sentReal > 0) alert(t('batch_real_note'));
+      }
+      selectedIds = selectedIds.filter(fid => !isRealFriendLocalId(fid));
+      if (selectedIds.length === 0) return realGroupId;
+
       // 1人だけ選択している場合は、通常の個人招待と同じ確認フローを使う
       if (selectedIds.length === 1) {
         const hima = findMemberActiveHima(selectedIds[0]);
@@ -14109,10 +14662,20 @@
 
     function submitAddMembersToSchedule() {
       const scheduleId = currentDetailScheduleId;
-      const selectedIds = addMemberToScheduleSelectedIds;
+      let selectedIds = addMemberToScheduleSelectedIds;
       addMemberToScheduleSelectedIds = [];
       closeModal('add-member-to-schedule-modal');
       if (!scheduleId || selectedIds.length === 0) return;
+
+      // 本物のともだちには、個別に本物の誘いを送る（偽の承諾はしない）
+      let sentReal = 0;
+      selectedIds.filter(fid => isRealFriendLocalId(fid)).forEach(fid => {
+        const h = findMemberActiveHima(fid);
+        if (h && h.status !== 'invited') { performInvite(h.id); sentReal++; }
+      });
+      if (sentReal > 0) alert(t('batch_real_note'));
+      selectedIds = selectedIds.filter(fid => !isRealFriendLocalId(fid));
+      if (selectedIds.length === 0) return;
 
       const schedule = (appData.confirmedSchedules || []).find(s => s.id === scheduleId);
       if (!schedule) return;
@@ -14575,6 +15138,29 @@
 
     // ともだちを削除・ブロックする際に、アプリ内に残ってしまう関連データをまとめて片付ける。
     // （チャット履歴／グループの所属／相手側の「ひま」投稿／確定予定や募集の参加者・リクエスト一覧など）
+    // ともだちが抜けて、自分しか残らなくなった確定予定（まだ誘い中の人もいない）を片付ける
+    function removeEmptiedPlans() {
+      const before = appData.confirmedSchedules.length;
+      appData.confirmedSchedules = appData.confirmedSchedules.filter(s => {
+        if (s.recruiting || s.remote) return true;
+        const others = (s.participantIds || []).filter(id => id !== 'my_hima_id');
+        return others.length > 0 || (s.invitedFriendIds || []).length > 0;
+      });
+      return before !== appData.confirmedSchedules.length;
+    }
+    // 本物のともだちを外す/ブロックするとき、相手にも知らせて、サーバー上のともだち情報も消す
+    function notifyFriendRemoved(friendId) {
+      try {
+        const u = getFriendRealUidLocal({ id: friendId });
+        if (!u || !appData.firebaseUid) return;
+        if (typeof window.pukanSendInboxNotification === 'function') {
+          window.pukanSendInboxNotification(u, 'friend_removed', {}).then(() => {
+            if (typeof window.pukanRemoveFriendDocs === 'function') window.pukanRemoveFriendDocs(u);
+          });
+        }
+      } catch (e) { console.warn(e); }
+    }
+
     function cleanupFriendReferences(friendId) {
       delete appData.chats[friendId];
 
@@ -14622,7 +15208,9 @@
 
     function executeDeleteFriend() {
       if (!currentDeleteFriendId) return;
+      notifyFriendRemoved(currentDeleteFriendId);
       cleanupFriendReferences(currentDeleteFriendId);
+      removeEmptiedPlans();
       appData.friends = appData.friends.filter(f => f.id !== currentDeleteFriendId);
       saveData();
       closeModal('delete-friend-modal');
@@ -14647,7 +15235,9 @@
 
     function executeBlockFriend() {
       if (!currentBlockFriendId) return;
+      notifyFriendRemoved(currentBlockFriendId);
       cleanupFriendReferences(currentBlockFriendId);
+      removeEmptiedPlans();
       appData.friends = appData.friends.filter(f => f.id !== currentBlockFriendId);
       if (!appData.blockedFriendIds) appData.blockedFriendIds = [];
       if (!appData.blockedFriendIds.includes(currentBlockFriendId)) {
@@ -14919,7 +15509,7 @@
     <button class="reaction-pill-btn" onclick="openExtendedReactionPicker()">＋</button>
   </div>
   <div id="msg-action-menu" class="msg-action-menu">
-    <button class="msg-action-menu-item" onclick="startReplyToMessage()"><span data-i18n="msg_reply">↩️ 返信</span></button>
+    <button class="msg-action-menu-item" onclick="startReplyToMessage()"><span data-i18n="msg_reply">↩︎ 返信</span></button>
     <button class="msg-action-menu-item" id="msg-action-remove-reaction-btn" style="display:none; color:#E53935;" onclick="applyMessageReaction(null)"><span data-i18n="msg_remove_reaction">🚫 リアクションを消す</span></button>
   </div>
 
@@ -15196,8 +15786,12 @@
       if (!toUid) return { ok: false, reason: 'no_recipient' };
       const currentUser = auth.currentUser;
       if (!currentUser) return { ok: false, reason: 'not_logged_in' };
+      // 順番を守るため、再送待ちが残っている間は先に再送してから送る
+      if (outboxLoad().length > 0) await window.pukanFlushOutbox();
+      const nid = 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); // 同じ通知を二重に処理しないための通し番号
       try {
         await addDoc(collection(db, 'users', toUid, 'inbox'), {
+          nid,
           type,
           fromUid: currentUser.uid,
           fromName: (appData.userProfile && appData.userProfile.name) || currentUser.displayName || 'ともだち',
@@ -15208,9 +15802,56 @@
         return { ok: true };
       } catch (e) {
         console.error('通知の送信に失敗:', e);
-        return { ok: false, reason: 'error', message: e && e.message };
+        // 電波が悪いなど一時的な失敗なら、あとで自動的に再送する（権限エラーなどは再送しても無駄なので捨てる）
+        const code = e && e.code;
+        if (code !== 'permission-denied' && code !== 'invalid-argument') outboxPush({ toUid, type, payload: payload || {}, at: Date.now(), nid });
+        return { ok: false, reason: 'error', message: e && e.message, queued: code !== 'permission-denied' };
       }
     };
+
+    window.pukanRemoveFriendDocs = async function(friendUid) {
+      const u = auth.currentUser;
+      if (!u || !friendUid) return;
+      try { await deleteDoc(doc(db, 'users', u.uid, 'friends', friendUid)); } catch (e) {}
+      try { await deleteDoc(doc(db, 'users', friendUid, 'friends', u.uid)); } catch (e) {}
+    };
+
+    // ---- 送れなかった通知の再送待ち（端末のlocalStorageに7日まで保存）----
+    const OUTBOX_KEY = 'pukan_outbox_v1';
+    function outboxLoad() { try { return JSON.parse(localStorage.getItem(OUTBOX_KEY) || '[]') || []; } catch (e) { return []; } }
+    function outboxSave(list) { try { localStorage.setItem(OUTBOX_KEY, JSON.stringify(list.slice(-200))); } catch (e) {} }
+    function outboxPush(item) { const l = outboxLoad(); l.push(item); outboxSave(l); }
+    let outboxFlushing = false;
+    window.pukanFlushOutbox = async function() {
+      if (outboxFlushing || !auth.currentUser) return;
+      outboxFlushing = true;
+      try {
+        const week = 7 * 24 * 3600 * 1000;
+        let list = outboxLoad().filter(x => x && x.toUid && Date.now() - (x.at || 0) < week);
+        while (list.length > 0) {
+          const it = list[0];
+          try {
+            await addDoc(collection(db, 'users', it.toUid, 'inbox'), {
+              nid: it.nid || ('n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)),
+              type: it.type,
+              fromUid: auth.currentUser.uid,
+              fromName: (appData.userProfile && appData.userProfile.name) || auth.currentUser.displayName || 'ともだち',
+              payload: it.payload || {},
+              createdAt: serverTimestamp(),
+              processed: false
+            });
+            list.shift();
+            outboxSave(list);
+          } catch (e) {
+            if (e && (e.code === 'permission-denied' || e.code === 'invalid-argument')) { list.shift(); outboxSave(list); continue; }
+            break; // まだ繋がらない → 次の機会に
+          }
+        }
+        outboxSave(list);
+      } finally { outboxFlushing = false; }
+    };
+    window.addEventListener('online', () => { window.pukanFlushOutbox(); });
+    setInterval(() => { if (navigator.onLine !== false && outboxLoad().length > 0) window.pukanFlushOutbox(); }, 30000);
 
     // 退会処理：Firestore上の自分のデータ（ユーザードキュメント・friendsサブコレクション・inboxサブコレクション）を
     // すべて削除し、最後にFirebase Authのアカウント自体も削除する。
@@ -15263,6 +15904,13 @@
           if (change.type !== 'added') return;
           const data = change.doc.data();
           try {
+            // 同じ通知(通し番号 or ドキュメントID)をすでに処理していたら、二重に処理しない
+            const key = data.nid || change.doc.id;
+            let seen = [];
+            try { seen = JSON.parse(localStorage.getItem('pukan_seen_inbox_v1') || '[]') || []; } catch (e) {}
+            if (seen.includes(key)) return;
+            seen.push(key);
+            try { localStorage.setItem('pukan_seen_inbox_v1', JSON.stringify(seen.slice(-400))); } catch (e) {}
             if (typeof window.pukanHandleInboxItem === 'function') {
               window.pukanHandleInboxItem(data);
             }
@@ -15313,6 +15961,7 @@
             window.initAppAfterLogin(user);
           }
           startInboxListener(user.uid);
+          setTimeout(() => window.pukanFlushOutbox && window.pukanFlushOutbox(), 3000);
           setupPushNotifications();
           setTimeout(() => { if (typeof window.pukanRunInitialSyncOnce === 'function') window.pukanRunInitialSyncOnce(); }, 2500);
         });
