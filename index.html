@@ -5304,6 +5304,8 @@
         no_free_to_invite: '今「ひま」を出している、誘える友達がいません',
         no_free_label: 'ひまなし',
         batch_cancel_select: '✕ 選択をやめる',
+        batch_hint: 'チェックを付けた人を、まとめて誘えるよ',
+        batch_hint_none: '「ひま」を出している人だけ選べるよ。今日・明日のひまを出しているともだちがいないみたい',
         batch_invite: '☑️ まとめて誘う',
         btn_add_short: '追加',
         group_of_n: '{n}人グループ',
@@ -5918,6 +5920,8 @@
         no_free_to_invite: 'No friends are currently free to invite',
         no_free_label: 'Not free',
         batch_cancel_select: '✕ Stop selecting',
+        batch_hint: 'Tick the friends you want to invite together',
+        batch_hint_none: 'You can only pick friends who posted a free time for today or tomorrow. None right now.',
         batch_invite: '☑️ Invite several',
         btn_add_short: 'Add',
         group_of_n: 'Group of {n}',
@@ -6532,6 +6536,8 @@
         no_free_to_invite: '지금 \'한가해요\'를 올린 초대할 수 있는 친구가 없어요',
         no_free_label: '한가하지 않음',
         batch_cancel_select: '✕ 선택 그만두기',
+        batch_hint: '체크한 친구를 한꺼번에 초대할 수 있어요',
+        batch_hint_none: '오늘·내일 한가한 시간을 올린 친구만 고를 수 있어요. 지금은 없어요.',
         batch_invite: '☑️ 한꺼번에 초대',
         btn_add_short: '추가',
         group_of_n: '{n}명 그룹',
@@ -10319,6 +10325,15 @@
 
       const todayStr = getFormattedDate(0);
       const tomorrowStr = getFormattedDate(1);
+
+      // 「まとめて誘う」選択中は、誘えるのが「今日・明日のひまを出している人」だけだと案内する
+      if (friendsBatchSelectMode) {
+        const anySelectable = list.some(f => appData.friendHima.some(h => h.friendId === f.id && h.status !== 'accepted' && h.status !== 'invited' && (h.date === todayStr || h.date === tomorrowStr) && canUserSeeHima(h, f.id)));
+        const note = document.createElement('div');
+        note.style.cssText = 'font-size:12px; color:var(--text-sub); text-align:center; padding:2px 8px 10px; line-height:1.6;';
+        note.textContent = anySelectable ? t('batch_hint') : t('batch_hint_none');
+        container.appendChild(note);
+      }
 
       list.forEach(friend => {
         // 公開範囲を考慮してひま情報を取得
