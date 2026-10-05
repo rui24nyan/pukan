@@ -5161,6 +5161,8 @@
         common_withdraw: '取消',
         btn_add_friend_plus: '＋ともだち追加',
         group_member_not_friend: 'ともだち未追加',
+        empty_btn_add: '＋ ともだちを追加',
+        empty_btn_invite: 'ともだちを招待する',
         cancel_plan_btn: '予定をキャンセル',
         dm_inbox_title: 'チャット一覧',
         host_desc_1: '「ひま」の共有から一歩踏み込んで、みんなを集めるイベントに。',
@@ -5623,7 +5625,7 @@
         chat_empty_search: '当てはまるチャットが見つからなかったよ',
         chat_empty_history: 'まだチャットの履歴が無いよ',
         friend_search_empty: '該当するともだちが見つかりません。',
-        friends_empty_text: 'まだともだちがいないみたい。<br>まずはともだちを追加してみよう！',
+        friends_empty_text: 'まずはともだちを追加してみよう！',
         group_search_empty: '該当するグループが見つかりません。',
         groups_empty_nofriends: 'グループがまだ無いよ。<br>まずはともだちを追加してから作ってみよう！',
         groups_empty_text: 'グループがまだ無いよ。<br>気の合う仲間でグループを作ってみよう！',
@@ -5771,6 +5773,8 @@
         common_withdraw: 'Cancel',
         btn_add_friend_plus: '+ Add friend',
         group_member_not_friend: 'Not a friend yet',
+        empty_btn_add: '＋ Add friend',
+        empty_btn_invite: 'Invite friends',
         cancel_plan_btn: 'Cancel plan',
         dm_inbox_title: 'Chats',
         host_desc_1: 'Go a step beyond sharing free time — make it an event that gathers everyone.',
@@ -6233,7 +6237,7 @@
         chat_empty_search: 'No matching chats found',
         chat_empty_history: 'No chat history yet',
         friend_search_empty: 'No matching friends found.',
-        friends_empty_text: "You don't have any friends yet.<br>Start by adding one!",
+        friends_empty_text: 'Start by adding a friend!',
         group_search_empty: 'No matching groups found.',
         groups_empty_nofriends: "No groups yet.<br>Add a friend first, then make one!",
         groups_empty_text: 'No groups yet.<br>Make one with friends you click with!',
@@ -6381,6 +6385,8 @@
         common_withdraw: '취소',
         btn_add_friend_plus: '+ 친구 추가',
         group_member_not_friend: '아직 친구 아님',
+        empty_btn_add: '＋ 친구 추가',
+        empty_btn_invite: '친구 초대하기',
         cancel_plan_btn: '일정 취소',
         dm_inbox_title: '채팅 목록',
         host_desc_1: '\'한가해요\' 공유에서 한 걸음 더 나아가 모두를 모으는 이벤트로.',
@@ -6843,7 +6849,7 @@
         chat_empty_search: '해당하는 채팅을 찾을 수 없어요',
         chat_empty_history: '아직 채팅 기록이 없어요',
         friend_search_empty: '해당하는 친구를 찾을 수 없어요.',
-        friends_empty_text: '아직 친구가 없는 것 같아요.<br>먼저 친구를 추가해보세요!',
+        friends_empty_text: '먼저 친구를 추가해보세요!',
         group_search_empty: '해당하는 그룹을 찾을 수 없어요.',
         groups_empty_nofriends: '아직 그룹이 없어요.<br>먼저 친구를 추가한 다음 만들어보세요!',
         groups_empty_text: '아직 그룹이 없어요.<br>마음 맞는 친구들과 그룹을 만들어보세요!',
@@ -9169,20 +9175,25 @@
     }
 
     // ホーム画面レンダリング
+    // ともだちが0人の時の案内（ホームとともだち画面で共通）
+    function emptyFriendsBlockHTML(msgId) {
+      return `
+        <div class="empty-state" style="padding:28px 16px;">
+          <div style="color:var(--text-sub); font-size:13.5px; line-height:1.7; margin:12px 0 26px;">${t('friends_empty_text')}</div>
+          <div style="display:flex; gap:8px; justify-content:center; flex-wrap:nowrap;">
+            <button class="empty-state-btn" style="margin:0; padding:10px 14px; font-size:13px; white-space:nowrap;" onclick="openAddFriendModal()">${t('empty_btn_add')}</button>
+            <button class="empty-state-btn" style="margin:0; padding:10px 14px; font-size:13px; white-space:nowrap;" onclick="shareMyInviteLink()">${t('empty_btn_invite')}</button>
+          </div>
+          <div id="${msgId}" style="display:none; font-size:12px; color:var(--theme-color); margin-top:10px;">${t('invite_link_copied')}</div>
+        </div>`;
+    }
+
     // ともだちが1人もいない時（本物のログイン直後など）の、最初の一歩の案内カード
     function renderFirstStepsHint() {
       const el = document.getElementById('first-steps-hint');
       if (!el) return;
       if (!appData.firebaseUid || appData.friends.length > 0) { el.style.display = 'none'; el.innerHTML = ''; return; }
-      el.innerHTML = `
-        <div class="install-hint-card" style="padding:20px 14px; text-align:center;">
-          <div style="margin:10px 0 4px; line-height:1.7;">${t('home_no_friends_text')}</div>
-          <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:14px; margin-bottom:6px;">
-            <button class="install-hint-btn" style="margin-top:0;" onclick="shareMyInviteLink()">🔗 ${t('home_send_link')}</button>
-            <button class="install-hint-btn" style="margin-top:0; background:#fff; color:var(--theme-color); border:1.5px solid var(--theme-color);" onclick="openAddFriendModal()">＋ ${t('fg_add_friend')}</button>
-          </div>
-          <div id="my-invite-link-copied-msg-home" style="display:none; font-size:12px; color:var(--theme-color); margin-top:8px;">${t('invite_link_copied')}</div>
-        </div>`;
+      el.innerHTML = `<div class="install-hint-card" style="padding:0;">${emptyFriendsBlockHTML('my-invite-link-copied-msg-home')}</div>`;
       el.style.display = 'block';
     }
 
@@ -10128,11 +10139,7 @@
           container.innerHTML = `<div style="color:var(--text-sub); font-size:13px; text-align:center; padding:20px;">${t('friend_search_empty')}</div>`;
         } else {
           container.innerHTML = `
-            <div class="empty-state">
-              <div class="empty-state-text" style="padding-top:12px; margin-bottom:22px;">${t('friends_empty_text')}</div>
-              <button class="empty-state-btn" onclick="openAddFriendModal()">＋ ${t('fg_add_friend')}</button>
-              <button class="empty-state-btn" style="margin-top:8px;" onclick="shareMyInviteLink()">🔗 ${t('home_send_link')}</button>
-            </div>`;
+            ${emptyFriendsBlockHTML('my-invite-link-copied-msg-friends')}`;
         }
         return;
       }
@@ -13191,7 +13198,7 @@
         navigator.share({ title: t('share_title'), text: t('share_text'), url: link }).catch(() => {});
         return;
       }
-      const msgs = ['my-invite-link-copied-msg', 'my-invite-link-copied-msg-home'].map(id => document.getElementById(id)).filter(Boolean);
+      const msgs = ['my-invite-link-copied-msg', 'my-invite-link-copied-msg-home', 'my-invite-link-copied-msg-friends'].map(id => document.getElementById(id)).filter(Boolean);
       const showCopied = () => { msgs.forEach(msg => { msg.style.display = 'block'; setTimeout(() => { msg.style.display = 'none'; }, 2200); }); };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(t('share_text') + '\n' + link).then(showCopied).catch(showCopied);
