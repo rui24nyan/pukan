@@ -1554,20 +1554,31 @@
     }
     body.theme-mode-flat .app-container[data-bg-pattern="gingham"] header::before {
       background-image:
+        linear-gradient(color-mix(in srgb, var(--theme-color) 16%, transparent), color-mix(in srgb, var(--theme-color) 16%, transparent)),
         repeating-linear-gradient(0deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px),
         repeating-linear-gradient(90deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px);
       background-size: auto;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="dot"] header::before {
       background-image:
+        linear-gradient(color-mix(in srgb, var(--theme-color) 16%, transparent), color-mix(in srgb, var(--theme-color) 16%, transparent)),
         radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px),
         radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px);
       background-size: 36px 36px;
       background-position: 0 0, 18px 18px;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="stripe"] header::before {
-      background-image: repeating-linear-gradient(45deg, var(--theme-light), var(--theme-light) 10px, transparent 10px, transparent 20px);
+      background-image:
+        linear-gradient(color-mix(in srgb, var(--theme-color) 16%, transparent), color-mix(in srgb, var(--theme-color) 16%, transparent)),
+        repeating-linear-gradient(45deg, var(--theme-light), var(--theme-light) 10px, transparent 10px, transparent 20px);
       background-size: auto;
+    }
+
+    /* ヘッダーと下の部分の境目をはっきりさせる（柄ありの時だけ、少し影をつける） */
+    body.theme-mode-flat .app-container[data-bg-pattern="gingham"] header,
+    body.theme-mode-flat .app-container[data-bg-pattern="dot"] header,
+    body.theme-mode-flat .app-container[data-bg-pattern="stripe"] header {
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--theme-color) 22%, transparent);
     }
 
     /* 個人用スタンプの選択グリッド */
@@ -15733,7 +15744,7 @@
     } from "https://cdn.jsdelivr.net/npm/firebase@11/auth/+esm";
     import {
       getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, serverTimestamp,
-      addDoc, onSnapshot, orderBy, arrayUnion, deleteDoc
+      addDoc, onSnapshot, orderBy, arrayUnion, arrayRemove, deleteDoc
     } from "https://cdn.jsdelivr.net/npm/firebase@11/firestore/+esm";
 
     const firebaseConfig = {
@@ -15983,7 +15994,9 @@
     };
 
     // ログアウト（データは消さず、ログイン状態だけ解除）
-    window.pukanSignOut = function() {
+    window.pukanSignOut = async function() {
+      // この端末への通知が、次にログインする別の人に届かないよう、先にトークンを外す
+      try { await Promise.race([removePushToken(), new Promise((r) => setTimeout(r, 3000))]); } catch (e) {}
       signOut(auth).catch((err) => {
         console.error('ログアウトに失敗:', err);
       });
@@ -16230,6 +16243,20 @@
     // ===== プッシュ通知（Capacitorでネイティブアプリ化した時だけ動く。素のブラウザでは何もしない） =====
     // @capacitor-firebase/messaging プラグインが入っている前提。
     // window.Capacitor が無い＝ネイティブアプリとしてビルドされていない（＝今のデモ環境含む）ので、その場合は即return。
+    let pukanPushToken = null;
+    async function savePushToken(token) {
+      const u = auth.currentUser;
+      if (!token || !u) return;
+      pukanPushToken = token;
+      // トークンは他のユーザーから読めない場所(private)に置く。端末が複数でも配列で持つ
+      await setDoc(doc(db, 'users', u.uid, 'private', 'push'), { tokens: arrayUnion(token), updatedAt: Date.now() }, { merge: true });
+    }
+    async function removePushToken() {
+      const u = auth.currentUser;
+      if (!u || !pukanPushToken) return;
+      await setDoc(doc(db, 'users', u.uid, 'private', 'push'), { tokens: arrayRemove(pukanPushToken) }, { merge: true });
+    }
+    let pukanPushListenersSet = false;
     async function setupPushNotifications() {
       const cap = window.Capacitor;
       const FirebaseMessaging = cap && cap.Plugins && cap.Plugins.FirebaseMessaging;
@@ -16240,19 +16267,17 @@
         if (permResult.receive !== 'granted') return;
 
         const { token } = await FirebaseMessaging.getToken();
-        const currentUser = auth.currentUser;
-        if (token && currentUser) {
-          // 1人が複数端末(iPhone本体など)を持つ場合もあるので配列で保持し、重複は増やさない
-          await updateDoc(doc(db, 'users', currentUser.uid), { fcmTokens: arrayUnion(token) }).catch(async (e) => {
-            // ドキュメントがまだ無い等で失敗した場合はマージ書き込みにフォールバック
-            await setDoc(doc(db, 'users', currentUser.uid), { fcmTokens: [token] }, { merge: true });
+        await savePushToken(token);
+
+        if (!pukanPushListenersSet) {
+          pukanPushListenersSet = true;
+          // トークンが更新されたら保存し直す
+          FirebaseMessaging.addListener('tokenReceived', (ev) => { savePushToken(ev && ev.token).catch(() => {}); });
+          // アプリを開いている間は通知バナーを出さず、そのまま同期されるだけにする
+          FirebaseMessaging.addListener('notificationReceived', (event) => {
+            console.log('フォアグラウンドで通知を受信:', event);
           });
         }
-
-        // アプリがフォアグラウンドの間に通知を受けた時の処理（バッジ更新など、必要ならここに足す）
-        FirebaseMessaging.addListener('notificationReceived', (event) => {
-          console.log('フォアグラウンドで通知を受信:', event);
-        });
       } catch (e) {
         console.error('プッシュ通知のセットアップに失敗:', e);
       }
