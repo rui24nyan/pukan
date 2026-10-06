@@ -1534,11 +1534,40 @@
         repeating-linear-gradient(90deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px);
     }
     body.theme-mode-flat .app-container[data-bg-pattern="dot"] {
-      background-image: radial-gradient(var(--theme-border) 2.5px, transparent 3px);
-      background-size: 18px 18px;
+      /* 大きめの水玉を、1つおきにずらして（交互に）並べる */
+      background-image:
+        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px),
+        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="stripe"] {
       background-image: repeating-linear-gradient(45deg, var(--theme-light), var(--theme-light) 10px, transparent 10px, transparent 20px);
+    }
+
+    /* 上のヘッダーにも、同じ柄を入れる（無地カラーテーマの時だけ。ヘッダーの色の上に柄だけ重ねる） */
+    body.theme-mode-flat .app-container[data-bg-pattern="gingham"] header::before,
+    body.theme-mode-flat .app-container[data-bg-pattern="dot"] header::before,
+    body.theme-mode-flat .app-container[data-bg-pattern="stripe"] header::before {
+      display: block;
+      background-repeat: repeat;
+    }
+    body.theme-mode-flat .app-container[data-bg-pattern="gingham"] header::before {
+      background-image:
+        repeating-linear-gradient(0deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px),
+        repeating-linear-gradient(90deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px);
+      background-size: auto;
+    }
+    body.theme-mode-flat .app-container[data-bg-pattern="dot"] header::before {
+      background-image:
+        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px),
+        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
+    }
+    body.theme-mode-flat .app-container[data-bg-pattern="stripe"] header::before {
+      background-image: repeating-linear-gradient(45deg, var(--theme-light), var(--theme-light) 10px, transparent 10px, transparent 20px);
+      background-size: auto;
     }
 
     /* 個人用スタンプの選択グリッド */
