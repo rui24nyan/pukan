@@ -150,7 +150,8 @@
       justify-content: flex-end;
       align-items: center;
       gap: 8px;
-      margin-bottom: 0px;
+      margin-top: 12px; /* 親指で押しやすいよう、少し下げる */
+      margin-bottom: -4px;
       position: relative;
     }
 
@@ -256,8 +257,8 @@
 
     /* 右上：通知ボタン */
     .notice-btn {
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background-color: var(--card-bg);
       display: flex;
@@ -272,10 +273,10 @@
 
     .notice-badge {
       position: absolute;
-      top: 3px;
-      right: 3px;
-      width: 8px;
-      height: 8px;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
       background-color: #E53935;
       border-radius: 50%;
     }
@@ -3116,12 +3117,12 @@
     <header>
       <div class="header-top-row">
         <button class="notice-btn" onclick="openDmInboxModal()" style="position:relative;">
-          <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"></rect><path d="m4 7 8 6 8-6"></path></svg>
+          <svg class="icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"></rect><path d="m4 7 8 6 8-6"></path></svg>
           <span class="notice-badge" id="dm-inbox-badge" style="display: none;"></span>
           <span class="premium-lock-badge" id="dm-inbox-lock-badge" style="position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); font-size:9px; padding:1px 4px; white-space:nowrap;">🔒</span>
         </button>
         <button class="notice-btn" onclick="openNoticeModal()">
-          <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>
+          <svg class="icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>
           <span class="notice-badge" id="notice-badge" style="display: none;"></span>
         </button>
       </div>
@@ -3550,7 +3551,7 @@
         <label class="input-label"><span data-i18n="hima_scope_label">ひま情報を見せるともだち</span> <span data-i18n="hima_scope_hint">未選択の場合はともだち全員に公開</span></label>
         <div id="hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openHimaScopeSelectorModal()">
           <span id="hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
-          <span style="color: var(--text-sub);">▼</span>
+          <span style="color: var(--text-sub);">▼︎</span>
         </div>
       </div>
 
@@ -3607,7 +3608,7 @@
         <label class="input-label" data-i18n="hima_scope_label">ひま情報を見せるともだち</label>
         <div id="edit-hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openEditHimaScopeSelectorModal()">
           <span id="edit-hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
-          <span style="color: var(--text-sub);">▼</span>
+          <span style="color: var(--text-sub);">▼︎</span>
         </div>
       </div>
 
@@ -3684,13 +3685,13 @@
 
       <div class="scope-section-header" onclick="toggleScopeSection('groups')">
         <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);" data-i18n="ui_031">グループ</h4>
-        <span class="scope-section-chevron" id="scope-groups-chevron">▾</span>
+        <span class="scope-section-chevron" id="scope-groups-chevron">▾︎</span>
       </div>
       <div id="scope-groups-container" style="margin-bottom: 14px;"></div>
 
       <div class="scope-section-header" onclick="toggleScopeSection('friends')">
         <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);" data-i18n="ui_032">ともだち</h4>
-        <span class="scope-section-chevron" id="scope-friends-chevron">▾</span>
+        <span class="scope-section-chevron" id="scope-friends-chevron">▾︎</span>
       </div>
       <div id="scope-friends-body">
         <button class="btn-secondary-sm" id="scope-favorites-toggle-btn" style="width: 100%; margin-bottom: 8px; text-align: center;" onclick="selectFavoritesInScope()">お気に入りを一括選択</button>
@@ -4172,7 +4173,7 @@
         <label class="input-label"><span data-i18n="hima_scope_label">ひま情報を見せるともだち</span> <span data-i18n="hima_scope_hint">未選択の場合はともだち全員に公開</span></label>
         <div id="day-hima-scope-selector-trigger" class="input-field" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="openHimaScopeSelectorModal()">
           <span id="day-hima-scope-summary-text" style="color: var(--text-sub);" data-i18n="hima_scope_all">全員に公開</span>
-          <span style="color: var(--text-sub);">▼</span>
+          <span style="color: var(--text-sub);">▼︎</span>
         </div>
       </div>
       <button class="btn-primary" onclick="submitDayHima(event)" data-i18n="ui_096">この日のひまを追加</button>
@@ -4308,7 +4309,7 @@
 
       <div id="theme-mode-flat-section">
         <div class="color-chip-grid collapsed" id="color-picker" style="margin-top:18px;"></div>
-        <button class="theme-color-toggle" id="color-toggle-btn" onclick="toggleColorGrid()">もっと見る ▾</button>
+        <button class="theme-color-toggle" id="color-toggle-btn" onclick="toggleColorGrid()">もっと見る ▾︎</button>
 
         <label style="display:flex; align-items:center; gap:10px; margin-top:18px; font-size:13px; font-weight:700; color: var(--text-main); cursor:pointer;">
           <span class="switch"><input type="checkbox" id="bicolor-toggle" onchange="toggleBicolorMode(this.checked)"><span class="slider"></span></span>
@@ -4317,7 +4318,7 @@
         <div id="bicolor-second-section" style="display:none; margin-top:12px;">
           <p style="font-size:12px; color:var(--text-sub); margin-bottom:8px;" data-i18n="ui_108">2色目を選んでね（ヘッダーと背景がグラデーションになるよ）</p>
           <div class="color-chip-grid collapsed" id="color-picker-2"></div>
-          <button class="theme-color-toggle" id="color-toggle-btn-2" onclick="toggleColorGrid()">もっと見る ▾</button>
+          <button class="theme-color-toggle" id="color-toggle-btn-2" onclick="toggleColorGrid()">もっと見る ▾︎</button>
         </div>
 
         <h3 style="font-size: 16px; font-weight: 700; margin: 20px 0 10px;" data-i18n="theme_bg_pattern">背景の柄</h3>
@@ -4525,7 +4526,14 @@
         <p style="margin-top:12px; font-weight:700;" data-i18n="ui_124">5. データの削除</p>
         <p data-i18n="ui_125">アプリ内の「設定」→「退会・アカウント削除」から、いつでもご自身でアカウントとすべてのデータを削除できます。</p>
 
+        <p style="margin-top:12px; font-weight:700;" data-i18n="pp_cloud_h">6. クラウドへの保存</p>
+        <p data-i18n="pp_cloud_b">設定・「ひま」・予定・ともだち一覧・チャットなどのデータは、機種変更や再ログインのときに同じ状態に戻せるよう、あなたのアカウントにひもづけてクラウド（Google Firebase）に自動で保存されます。この保存データは、あなた本人だけが読み書きでき、運営者を含め、他のユーザーに公開されることはありません。ともだちに共有する内容は、上記3の範囲に限られます。</p>
+
+        <p style="margin-top:12px; font-weight:700;" data-i18n="pp_ext_h">7. 外部サービスの利用</p>
+        <p data-i18n="pp_ext_b">本アプリは、ログイン・データの保存・通知の配信のために、Google LLC が提供する Firebase を利用しています。取得した情報は、これらの機能を提供する目的の範囲でのみ、外部サービスに預けられます。</p>
+
         <p style="margin-top:16px; color:var(--text-sub); font-size:11px;" data-i18n="ui_126">制定日：2026年10月4日</p>
+        <p style="color:var(--text-sub); font-size:11px;" data-i18n="pp_revised">最終改定日：2026年10月6日</p>
       </div>
     </div>
   </div>
@@ -4878,7 +4886,7 @@
     ];
 
     // 初期化関数（Firebaseのログインが確認できたタイミングで、下部の<script type="module">から呼ばれる）
-    window.initAppAfterLogin = function(firebaseUser) {
+    window.initAppAfterLogin = function(firebaseUser, cloud) {
       // 途中のどこかの処理でエラーが起きても、ログイン画面が消えずに固まったままにならないよう、
       // 「ログイン画面を隠す」のは一番最初に行っておく（中身の描画は後からこっそり進める）。
       const loginGateEl = document.getElementById('login-gate');
@@ -4890,6 +4898,24 @@
       if (logoutRowEl) logoutRowEl.style.display = firebaseUser ? 'flex' : 'none';
 
       try {
+        // クラウドに保存してあるデータが、この端末のデータより新しければ、そちらを使う
+        // （ログインし直した／別の端末で開いた／ブラウザのデータが消えた、など）
+        if (firebaseUser && cloud && cloud.json) {
+          try {
+            let localUpd = 0;
+            try {
+              const lp = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+              if (lp && lp.firebaseUid === firebaseUser.uid) localUpd = lp._updatedAt || 0;
+            } catch (e) {}
+            if ((cloud.updatedAt || 0) > localUpd) {
+              const co = JSON.parse(cloud.json);
+              if (co && typeof co === 'object') {
+                co.firebaseUid = firebaseUser.uid;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(co));
+              }
+            }
+          } catch (e) { console.warn('クラウドからの復元に失敗:', e); }
+        }
         loadData(firebaseUser);
         // ログインしてきたGoogleアカウントの情報を、自分のプロフィールに軽く反映しておく
         // （本格的なFirestore連携は次のステップで行う。ここではまずログイン状態の確認だけ）
@@ -5203,8 +5229,8 @@
         install_hint_ios: '📲 <strong>ホーム画面に追加</strong>すると、アプリみたいに全画面で開けるよ。<br>Safariの <strong>共有ボタン（□↑）</strong> → <strong>「ホーム画面に追加」</strong> をタップしてね。',
         install_hint_android: '📲 <strong>ホーム画面に追加</strong>すると、アプリみたいに開けるよ。',
         install_hint_btn: '追加する',
-        show_less: '閉じる ▴',
-        show_more: 'もっと見る ▾',
+        show_less: '閉じる ▴︎',
+        show_more: 'もっと見る ▾︎',
         premium_badge: '🔒 プレミアム',
         ics_purpose: '目的: {memo}',
         ics_desc_plan: '「ぷかん」で確定した予定だよ',
@@ -5299,11 +5325,13 @@
         unfav: '♥ お気に入りを解除',
         fav_add: '♡ お気に入りに追加',
         premium_active_7d: '✅ 有効（7日）',
-        msg_reply: '↩️ 返信',
+        msg_reply: '↩︎ 返信',
         msg_remove_reaction: '🚫 リアクションを消す',
         no_free_to_invite: '今「ひま」を出している、誘える友達がいません',
         no_free_label: 'ひまなし',
         batch_cancel_select: '✕ 選択をやめる',
+        batch_hint: 'チェックを付けた人を、まとめて誘えるよ',
+        batch_hint_none: '「ひま」を出している人だけ選べるよ。今日・明日のひまを出しているともだちがいないみたい',
         batch_invite: '☑️ まとめて誘う',
         btn_add_short: '追加',
         group_of_n: '{n}人グループ',
@@ -5532,6 +5560,11 @@
         ui_124: '5. データの削除',
         ui_125: 'アプリ内の「設定」→「退会・アカウント削除」から、いつでもご自身でアカウントとすべてのデータを削除できます。',
         ui_126: '制定日：2026年10月4日',
+        pp_cloud_h: '6. クラウドへの保存',
+        pp_cloud_b: '設定・「ひま」・予定・ともだち一覧・チャットなどのデータは、機種変更や再ログインのときに同じ状態に戻せるよう、あなたのアカウントにひもづけてクラウド（Google Firebase）に自動で保存されます。この保存データは、あなた本人だけが読み書きでき、運営者を含め、他のユーザーに公開されることはありません。ともだちに共有する内容は、上記3の範囲に限られます。',
+        pp_ext_h: '7. 外部サービスの利用',
+        pp_ext_b: '本アプリは、ログイン・データの保存・通知の配信のために、Google LLC が提供する Firebase を利用しています。取得した情報は、これらの機能を提供する目的の範囲でのみ、外部サービスに預けられます。',
+        pp_revised: '最終改定日：2026年10月6日',
         ui_127: '言語を選んでね',
         ui_128: '⚠️ 予定が重なっています',
         ui_129: '誘いの取り消し',
@@ -5817,8 +5850,8 @@
         install_hint_ios: '📲 <strong>Add to Home Screen</strong> to open Pukan full-screen like an app.<br>In Safari, tap the <strong>Share button (□↑)</strong> → <strong>"Add to Home Screen"</strong>.',
         install_hint_android: '📲 <strong>Add to Home Screen</strong> to open Pukan like an app.',
         install_hint_btn: 'Add',
-        show_less: 'Close ▴',
-        show_more: 'Show more ▾',
+        show_less: 'Close ▴︎',
+        show_more: 'Show more ▾︎',
         premium_badge: '🔒 Premium',
         ics_purpose: 'Purpose: {memo}',
         ics_desc_plan: 'A plan confirmed on Pukan',
@@ -5913,11 +5946,13 @@
         unfav: '♥ Remove from favorites',
         fav_add: '♡ Add to favorites',
         premium_active_7d: '✅ Active (7 days)',
-        msg_reply: '↩️ Reply',
+        msg_reply: '↩︎ Reply',
         msg_remove_reaction: '🚫 Remove reaction',
         no_free_to_invite: 'No friends are currently free to invite',
         no_free_label: 'Not free',
         batch_cancel_select: '✕ Stop selecting',
+        batch_hint: 'Tick the friends you want to invite together',
+        batch_hint_none: 'You can only pick friends who posted a free time for today or tomorrow. None right now.',
         batch_invite: '☑️ Invite several',
         btn_add_short: 'Add',
         group_of_n: 'Group of {n}',
@@ -6146,6 +6181,11 @@
         ui_124: '5. Deleting your data',
         ui_125: 'You can delete your account and all data yourself at any time from Settings → Leave / Delete account.',
         ui_126: 'Effective: October 4, 2026',
+        pp_cloud_h: '6. Cloud storage',
+        pp_cloud_b: 'So that you can restore the same state after changing devices or logging in again, your settings, free-time posts, plans, friend list, chats and similar data are automatically saved to the cloud (Google Firebase) tied to your account. Only you can read or write this saved data; it is not made public to other users. What is shared with friends is limited to the scope described in section 3.',
+        pp_ext_h: '7. External services',
+        pp_ext_b: 'This app uses Firebase, provided by Google LLC, for login, data storage and notification delivery. Information is entrusted to external services only to the extent needed to provide these features.',
+        pp_revised: 'Last updated: October 6, 2026',
         ui_127: 'Choose a language',
         ui_128: '⚠️ Plans overlap',
         ui_129: 'Withdraw invite',
@@ -6431,8 +6471,8 @@
         install_hint_ios: '📲 <strong>홈 화면에 추가</strong>하면 앱처럼 전체 화면으로 열 수 있어요.<br>Safari의 <strong>공유 버튼 (□↑)</strong> → <strong>"홈 화면에 추가"</strong>를 탭해 주세요.',
         install_hint_android: '📲 <strong>홈 화면에 추가</strong>하면 앱처럼 열 수 있어요.',
         install_hint_btn: '추가',
-        show_less: '닫기 ▴',
-        show_more: '더 보기 ▾',
+        show_less: '닫기 ▴︎',
+        show_more: '더 보기 ▾︎',
         premium_badge: '🔒 프리미엄',
         ics_purpose: '목적: {memo}',
         ics_desc_plan: '푸칸에서 확정한 일정이에요',
@@ -6527,11 +6567,13 @@
         unfav: '♥ 즐겨찾기 해제',
         fav_add: '♡ 즐겨찾기에 추가',
         premium_active_7d: '✅ 사용 중 (7일)',
-        msg_reply: '↩️ 답장',
+        msg_reply: '↩︎ 답장',
         msg_remove_reaction: '🚫 리액션 지우기',
         no_free_to_invite: '지금 \'한가해요\'를 올린 초대할 수 있는 친구가 없어요',
         no_free_label: '한가하지 않음',
         batch_cancel_select: '✕ 선택 그만두기',
+        batch_hint: '체크한 친구를 한꺼번에 초대할 수 있어요',
+        batch_hint_none: '오늘·내일 한가한 시간을 올린 친구만 고를 수 있어요. 지금은 없어요.',
         batch_invite: '☑️ 한꺼번에 초대',
         btn_add_short: '추가',
         group_of_n: '{n}명 그룹',
@@ -6760,6 +6802,11 @@
         ui_124: '5. 데이터 삭제',
         ui_125: '앱 내 \'설정\' → \'탈퇴・계정 삭제\'에서 언제든지 직접 계정과 모든 데이터를 삭제할 수 있어요.',
         ui_126: '제정일: 2026년 10월 4일',
+        pp_cloud_h: '6. 클라우드 저장',
+        pp_cloud_b: '기기를 바꾸거나 다시 로그인해도 같은 상태로 되돌릴 수 있도록, 설정·\'한가해\' 게시·일정·친구 목록·채팅 등의 데이터는 계정에 연결되어 클라우드(Google Firebase)에 자동으로 저장됩니다. 이 저장 데이터는 본인만 읽고 쓸 수 있으며 다른 사용자에게 공개되지 않습니다. 친구와 공유되는 내용은 위 3항의 범위로 한정됩니다.',
+        pp_ext_h: '7. 외부 서비스 이용',
+        pp_ext_b: '본 앱은 로그인·데이터 저장·알림 전달을 위해 Google LLC가 제공하는 Firebase를 이용합니다. 정보는 이러한 기능을 제공하는 데 필요한 범위에서만 외부 서비스에 맡겨집니다.',
+        pp_revised: '최종 개정일: 2026년 10월 6일',
         ui_127: '언어를 선택해 주세요',
         ui_128: '⚠️ 일정이 겹쳐요',
         ui_129: '초대 취소',
@@ -6933,11 +6980,38 @@
     // データの保存と読み込み
     function saveData() {
       try {
+        appData._updatedAt = Date.now();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
       } catch (e) {
         console.error("Data save error", e);
       }
+      scheduleCloudSave();
     }
+
+    // ===== クラウド保存：設定・ひま・予定・チャットなどを、アカウントにひもづけてFirestoreにも保存する =====
+    // ログインし直しても、機種変更しても、同じ状態に戻せる。保存先は自分専用（他の人は読めない）。
+    let cloudSaveTimer = null;
+    let cloudLastSavedHash = '';
+    function cloudStateJson() {
+      return JSON.stringify(appData, (k, v) => (k === '_updatedAt' ? undefined : v));
+    }
+    function scheduleCloudSave(delayMs) {
+      try {
+        if (!window.pukanCloudReady || !appData.firebaseUid || typeof window.pukanCloudSave !== 'function') return;
+        clearTimeout(cloudSaveTimer);
+        cloudSaveTimer = setTimeout(runCloudSave, typeof delayMs === 'number' ? delayMs : 8000);
+      } catch (e) {}
+    }
+    async function runCloudSave() {
+      try {
+        if (!window.pukanCloudReady || !appData.firebaseUid) return;
+        const body = cloudStateJson();
+        if (body === cloudLastSavedHash) return; // 前回から変化なし
+        const res = await window.pukanCloudSave(JSON.stringify(Object.assign({}, appData, { _updatedAt: appData._updatedAt || Date.now() })), appData._updatedAt || Date.now());
+        if (res && res.ok) cloudLastSavedHash = body;
+      } catch (e) { console.warn('クラウド保存に失敗:', e); }
+    }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') scheduleCloudSave(0); });
 
     // firebaseUser: 本物のログイン（Google/メールなど）が確認できたときはそのユーザー情報、
     // ゲスト/デモ利用（スキップログイン）のときは null/undefined。
@@ -8938,9 +9012,9 @@
       // （内容は全てこちらで用意した固定文言のみなので、ユーザー入力が混ざる心配は無い）
       document.getElementById('onboarding-title').innerHTML = step.title;
       document.getElementById('onboarding-desc').textContent = step.desc;
-      document.getElementById('onboarding-next-btn').textContent = isLast ? t('ob_finish') : '▶';
+      document.getElementById('onboarding-next-btn').textContent = isLast ? t('ob_finish') : '▶︎';
       // 1枚目では戻る場所が無いので非表示、2枚目以降は表示（スキップして進んだ人が見返せるように）
-      document.getElementById('onboarding-back-btn').textContent = '◀';
+      document.getElementById('onboarding-back-btn').textContent = '◀︎';
       document.getElementById('onboarding-back-btn').style.display = currentOnboardingStep === 0 ? 'none' : '';
 
       const dotsEl = document.getElementById('onboarding-dots');
@@ -9993,12 +10067,12 @@
 
         // すでに参加が決まっている人・まだ返事待ちの人がいれば、あわせて表示する
         const confirmedNames = (item.groupConfirmedIds || []).map(fid => {
-          const f = appData.friends.find(ff => ff.id === fid);
-          return f ? f.name : t('common_friend_fallback');
+          const f = getPersonById(fid);
+          return f && f.name ? f.name : t('common_friend_fallback');
         });
         const pendingNames = (item.groupPendingIds || []).map(fid => {
-          const f = appData.friends.find(ff => ff.id === fid);
-          return f ? f.name : t('common_friend_fallback');
+          const f = getPersonById(fid);
+          return f && f.name ? f.name : t('common_friend_fallback');
         });
         const confirmedHtml = confirmedNames.length > 0
           ? `<div class="my-hima-scope-display">${t('also_joining', {names: confirmedNames.join('、')})}</div>`
@@ -10319,6 +10393,15 @@
 
       const todayStr = getFormattedDate(0);
       const tomorrowStr = getFormattedDate(1);
+
+      // 「まとめて誘う」選択中は、誘えるのが「今日・明日のひまを出している人」だけだと案内する
+      if (friendsBatchSelectMode) {
+        const anySelectable = list.some(f => appData.friendHima.some(h => h.friendId === f.id && h.status !== 'accepted' && h.status !== 'invited' && (h.date === todayStr || h.date === tomorrowStr) && canUserSeeHima(h, f.id)));
+        const note = document.createElement('div');
+        note.style.cssText = 'font-size:12px; color:var(--text-sub); text-align:center; padding:2px 8px 10px; line-height:1.6;';
+        note.textContent = anySelectable ? t('batch_hint') : t('batch_hint_none');
+        container.appendChild(note);
+      }
 
       list.forEach(friend => {
         // 公開範囲を考慮してひま情報を取得
@@ -11715,6 +11798,9 @@
         const stranger = appData.strangers[idx];
         appData.friends.push({ id: stranger.id, name: stranger.name, avatar: stranger.avatar, pinned: false, addedAt: getFormattedDate(0) });
         appData.strangers.splice(idx, 1);
+        // 本物の人なら、相手のともだち一覧にも自分が入るよう知らせる
+        const sUid = getFriendRealUidLocal({ id: stranger.id });
+        if (sUid) { try { sendFriendAddedTo(sUid); } catch (e) {} }
         saveData();
         renderFriends();
         renderGroups();
@@ -11881,7 +11967,7 @@
 
       const isCollapsed = body.style.display === 'none';
       body.style.display = isCollapsed ? '' : 'none';
-      if (chevron) chevron.textContent = isCollapsed ? '▾' : '▸';
+      if (chevron) chevron.textContent = isCollapsed ? '▾︎' : '▸︎';
     }
 
     function updateHimaScopeSummaryText() {
@@ -12463,13 +12549,19 @@
       if (!data || !data.type) return;
       data = sanitizeRemoteValue(data);
       const fromUid = data.fromUid;
-      const localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
+      let localFriend = appData.friends.find(f => getFriendRealUidLocal(f) === fromUid);
+      // 予定のグループチャット等は、ともだちではない同じ予定の参加者（ストレンジャー）からも届く
+      if (!localFriend && typeof data.type === 'string' && data.type.indexOf('plan_') === 0) {
+        localFriend = (appData.strangers || []).find(x => x.id === 'f_' + fromUid) || null;
+      }
 
       if (data.type === 'friend_added') {
         // 相手が自分のIDでともだち追加してくれた → こちらのともだち一覧にも自動で入れる
         if (!fromUid) return;
+        if ((appData.blockedFriendIds || []).includes('f_' + fromUid)) return; // ブロック中の相手は入れない
         const pl = data.payload || {};
         if (!localFriend) {
+          appData.strangers = (appData.strangers || []).filter(x => x.id !== 'f_' + fromUid); // 予定で知り合っていた人なら、ストレンジャーからともだちに
           const nf = { id: 'f_' + fromUid, name: pl.name || data.fromName || 'ともだち', avatar: pl.avatar || '👤', pinned: false, addedAt: getFormattedDate(0) };
           if (pl.birthdayMonth && pl.birthdayDay) { nf.birthdayMonth = pl.birthdayMonth; nf.birthdayDay = pl.birthdayDay; }
           appData.friends.push(nf);
@@ -12563,6 +12655,24 @@
         return;
       }
 
+      if (data.type === 'friend_removed') {
+        // 相手が自分をともだちから外した（ブロックの場合も同じ）。こちらからも静かに片付ける
+        if (!localFriend) return;
+        cleanupFriendReferences(localFriend.id);
+        appData.groups.filter(g => g.ownerUid === fromUid).forEach(g => cleanupGroupReferences(g.id));
+        appData.groups = appData.groups.filter(g => g.ownerUid !== fromUid);
+        appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
+        removeEmptiedPlans();
+        saveData();
+        renderFriends();
+        renderFriendSettings();
+        renderHome();
+        renderGroups();
+        renderCalendar();
+        renderChatUnreadBadges();
+        return;
+      }
+
       if (data.type === 'account_deleted') {
         // 相手が退会した。ともだち・グループ所属・ひま投稿・確定予定・チャット履歴など
         // 関連データをまとめて片付けてから、ともだち一覧からも削除する。
@@ -12573,6 +12683,7 @@
         appData.groups.filter(g => g.ownerUid === fromUid).forEach(g => cleanupGroupReferences(g.id));
         appData.groups = appData.groups.filter(g => g.ownerUid !== fromUid);
         appData.friends = appData.friends.filter(f => f.id !== localFriend.id);
+        removeEmptiedPlans();
 
         if (!appData.notices) appData.notices = [];
         appData.notices.unshift({
@@ -12606,7 +12717,15 @@
           invitedByUid: fromUid,
           remoteHimaId: p.himaId
         });
-        appData.myHima[appData.myHima.length - 1].status = 'invited';
+        const newH = appData.myHima[appData.myHima.length - 1];
+        newH.status = 'invited';
+        // 「まとめて誘う」の一員として届いた誘いなら、ほかに誘われている人も「返事待ち」として覚えておく
+        if (p.batch && p.batch.pk && Array.isArray(p.batch.members)) {
+          newH.batchPk = p.batch.pk;
+          newH.groupPendingIds = p.batch.members
+            .filter(m => m && m.uid && m.uid !== appData.firebaseUid && m.uid !== fromUid)
+            .map(m => ensureRealStranger(m.uid, m.name, m.avatar));
+        }
         saveData();
         renderHome();
         return;
@@ -12616,6 +12735,30 @@
         const p = data.payload || {};
         const hima = appData.friendHima.find(h => h.id === p.himaId);
         if (!hima) return;
+        const grpS = hima.groupInviteScheduleId ? (appData.confirmedSchedules || []).find(x => x.id === hima.groupInviteScheduleId) : null;
+        if (grpS) {
+          if (p.accepted) {
+            applyRealGroupAccept(grpS, hima, p);
+          } else {
+            grpS.invitedFriendIds = (grpS.invitedFriendIds || []).filter(id => id !== hima.friendId);
+            grpS.isGroupInvite = grpS.invitedFriendIds.length > 0;
+            hima.status = 'none';
+            delete hima.groupInviteScheduleId;
+            if (!appData.notices) appData.notices = [];
+            appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_invite_declined', params: { name: localFriend ? formatNameWithHonorific(localFriend) : t('common_friend_fallback') }, dateKey: 'date_today', read: false });
+            renderNoticeBadge();
+            // 誰も来なくなったグループは片付ける
+            if (!(grpS.participantIds || []).some(id => id !== 'my_hima_id') && (grpS.invitedFriendIds || []).length === 0) {
+              appData.confirmedSchedules = appData.confirmedSchedules.filter(x => x.id !== grpS.id);
+            }
+          }
+          saveData();
+          renderHome();
+          renderFriends();
+          renderCalendar();
+          if (currentChatPlanId === grpS.id) openGroupChat(grpS.id);
+          return;
+        }
         if (p.accepted) {
           const newSchedule = createConfirmedScheduleFromHima(
             { date: p.date, time: p.time, timeStart: p.timeStart, timeEnd: p.timeEnd, allDay: p.allDay, place: p.place, memo: p.memo, scope: hima.scope },
@@ -12857,8 +13000,13 @@
         const p = data.payload || {};
         const target = findPlanForRemote(p, localFriend);
         if (!target || !p.uid) return;
-        const nf = appData.friends.find(f => getFriendRealUidLocal(f) === p.uid);
-        if (!nf || (target.participantIds || []).includes(nf.id)) return;
+        if (!p.uid || p.uid === appData.firebaseUid) return;
+        let nf = appData.friends.find(f => getFriendRealUidLocal(f) === p.uid);
+        if (!nf) { const sid = ensureRealStranger(p.uid, p.name, p.avatar); nf = (appData.strangers || []).find(x => x.id === sid); }
+        if (!nf) return;
+        target.invitedFriendIds = (target.invitedFriendIds || []).filter(id => id !== nf.id);
+        if (target.isGroupInvite && target.invitedFriendIds.length === 0) target.isGroupInvite = false;
+        if ((target.participantIds || []).includes(nf.id)) { saveData(); renderHome(); return; }
         target.participantIds.push(nf.id);
         pushChatSystemMessage('plan_' + target.id, t('joined_msg', { name: formatNameWithHonorific(nf) }));
         saveData();
@@ -13254,8 +13402,9 @@
 
       // 本物の相手（IDでともだち追加した相手）からの誘いだった場合は、相手のアプリにも「承諾したよ」を届ける
       if (hima.invitedByUid && typeof window.pukanSendInboxNotification === 'function') {
+        if (hima.batchPk) newSchedule.pk = hima.batchPk;
         window.pukanSendInboxNotification(hima.invitedByUid, 'invite_response', {
-          himaId: hima.remoteHimaId, accepted: true,
+          himaId: hima.remoteHimaId, accepted: true, pk: hima.batchPk || '',
           date: hima.date, time: hima.time || '', timeStart: hima.timeStart || '', timeEnd: hima.timeEnd || '',
           allDay: !!hima.allDay, place: hima.place || '', memo: hima.memo || ''
         });
@@ -13557,7 +13706,7 @@
       bar.style.display = 'block';
       bar.innerHTML = `
         <div class="chat-reply-preview-bar">
-          <span class="chat-reply-preview-text">↩️ ${pendingReplyTarget.senderLabel}: ${pendingReplyTarget.text}</span>
+          <span class="chat-reply-preview-text">↩︎ ${pendingReplyTarget.senderLabel}: ${pendingReplyTarget.text}</span>
           <button class="chat-reply-preview-close" onclick="cancelReplyPreview()">×</button>
         </div>
       `;
@@ -13637,11 +13786,82 @@
       const out = [];
       (item.participantIds || []).forEach(pid => {
         if (pid === 'my_hima_id') return;
-        const f = appData.friends.find(x => x.id === pid);
+        const f = appData.friends.find(x => x.id === pid) || { id: pid }; // ともだちではない参加者(ストレンジャー)も 'f_'+uid なら本物
         const u = getFriendRealUidLocal(f);
-        if (u) out.push(u);
+        if (u && !out.includes(u)) out.push(u);
       });
       return out;
+    }
+    // ともだちではない本物の参加者を「ストレンジャー」として覚えておく（id は 'f_'+uid。ともだち追加するとそのまま友達になる）
+    function ensureRealStranger(uid, name, avatar) {
+      const id = 'f_' + uid;
+      if (appData.friends.some(f => f.id === id)) return id;
+      if (!appData.strangers) appData.strangers = [];
+      let st = appData.strangers.find(x => x.id === id);
+      if (!st) { st = { id, name: name || 'ともだち', avatar: '👤' }; appData.strangers.push(st); }
+      if (name) st.name = name;
+      if (avatar && String(avatar).indexOf('data:image') === 0) st.avatar = avatar;
+      return id;
+    }
+    function avatarForPlanSync(av) { return (av && String(av).indexOf('data:image') === 0 && av.length < 20000) ? av : ((av && String(av).length <= 8 && String(av).indexOf('data:') !== 0) ? av : '👤'); }
+
+    // ===== 実際のともだちを「まとめて誘う」：1つのグループ予定にまとめる =====
+    function startRealGroupInvite(ids) {
+      const invitedIds = ids.filter(fid => { const h = findMemberActiveHima(fid); return h && h.status !== 'invited'; });
+      if (invitedIds.length < 2) { invitedIds.forEach(fid => { const h = findMemberActiveHima(fid); if (h) performInvite(h.id); }); return null; }
+      const scheduleId = 'cs_group_' + Date.now();
+      const pk = 'pk' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      appData.confirmedSchedules.push({
+        id: scheduleId, friendId: null, date: '', time: '', timeStart: '', timeEnd: '', allDay: false, place: '', memo: '',
+        participantIds: ['my_hima_id'], creatorId: 'my_hima_id', recruiting: false, scope: { friends: [], groups: [] }, pendingRequests: [],
+        isGroupInvite: true, invitedFriendIds: invitedIds, pk
+      });
+      const members = invitedIds.map(fid => { const f = appData.friends.find(x => x.id === fid) || {}; return { uid: getFriendRealUidLocal({ id: fid }), name: f.name || '', avatar: avatarForPlanSync(f.avatar) }; });
+      invitedIds.forEach(fid => {
+        const hima = findMemberActiveHima(fid);
+        if (!hima) return;
+        hima.status = 'invited';
+        hima.groupInviteScheduleId = scheduleId;
+        window.pukanSendInboxNotification && window.pukanSendInboxNotification(getFriendRealUidLocal({ id: fid }), 'invite', {
+          himaId: hima.id, date: hima.date, time: hima.time || '', timeStart: hima.timeStart || '', timeEnd: hima.timeEnd || '',
+          allDay: !!hima.allDay, place: hima.place || '', memo: hima.memo || '', batch: { pk, members }
+        });
+      });
+      saveData();
+      renderHome();
+      renderFriends();
+      return scheduleId;
+    }
+    // 誘った相手のひとりが「行く」と答えた → グループ予定に加え、ほかの参加者にも知らせてそろえる
+    function applyRealGroupAccept(S, hima, p) {
+      const fid = hima.friendId;
+      const nf = appData.friends.find(f => f.id === fid);
+      const nuid = getFriendRealUidLocal({ id: fid });
+      const firstAccept = !(S.participantIds || []).some(id => id !== 'my_hima_id');
+      if (!S.participantIds.includes(fid)) S.participantIds.push(fid);
+      S.invitedFriendIds = (S.invitedFriendIds || []).filter(id => id !== fid);
+      S.isGroupInvite = S.invitedFriendIds.length > 0;
+      if (firstAccept && !S.date) { Object.assign(S, { date: p.date || '', time: p.time || '', timeStart: p.timeStart || '', timeEnd: p.timeEnd || '', allDay: !!p.allDay, place: p.place || '', memo: p.memo || '' }); }
+      appData.friendHima = appData.friendHima.filter(h => h.id !== hima.id);
+      const pkp = planKeyPayload(S);
+      const send = window.pukanSendInboxNotification;
+      if (typeof send === 'function' && nuid) {
+        S.participantIds.filter(id => id !== 'my_hima_id' && id !== fid).forEach(pid => {
+          const pf = appData.friends.find(f => f.id === pid) || {};
+          const pu = getFriendRealUidLocal({ id: pid });
+          if (!pu) return;
+          send(pu, 'plan_member_added', Object.assign({ uid: nuid, name: nf ? nf.name : '', avatar: avatarForPlanSync(nf && nf.avatar) }, pkp));
+          send(nuid, 'plan_member_added', Object.assign({ uid: pu, name: pf.name || '', avatar: avatarForPlanSync(pf.avatar) }, pkp));
+        });
+        const startOf = x => x.timeStart || x.time || '';
+        if (S.date && (p.date !== S.date || startOf(p) !== startOf(S) || (p.place || '') !== (S.place || ''))) {
+          send(nuid, 'plan_edited', { pk: S.pk, old: { date: p.date || '', time: p.time || '', timeStart: p.timeStart || '', place: p.place || '' }, date: S.date, time: S.time || '', timeStart: S.timeStart || '', timeEnd: S.timeEnd || '', allDay: !!S.allDay, place: S.place || '', memo: S.memo || '', groupName: S.groupName || '' });
+        }
+      }
+      if (!appData.notices) appData.notices = [];
+      appData.notices.unshift({ id: 'n_' + Date.now(), textKey: 'notice_group_invite_accepted', params: { name: nf ? formatNameWithHonorific(nf) : t('common_friend_fallback') }, dateKey: 'date_today', read: false, action: { type: 'confirmedDetail', id: S.id } });
+      pushChatSystemMessage('plan_' + S.id, t('joined_msg', { name: nf ? formatNameWithHonorific(nf) : t('common_friend_fallback') }));
+      renderNoticeBadge();
     }
     // グループチャットを開いた時に、「見たよ」を本物の参加者に返す（既読通知の設定がOFFなら返さない）
     function sendPlanChatReadReceipt(scheduleId) {
@@ -14353,14 +14573,21 @@
 
       // 本物のともだちには、1人ずつ個別に本物の誘いを送る（相手が実際に返事する）。
       // デモ用のサンプルともだちだけが、これまで通り「一時的なグループ」にまとまる。
+      // 2人以上なら1つのグループ予定にまとめ、1人だけなら個別の誘いにする。
       let sentReal = 0;
-      selectedIds.filter(fid => isRealFriendLocalId(fid)).forEach(fid => {
-        const h = findMemberActiveHima(fid);
-        if (h && h.status !== 'invited') { performInvite(h.id); sentReal++; }
-      });
-      if (sentReal > 0) alert(t('batch_real_note'));
+      let realGroupId = null;
+      const realSel = selectedIds.filter(fid => isRealFriendLocalId(fid));
+      if (realSel.length >= 2) {
+        realGroupId = startRealGroupInvite(realSel);
+      } else {
+        realSel.forEach(fid => {
+          const h = findMemberActiveHima(fid);
+          if (h && h.status !== 'invited') { performInvite(h.id); sentReal++; }
+        });
+        if (sentReal > 0) alert(t('batch_real_note'));
+      }
       selectedIds = selectedIds.filter(fid => !isRealFriendLocalId(fid));
-      if (selectedIds.length === 0) return null;
+      if (selectedIds.length === 0) return realGroupId;
 
       // 1人だけ選択している場合は、通常の個人招待と同じ確認フローを使う
       if (selectedIds.length === 1) {
@@ -14994,6 +15221,29 @@
 
     // ともだちを削除・ブロックする際に、アプリ内に残ってしまう関連データをまとめて片付ける。
     // （チャット履歴／グループの所属／相手側の「ひま」投稿／確定予定や募集の参加者・リクエスト一覧など）
+    // ともだちが抜けて、自分しか残らなくなった確定予定（まだ誘い中の人もいない）を片付ける
+    function removeEmptiedPlans() {
+      const before = appData.confirmedSchedules.length;
+      appData.confirmedSchedules = appData.confirmedSchedules.filter(s => {
+        if (s.recruiting || s.remote) return true;
+        const others = (s.participantIds || []).filter(id => id !== 'my_hima_id');
+        return others.length > 0 || (s.invitedFriendIds || []).length > 0;
+      });
+      return before !== appData.confirmedSchedules.length;
+    }
+    // 本物のともだちを外す/ブロックするとき、相手にも知らせて、サーバー上のともだち情報も消す
+    function notifyFriendRemoved(friendId) {
+      try {
+        const u = getFriendRealUidLocal({ id: friendId });
+        if (!u || !appData.firebaseUid) return;
+        if (typeof window.pukanSendInboxNotification === 'function') {
+          window.pukanSendInboxNotification(u, 'friend_removed', {}).then(() => {
+            if (typeof window.pukanRemoveFriendDocs === 'function') window.pukanRemoveFriendDocs(u);
+          });
+        }
+      } catch (e) { console.warn(e); }
+    }
+
     function cleanupFriendReferences(friendId) {
       delete appData.chats[friendId];
 
@@ -15041,7 +15291,9 @@
 
     function executeDeleteFriend() {
       if (!currentDeleteFriendId) return;
+      notifyFriendRemoved(currentDeleteFriendId);
       cleanupFriendReferences(currentDeleteFriendId);
+      removeEmptiedPlans();
       appData.friends = appData.friends.filter(f => f.id !== currentDeleteFriendId);
       saveData();
       closeModal('delete-friend-modal');
@@ -15066,7 +15318,9 @@
 
     function executeBlockFriend() {
       if (!currentBlockFriendId) return;
+      notifyFriendRemoved(currentBlockFriendId);
       cleanupFriendReferences(currentBlockFriendId);
+      removeEmptiedPlans();
       appData.friends = appData.friends.filter(f => f.id !== currentBlockFriendId);
       if (!appData.blockedFriendIds) appData.blockedFriendIds = [];
       if (!appData.blockedFriendIds.includes(currentBlockFriendId)) {
@@ -15338,7 +15592,7 @@
     <button class="reaction-pill-btn" onclick="openExtendedReactionPicker()">＋</button>
   </div>
   <div id="msg-action-menu" class="msg-action-menu">
-    <button class="msg-action-menu-item" onclick="startReplyToMessage()"><span data-i18n="msg_reply">↩️ 返信</span></button>
+    <button class="msg-action-menu-item" onclick="startReplyToMessage()"><span data-i18n="msg_reply">↩︎ 返信</span></button>
     <button class="msg-action-menu-item" id="msg-action-remove-reaction-btn" style="display:none; color:#E53935;" onclick="applyMessageReaction(null)"><span data-i18n="msg_remove_reaction">🚫 リアクションを消す</span></button>
   </div>
 
@@ -15617,8 +15871,10 @@
       if (!currentUser) return { ok: false, reason: 'not_logged_in' };
       // 順番を守るため、再送待ちが残っている間は先に再送してから送る
       if (outboxLoad().length > 0) await window.pukanFlushOutbox();
+      const nid = 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); // 同じ通知を二重に処理しないための通し番号
       try {
         await addDoc(collection(db, 'users', toUid, 'inbox'), {
+          nid,
           type,
           fromUid: currentUser.uid,
           fromName: (appData.userProfile && appData.userProfile.name) || currentUser.displayName || 'ともだち',
@@ -15631,8 +15887,76 @@
         console.error('通知の送信に失敗:', e);
         // 電波が悪いなど一時的な失敗なら、あとで自動的に再送する（権限エラーなどは再送しても無駄なので捨てる）
         const code = e && e.code;
-        if (code !== 'permission-denied' && code !== 'invalid-argument') outboxPush({ toUid, type, payload: payload || {}, at: Date.now() });
+        if (code !== 'permission-denied' && code !== 'invalid-argument') outboxPush({ toUid, type, payload: payload || {}, at: Date.now(), nid });
         return { ok: false, reason: 'error', message: e && e.message, queued: code !== 'permission-denied' };
+      }
+    };
+
+    window.pukanRemoveFriendDocs = async function(friendUid) {
+      const u = auth.currentUser;
+      if (!u || !friendUid) return;
+      try { await deleteDoc(doc(db, 'users', u.uid, 'friends', friendUid)); } catch (e) {}
+      try { await deleteDoc(doc(db, 'users', friendUid, 'friends', u.uid)); } catch (e) {}
+    };
+
+    // ---- クラウド保存（users/{uid}/private/state と state_0.. に、圧縮して分割保存）----
+    const CLOUD_CHUNK = 600000;
+    async function cloudGzip(str) {
+      try {
+        if (typeof CompressionStream === 'undefined') throw new Error('no CompressionStream');
+        const cs = new CompressionStream('gzip');
+        const w = cs.writable.getWriter();
+        w.write(new TextEncoder().encode(str)); w.close();
+        const u = new Uint8Array(await new Response(cs.readable).arrayBuffer());
+        let bin = '';
+        for (let i = 0; i < u.length; i += 0x8000) bin += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+        return 'gz:' + btoa(bin);
+      } catch (e) {
+        return 'raw:' + btoa(unescape(encodeURIComponent(str)));
+      }
+    }
+    async function cloudUngzip(s) {
+      if (s.indexOf('raw:') === 0) return decodeURIComponent(escape(atob(s.slice(4))));
+      const bin = atob(s.slice(3));
+      const u = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      const ds = new DecompressionStream('gzip');
+      const w = ds.writable.getWriter(); w.write(u); w.close();
+      return await new Response(ds.readable).text();
+    }
+    window.pukanCloudLoad = async function() {
+      const u = auth.currentUser;
+      if (!u) return { ok: false };
+      const metaSnap = await getDoc(doc(db, 'users', u.uid, 'private', 'state'));
+      if (!metaSnap.exists()) return { ok: true, none: true };
+      const meta = metaSnap.data();
+      let packed = '';
+      for (let i = 0; i < (meta.n || 0); i++) {
+        const c = await getDoc(doc(db, 'users', u.uid, 'private', 'state_' + i));
+        if (!c.exists()) return { ok: true, none: true }; // 途中までしか無い（保存の途中だった）→ 使わない
+        packed += c.data().d || '';
+      }
+      const json = await cloudUngzip(packed);
+      return { ok: true, json, updatedAt: meta.updatedAt || 0 };
+    };
+    window.pukanCloudSave = async function(json, updatedAt) {
+      const u = auth.currentUser;
+      if (!u) return { ok: false };
+      try {
+        const packed = await cloudGzip(json);
+        const n = Math.ceil(packed.length / CLOUD_CHUNK) || 1;
+        if (n > 20) return { ok: false, reason: 'too_large' };
+        let oldN = 0;
+        try { const m = await getDoc(doc(db, 'users', u.uid, 'private', 'state')); if (m.exists()) oldN = m.data().n || 0; } catch (e) {}
+        for (let i = 0; i < n; i++) {
+          await setDoc(doc(db, 'users', u.uid, 'private', 'state_' + i), { d: packed.slice(i * CLOUD_CHUNK, (i + 1) * CLOUD_CHUNK) });
+        }
+        await setDoc(doc(db, 'users', u.uid, 'private', 'state'), { n, updatedAt: updatedAt || Date.now(), savedAt: serverTimestamp() });
+        for (let i = n; i < oldN; i++) { try { await deleteDoc(doc(db, 'users', u.uid, 'private', 'state_' + i)); } catch (e) {} }
+        return { ok: true };
+      } catch (e) {
+        console.warn('クラウド保存失敗:', e && e.code, e && e.message);
+        return { ok: false, reason: e && e.code };
       }
     };
 
@@ -15652,6 +15976,7 @@
           const it = list[0];
           try {
             await addDoc(collection(db, 'users', it.toUid, 'inbox'), {
+              nid: it.nid || ('n' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)),
               type: it.type,
               fromUid: auth.currentUser.uid,
               fromName: (appData.userProfile && appData.userProfile.name) || auth.currentUser.displayName || 'ともだち',
@@ -15685,6 +16010,13 @@
         await Promise.all(friendsSnap.docs.map(d => deleteDoc(d.ref)));
       } catch (e) {
         console.warn('friendsサブコレクションの削除に失敗:', e);
+      }
+
+      try {
+        const privSnap = await getDocs(collection(db, 'users', uid, 'private'));
+        await Promise.all(privSnap.docs.map(d => deleteDoc(d.ref)));
+      } catch (e) {
+        console.warn('クラウド保存データの削除に失敗:', e);
       }
 
       try {
@@ -15723,6 +16055,13 @@
           if (change.type !== 'added') return;
           const data = change.doc.data();
           try {
+            // 同じ通知(通し番号 or ドキュメントID)をすでに処理していたら、二重に処理しない
+            const key = data.nid || change.doc.id;
+            let seen = [];
+            try { seen = JSON.parse(localStorage.getItem('pukan_seen_inbox_v1') || '[]') || []; } catch (e) {}
+            if (seen.includes(key)) return;
+            seen.push(key);
+            try { localStorage.setItem('pukan_seen_inbox_v1', JSON.stringify(seen.slice(-400))); } catch (e) {}
             if (typeof window.pukanHandleInboxItem === 'function') {
               window.pukanHandleInboxItem(data);
             }
@@ -15768,10 +16107,21 @@
     // ログイン状態が変わるたびに呼ばれる。ログイン済みならアプリ本体を初期化する。
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        ensureUserProfile(user).catch((err) => console.error('プロフィール準備に失敗:', err)).finally(() => {
+        ensureUserProfile(user).catch((err) => console.error('プロフィール準備に失敗:', err)).then(async () => {
+          // クラウドに保存してあるデータを取りに行く（6秒待っても取れなければ、この端末のデータで進める）
+          let cloud = null;
+          let cloudOk = false;
+          try {
+            cloud = await Promise.race([window.pukanCloudLoad(), new Promise((res) => setTimeout(() => res(null), 6000))]);
+            cloudOk = !!(cloud && cloud.ok);
+          } catch (e) { console.warn('クラウド読み込み失敗:', e && e.code); }
+          return { cloud, cloudOk };
+        }).then(({ cloud, cloudOk }) => {
           if (typeof window.initAppAfterLogin === 'function') {
-            window.initAppAfterLogin(user);
+            window.initAppAfterLogin(user, cloud);
           }
+          // 読み込みに成功した時だけ、クラウドへの自動保存を始める（読めていないのに上書きして、新しいデータを消さないため）
+          if (cloudOk) { window.pukanCloudReady = true; if (typeof scheduleCloudSave === 'function') scheduleCloudSave(1500); }
           startInboxListener(user.uid);
           setTimeout(() => window.pukanFlushOutbox && window.pukanFlushOutbox(), 3000);
           setupPushNotifications();
@@ -15781,6 +16131,7 @@
         const loginGateEl = document.getElementById('login-gate');
         if (loginGateEl) loginGateEl.style.display = 'flex';
         if (inboxUnsubscribe) { inboxUnsubscribe(); inboxUnsubscribe = null; }
+        window.pukanCloudReady = false; // ログアウト中は、クラウドへの自動保存を止める
       }
     });
   </script>
