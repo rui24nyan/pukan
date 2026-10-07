@@ -1558,14 +1558,17 @@
         repeating-linear-gradient(0deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px),
         repeating-linear-gradient(90deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px);
       background-size: auto;
+      background-position: 0 0, 7px 0;
+      background-position: 0 0, 6px 6px, 6px 6px;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="dot"] header::before {
+      /* 下の柄とつながって見えないよう、ヘッダーのドットは小さめ・間隔せまめ・位置もずらす */
       background-image:
         linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent)),
-        radial-gradient(circle at center, var(--theme-border) 8px, transparent 8.5px),
-        radial-gradient(circle at center, var(--theme-border) 8px, transparent 8.5px);
-      background-size: 52px 52px;
-      background-position: 0 0, 26px 26px;
+        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px),
+        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px);
+      background-size: 34px 34px;
+      background-position: 0 0, 7px 7px, 24px 24px;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="stripe"] header::before {
       background-image:
