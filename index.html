@@ -1536,10 +1536,10 @@
     body.theme-mode-flat .app-container[data-bg-pattern="dot"] {
       /* 大きめの水玉を、1つおきにずらして（交互に）並べる */
       background-image:
-        radial-gradient(circle at center, var(--theme-border) 8px, transparent 8.5px),
-        radial-gradient(circle at center, var(--theme-border) 8px, transparent 8.5px);
-      background-size: 52px 52px;
-      background-position: 0 0, 26px 26px;
+        radial-gradient(circle at center, var(--theme-border) 11px, transparent 11.5px),
+        radial-gradient(circle at center, var(--theme-border) 11px, transparent 11.5px);
+      background-size: 70px 70px;
+      background-position: 0 0, 35px 35px;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="stripe"] {
       background-image: repeating-linear-gradient(45deg, var(--theme-light), var(--theme-light) 10px, transparent 10px, transparent 20px);
@@ -1553,28 +1553,22 @@
       background-repeat: repeat;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="gingham"] header::before {
-      background-image:
-        linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent)),
-        repeating-linear-gradient(0deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px),
-        repeating-linear-gradient(90deg, var(--theme-light) 0px, var(--theme-light) 12px, transparent 12px, transparent 24px);
+      /* ヘッダーは柄なし。テーマ色を重ねて、下の部分より少し濃い色だけにする */
+      background-image: linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent));
       background-size: auto;
-      background-position: 0 0, 7px 0;
-      background-position: 0 0, 6px 6px, 6px 6px;
+      background-position: 0 0;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="dot"] header::before {
-      /* 下の柄とつながって見えないよう、ヘッダーのドットは小さめ・間隔せまめ・位置もずらす */
-      background-image:
-        linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent)),
-        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px),
-        radial-gradient(circle at center, var(--theme-border) 5px, transparent 5.5px);
-      background-size: 34px 34px;
-      background-position: 0 0, 7px 7px, 24px 24px;
+      /* ヘッダーは柄なし。テーマ色を重ねて、下の部分より少し濃い色だけにする */
+      background-image: linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent));
+      background-size: auto;
+      background-position: 0 0;
     }
     body.theme-mode-flat .app-container[data-bg-pattern="stripe"] header::before {
-      background-image:
-        linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent)),
-        repeating-linear-gradient(45deg, var(--theme-light), var(--theme-light) 10px, transparent 10px, transparent 20px);
+      /* ヘッダーは柄なし */
+      background-image: linear-gradient(color-mix(in srgb, var(--theme-color) 32%, transparent), color-mix(in srgb, var(--theme-color) 32%, transparent));
       background-size: auto;
+      background-position: 0 0;
     }
 
     /* ヘッダーと下の部分の境目をはっきりさせる（柄ありの時だけ、少し影をつける） */
