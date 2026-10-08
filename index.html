@@ -3888,7 +3888,7 @@
     <div class="modal-content" style="text-align: center;">
       <h3 id="cancel-plan-confirm-title" style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">予定のキャンセル</h3>
       <p id="cancel-plan-confirm-text" style="font-size: 14px; color: var(--text-main); line-height: 1.5; margin-bottom: 12px;">この予定、キャンセルする？</p>
-      <p id="cancel-plan-reason-label" style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">理由を伝えたいときはここに書いてね（任意）</p>
+      <p id="cancel-plan-reason-label" style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;" data-i18n="cancel_reason_label">理由を伝えたいときはここに書いてね（任意）</p>
       <textarea class="decline-modal-input" id="cancel-plan-reason-text" placeholder="ごめん！都合が悪くなっちゃった！&#10;（空欄のまま送信もOK）" data-i18n-ph="ui_142"></textarea>
       <div class="modal-btn-group">
         <button class="btn-modal-cancel" onclick="closeModal('cancel-plan-confirm-modal')" data-i18n="ui_049">戻る</button>
@@ -4498,38 +4498,45 @@
       <button class="modal-close" onclick="closeModal('notification-modal')">×</button>
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;" data-i18n="notif_modal_title">通知設定</h3>
 
-      <div class="card">
+      <div class="card" style="margin-bottom:10px;">
+        <div class="setting-row">
+          <span data-i18n="notif_all" style="font-weight:700;">プッシュ通知を受け取る</span>
+          <label class="switch"><input type="checkbox" data-notif="all"><span class="slider"></span></label>
+        </div>
+      </div>
+      <p style="font-size:12px; color:var(--text-sub); margin:0 4px 10px;" data-i18n="notif_hint">アプリを閉じている時に、スマホへ届くお知らせだよ。種類ごとに選べるよ。</p>
+      <div class="card" id="notif-kinds-card">
         <div class="setting-row">
           <span data-i18n="notif_today">きょうのひま</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="today"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_tomorrow">あしたのひま</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="tomorrow"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_future">未来のひま</span>
-          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="future"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_invite">お誘い</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="invite"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_invite_confirm">お誘いの確定</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="confirm"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_friend">ともだち関連</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="friend"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_group">グループ関連</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="group"><span class="slider"></span></label>
         </div>
         <div class="setting-row">
           <span data-i18n="notif_message">メッセージ</span>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" data-notif="message"><span class="slider"></span></label>
         </div>
       </div>
     </div>
@@ -4834,6 +4841,7 @@
       languageChosen: false, // 初回起動時の言語選択をまだしていなければfalse
       userProfile: { name: '自分', id: 'my_hima_id', avatar: '👤' },
       themeColor: '#FF5E97',
+      notifPrefs: { all: true, today: true, tomorrow: true, future: false, invite: true, confirm: true, friend: true, group: true, message: true }, // プッシュ通知の種類ごとのON/OFF
       themeBicolorWith: null, // バイカラーテーマの2色目(hex)。nullなら単色
       themeMode: 'sky', // 'flat'（無地カラー） or 'sky'（空の背景）
       skyHeaderId: 1,
@@ -5191,6 +5199,9 @@
         notif_friend: 'ともだち関連',
         notif_group: 'グループ関連',
         notif_message: 'メッセージ',
+        notif_all: 'プッシュ通知を受け取る',
+        cancel_reason_label: '理由を伝えたいときはここに書いてね（任意）',
+        notif_hint: 'アプリを閉じている時に、スマホへ届くお知らせだよ。種類ごとに選べるよ。',
         display_modal_title: '表示設定',
         display_holiday: 'カレンダーの祝日名を表示',
         display_read: 'メッセージ既読通知を表示',
@@ -5818,6 +5829,9 @@
         notif_friend: 'Friend activity',
         notif_group: 'Group activity',
         notif_message: 'Messages',
+        notif_all: 'Receive push notifications',
+        cancel_reason_label: 'Write a reason here if you want to let them know (optional)',
+        notif_hint: 'Alerts sent to your phone while the app is closed. You can choose by type.',
         display_modal_title: 'Display Settings',
         display_holiday: 'Show holiday names in calendar',
         display_read: 'Show read receipts',
@@ -5921,11 +5935,11 @@
         cancel_dissolve: 'Disband the plan',
         create_poll_btn: '📊 Create a date poll',
         acct_del_1: 'If you leave, everything below will be deleted and cannot be restored.',
-        acct_del_2: '・Your profile and settings',
-        acct_del_3: '・Your free-time posts',
-        acct_del_4: '・Confirmed plans, chats and notifications',
-        acct_del_5: '・Your friends list and groups',
-        acct_del_6: '・Your information is also removed from your friends\' and groups\' side',
+        acct_del_2: '• Your profile and settings',
+        acct_del_3: '• Your free-time posts',
+        acct_del_4: '• Confirmed plans, chats and notifications',
+        acct_del_5: '• Your friends list and groups',
+        acct_del_6: '• Your information is also removed from your friends\' and groups\' side',
         remove_icon: 'Remove icon',
         all_day_label: 'All day',
         time_label: 'Time',
@@ -6445,6 +6459,9 @@
         notif_friend: '친구 관련',
         notif_group: '그룹 관련',
         notif_message: '메시지',
+        notif_all: '푸시 알림 받기',
+        cancel_reason_label: '이유를 전하고 싶다면 여기에 적어줘요 (선택)',
+        notif_hint: '앱을 닫았을 때 휴대폰으로 오는 알림이에요. 종류별로 고를 수 있어요.',
         display_modal_title: '화면 설정',
         display_holiday: '달력에 공휴일 이름 표시',
         display_read: '읽음 표시 보기',
@@ -6548,11 +6565,11 @@
         cancel_dissolve: '일정 자체를 해산',
         create_poll_btn: '📊 후보일 설문 만들기',
         acct_del_1: '탈퇴하면 아래 항목이 모두 삭제되며 되돌릴 수 없어요.',
-        acct_del_2: '・내 프로필/설정',
-        acct_del_3: '・등록한 \'한가해요!\' 정보',
-        acct_del_4: '・확정된 일정・채팅・알림',
-        acct_del_5: '・친구 목록・소속 그룹',
-        acct_del_6: '・친구・그룹 쪽에서도 내 정보가 삭제돼요',
+        acct_del_2: '·내 프로필/설정',
+        acct_del_3: '·등록한 \'한가해요!\' 정보',
+        acct_del_4: '·확정된 일정·채팅·알림',
+        acct_del_5: '·친구 목록·소속 그룹',
+        acct_del_6: '·친구·그룹 쪽에서도 내 정보가 삭제돼요',
         remove_icon: '아이콘 삭제',
         all_day_label: '종일',
         time_label: '시간',
@@ -6560,14 +6577,14 @@
         enter_event_name: '이벤트 이름을 입력해 주세요',
         settings_backup: '데이터 백업',
         backup_title: '데이터 백업',
-        backup_desc: '친구・그룹・일정・채팅 등 이 기기에 있는 데이터를 파일로 저장할 수 있어요. 기기를 바꿀 때는 새 기기에서 그 파일을 불러와 주세요.',
+        backup_desc: '친구·그룹·일정·채팅 등 이 기기에 있는 데이터를 파일로 저장할 수 있어요. 기기를 바꿀 때는 새 기기에서 그 파일을 불러와 주세요.',
         backup_export: '파일로 내보내기',
         backup_import: '파일에서 불러오기',
         backup_import_btn: '불러오기',
         backup_exported: '내보냈어요! 파일은 소중히 보관해 주세요.',
         backup_failed: '잘 안 됐어요. 다시 시도해 주세요.',
         backup_invalid: '푸칸 백업 파일이 아닌 것 같아요.',
-        backup_confirm_text: '친구 {friends}명・그룹 {groups}개의 데이터를 불러와요. 지금 데이터는 대체되는데 괜찮아요?',
+        backup_confirm_text: '친구 {friends}명·그룹 {groups}개의 데이터를 불러와요. 지금 데이터는 대체되는데 괜찮아요?',
         home_no_friends_text: '아직 친구가 없어요.<br>링크를 보내서 친구를 초대해 보세요!',
         home_send_link: '링크 보내기',
         invite_link_copied: '링크를 복사했어요!',
@@ -6727,11 +6744,11 @@
         pfl_3: '앱 아이콘 디자인',
         pfd_3: '홈 화면의 앱 아이콘을 헤더와 같은 디자인 등 원하는 것으로 바꿀 수 있어요',
         pfl_4: '배경 무늬',
-        pfd_4: '깅엄・도트・스트라이프 등 무지 이외의 배경 디자인을 고를 수 있어요',
+        pfd_4: '깅엄·도트·스트라이프 등 무지 이외의 배경 디자인을 고를 수 있어요',
         pfl_5: '폰트 변경',
         pfd_5: '표준 폰트 외의 폰트로 바꿀 수 있어요',
         pfl_6: '캘린더 개인용 스탬프',
-        pfd_6: '술자리・데이트 등 나에게만 보이는 일정 메모를 캘린더에 남길 수 있어요',
+        pfd_6: '술자리·데이트 등 나에게만 보이는 일정 메모를 캘린더에 남길 수 있어요',
         pfl_7: '생일 캘린더 표시',
         pfd_7: '친구가 등록한 생일이 내 캘린더에 은근히 표시돼요',
         pfl_8: '채팅 목록 (DM 목록)',
@@ -6877,7 +6894,7 @@
         ui_089: '그룹에 추가할 친구를 선택해 주세요',
         ui_090: '그룹 삭제',
         ui_091: '이 그룹을 삭제할까요?',
-        ui_092: '탈퇴・계정 삭제',
+        ui_092: '탈퇴·계정 삭제',
         ui_093: '탈퇴하기',
         ui_094: '멤버 제외 확인',
         ui_095: '제외',
@@ -6888,7 +6905,7 @@
         ui_100: '프로필 수정',
         ui_101: '📷 앨범에서 선택',
         ui_102: '이름',
-        ui_103: '친구 ID (검색・초대에 사용해요)',
+        ui_103: '친구 ID (검색·초대에 사용해요)',
         ui_104: '영문 숫자와 - _ . 로 3~20자. 다른 사람과 겹치지 않으면 원하는 문자열로 할 수 있어요',
         ui_105: '📋 복사',
         ui_106: '🎂 생일 (선택)',
@@ -6902,15 +6919,15 @@
         ui_114: '친구 차단',
         ui_115: '\'푸칸\'(이하 본 앱)은 개인정보 취급에 대해 아래 방침으로 운영하고 있어요.',
         ui_116: '1. 로그인의 목적',
-        ui_117: '본 앱의 로그인은 ① 친구와의 \'한가해요\' 정보・일정・메시지 등의 데이터를 동기화하기 위해, ② 기기 변경이나 앱 재설치 시 데이터를 이전하기 위해, 이 두 가지 목적으로만 사용해요. 그 외의 목적으로 개인정보를 이용・수집하지 않아요.',
+        ui_117: '본 앱의 로그인은 ① 친구와의 \'한가해요\' 정보·일정·메시지 등의 데이터를 동기화하기 위해, ② 기기 변경이나 앱 재설치 시 데이터를 이전하기 위해, 이 두 가지 목적으로만 사용해요. 그 외의 목적으로 개인정보를 이용·수집하지 않아요.',
         ui_118: '2. 수집하는 정보',
-        ui_119: 'Google・Apple・이메일 중 하나로 로그인하면 표시 이름・프로필 이미지(제공된 경우)・이메일 주소(계정 식별용)를 수집해요. 이는 친구가 나를 알아볼 수 있도록 표시하는 목적으로만 사용되며, 제3자에게 판매・제공되지 않아요.',
+        ui_119: 'Google·Apple·이메일 중 하나로 로그인하면 표시 이름·프로필 이미지(제공된 경우)·이메일 주소(계정 식별용)를 수집해요. 이는 친구가 나를 알아볼 수 있도록 표시하는 목적으로만 사용되며, 제3자에게 판매·제공되지 않아요.',
         ui_120: '3. 친구와의 공유 범위',
-        ui_121: '\'한가해요\' 게시물・일정・메시지 등은 내가 추가한 \'친구\'에게만 공유돼요. 공개 범위는 게시물마다 직접 선택할 수 있어요.',
+        ui_121: '\'한가해요\' 게시물·일정·메시지 등은 내가 추가한 \'친구\'에게만 공유돼요. 공개 범위는 게시물마다 직접 선택할 수 있어요.',
         ui_122: '4. 알림',
         ui_123: '초대나 메시지를 전달하기 위해 푸시 알림 전송용 토큰을 저장할 수 있어요. 알림은 본 앱의 기능을 위해서만 사용하며, 광고 목적으로는 보내지 않아요.',
         ui_124: '5. 데이터 삭제',
-        ui_125: '앱 내 \'설정\' → \'탈퇴・계정 삭제\'에서 언제든지 직접 계정과 모든 데이터를 삭제할 수 있어요.',
+        ui_125: '앱 내 \'설정\' → \'탈퇴·계정 삭제\'에서 언제든지 직접 계정과 모든 데이터를 삭제할 수 있어요.',
         ui_126: '제정일: 2026년 10월 4일',
         pp_cloud_h: '6. 클라우드 저장',
         pp_cloud_b: '기기를 바꾸거나 다시 로그인해도 같은 상태로 되돌릴 수 있도록, 설정·\'한가해\' 게시·일정·친구 목록·채팅 등의 데이터는 계정에 연결되어 클라우드(Google Firebase)에 자동으로 저장됩니다. 이 저장 데이터는 본인만 읽고 쓸 수 있으며 다른 사용자에게 공개되지 않습니다. 친구와 공유되는 내용은 위 3항의 범위로 한정됩니다.',
@@ -7059,6 +7076,7 @@
 
     function setLanguage(lang, isFirstRun) {
       appData.language = lang;
+      if (typeof window.pukanSyncPushPrefs === 'function') window.pukanSyncPushPrefs(appData.notifPrefs || {}); // 通知の言語も合わせる
       appData.languageChosen = true;
       saveData();
       applyLanguage();
@@ -8891,9 +8909,28 @@
     }
 
     // モーダル操作
+    // ===== 通知設定（プッシュ通知の種類ごとのON/OFF） =====
+    const NOTIF_DEFAULTS = { all: true, today: true, tomorrow: true, future: false, invite: true, confirm: true, friend: true, group: true, message: true };
+    function getNotifPrefs() { return Object.assign({}, NOTIF_DEFAULTS, appData.notifPrefs || {}); }
+    function renderNotifSettings() {
+      const prefs = getNotifPrefs();
+      document.querySelectorAll('#notification-modal input[data-notif]').forEach(inp => { inp.checked = !!prefs[inp.dataset.notif]; });
+      const card = document.getElementById('notif-kinds-card');
+      if (card) { card.style.opacity = prefs.all ? '1' : '0.45'; card.style.pointerEvents = prefs.all ? 'auto' : 'none'; }
+    }
+    document.addEventListener('change', (e) => {
+      const inp = e.target && e.target.closest && e.target.closest('#notification-modal input[data-notif]');
+      if (!inp) return;
+      appData.notifPrefs = Object.assign(getNotifPrefs(), { [inp.dataset.notif]: inp.checked });
+      saveData();
+      renderNotifSettings();
+      if (typeof window.pukanSyncPushPrefs === 'function') window.pukanSyncPushPrefs(appData.notifPrefs);
+    });
+
     function openSubModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.add('active');
+      if (id === 'notification-modal') renderNotifSettings();
       if (id === 'friend-setting-modal') {
         const searchInput = document.getElementById('friend-setting-search-input');
         if (searchInput) searchInput.value = '';
@@ -16262,6 +16299,12 @@
       if (!u || !pukanPushToken) return;
       await setDoc(doc(db, 'users', u.uid, 'private', 'push'), { tokens: arrayRemove(pukanPushToken) }, { merge: true });
     }
+    // 通知の種類ごとのON/OFFを、サーバー(Cloud Functions)が読めるように保存する
+    window.pukanSyncPushPrefs = async function(prefs) {
+      const u = auth.currentUser;
+      if (!u || !prefs) return;
+      try { await setDoc(doc(db, 'users', u.uid, 'private', 'push'), { prefs, lang: (typeof appData !== 'undefined' && appData.language) || 'ja', updatedAt: Date.now() }, { merge: true }); } catch (e) { console.warn('通知設定の保存に失敗:', e && e.code); }
+    };
     let pukanPushListenersSet = false;
     async function setupPushNotifications() {
       const cap = window.Capacitor;
@@ -16274,6 +16317,7 @@
 
         const { token } = await FirebaseMessaging.getToken();
         await savePushToken(token);
+        window.pukanSyncPushPrefs(appData.notifPrefs || {});
 
         if (!pukanPushListenersSet) {
           pukanPushListenersSet = true;
