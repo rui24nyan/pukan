@@ -7466,8 +7466,8 @@
         root.setProperty('--page-bg-gradient', buildPageBgGradient(color, bicolorWith));
       } else {
         root.setProperty('--theme-light-solid', mixWithWhite(color, 0.14));
-        // ヘッダー以外のページ全体（body / .app-container）は、単色ではなくパステルのグラデーションにする
-        root.setProperty('--page-bg-gradient', buildPageBgGradient(color));
+        // グラデーションOFF：ヘッダー以外のページ全体も、選んだ色だけのやさしい単色にする（ピンクなど別の色は混ぜない）
+        root.setProperty('--page-bg-gradient', mixWithWhite(color, 0.2));
       }
 
       // 「募集中」バッジも、選んだテーマカラーに自動で合わせる
